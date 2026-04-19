@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>~/suki-wang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0d1117;
+  --bg2:      #161b22;
+  --bg3:      #21262d;
+  --border:   #30363d;
+  --border2:  #21262d;
+  --text:     #e6edf3;
+  --muted:    #8b949e;
+  --muted2:   #6e7681;
+  --green:    #3fb950;
+  --green-bg: #1f3a24;
+  --blue:     #58a6ff;
+  --blue-bg:  #1c2d3f;
+  --purple:   #bc8cff;
+  --purple-bg:#2e1f4a;
+  --orange:   #f0883e;
+  --orange-bg:#3d2010;
+  --yellow:   #e3b341;
+  --yellow-bg:#3a2a06;
+  --pink:     #f778ba;
+  --pink-bg:  #3d1224;
+  --red:      #ff7b72;
+  --red-bg:   #3d1010;
+  --teal:     #39d0d0;
+  --teal-bg:  #0e2d2d;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+a { color: inherit; text-decoration: none; }
+code, .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+
+/* ─── TOP NAV ─── */
+.top-nav {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  position: sticky; top: 0; z-index: 50;
+  padding: 0 24px;
+  display: flex; align-items: stretch;
+  gap: 0;
+  height: 48px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .78rem;
+  padding-right: 24px;
+  border-right: 1px solid var(--border);
+  color: var(--muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-brand .path    { color: var(--green); }
+.nav-brand .branch  { color: var(--purple); }
+.nav-brand .cursor  {
+  display: inline-block;
+  width: 8px; height: 14px;
+  background: var(--blue);
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+}
+@keyframes blink { 50%{opacity:0;} }
+.nav-tabs {
+  display: flex; list-style: none;
+  gap: 0; margin-left: 8px; align-items: center;
+  flex: 1;
+}
+.nav-tabs li a {
+  display: flex; align-items: center; gap: 6px;
+  height: 48px;
+  padding: 0 16px;
+  font-size: .84rem;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+.nav-tabs li a:hover  { color: var(--text); }
+.nav-tabs li a.active {
+  color: var(--text);
+  border-bottom-color: var(--orange);
+  font-weight: 500;
+}
+.nav-tabs li a .tab-icon { font-size: .9rem; }
+.nav-right {
+  display: flex; align-items: center; gap: 8px; margin-left: auto;
+}
+.search-box {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .75rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+.search-box kbd {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: .7rem;
+}
+
+/* ─── MAIN LAYOUT ─── */
+.main-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: grid;
+  grid-template-columns: 1fr 296px;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ─── LEFT COLUMN ─── */
+.left-col {}
+
+/* Terminal intro */
+.terminal-intro {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .78rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+  line-height: 1.8;
+}
+.terminal-intro .prompt-user  { color: var(--green); }
+.terminal-intro .prompt-at    { color: var(--muted2); }
+.terminal-intro .prompt-host  { color: var(--blue); }
+.terminal-intro .prompt-dir   { color: var(--purple); }
+.terminal-intro .prompt-cmd   { color: var(--text); }
+.terminal-intro .comment      { color: var(--muted2); }
+
+/* Hero name */
+.hero-greeting {
+  font-family: 'Inter', sans-serif;
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--muted);
+  margin-bottom: 4px;
+  margin-top: 20px;
+}
+.hero-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--blue);
+  line-height: 1;
+  margin-bottom: 20px;
+  letter-spacing: -.02em;
+}
+
+/* IG-style topic tags */
+.topic-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 28px;
+}
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid;
+  cursor: default;
+  transition: opacity .15s;
+  letter-spacing: .01em;
+}
+.tag:hover { opacity: .8; }
+.tag-blue   { color: var(--blue);   background: var(--blue-bg);   border-color: rgba(88,166,255,.3); }
+.tag-purple { color: var(--purple); background: var(--purple-bg); border-color: rgba(188,140,255,.3); }
+.tag-green  { color: var(--green);  background: var(--green-bg);  border-color: rgba(63,185,80,.3); }
+.tag-orange { color: var(--orange); background: var(--orange-bg); border-color: rgba(240,136,62,.3); }
+.tag-yellow { color: var(--yellow); background: var(--yellow-bg); border-color: rgba(227,179,65,.3); }
+.tag-pink   { color: var(--pink);   background: var(--pink-bg);   border-color: rgba(247,120,186,.3); }
+.tag-teal   { color: var(--teal);   background: var(--teal-bg);   border-color: rgba(57,208,208,.3); }
+.tag-red    { color: var(--red);    background: var(--red-bg);    border-color: rgba(255,123,114,.3); }
+
+/* Bio */
+.hero-bio {
+  font-size: .95rem;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 640px;
+  margin-bottom: 28px;
+}
+.hero-bio a    { color: var(--blue); }
+.hero-bio a:hover { text-decoration: underline; }
+.hero-bio .hl-green  { color: var(--green);  font-weight: 500; }
+.hero-bio .hl-orange { color: var(--orange); font-weight: 500; }
+.hero-bio .hl-purple { color: var(--purple); font-weight: 500; }
+.hero-bio .hl-yellow { color: var(--yellow); font-weight: 500; }
+
+/* CTA buttons */
+.cta-row {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.btn-gh {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: .84rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .15s;
+  border: 1px solid;
+}
+.btn-gh-primary {
+  background: var(--blue);
+  border-color: rgba(88,166,255,.5);
+  color: #0d1117;
+}
+.btn-gh-primary:hover { background: #79c0ff; }
+.btn-gh-outline {
+  background: var(--bg3);
+  border-color: var(--border);
+  color: var(--text);
+}
+.btn-gh-outline:hover { background: var(--border); }
+
+/* Social pill links */
+.social-pills {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  color: var(--muted);
+  transition: border-color .15s, color .15s;
+}
+.pill:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ─── SECTION HEADERS ─── */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.section-header h2 {
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--text);
+  display: flex; align-items: center; gap: 8px;
+}
+.section-header .see-all {
+  font-size: .8rem;
+  color: var(--blue);
+  display: flex; align-items: center; gap: 4px;
+}
+.section-header .see-all:hover { text-decoration: underline; }
+
+/* ─── BLOG / POST CARDS ─── */
+.post-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 36px; }
+.post-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border2);
+  transition: background .1s;
+  cursor: pointer;
+}
+.post-item:first-child { border-top: none; }
+.post-item:last-child { border-bottom: none; }
+.post-item:hover { padding-left: 8px; }
+.post-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .85rem; font-weight: 700;
+  flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+.post-content { flex: 1; min-width: 0; }
+.post-title {
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.post-title:hover { color: var(--blue); }
+.post-excerpt {
+  font-size: .82rem;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+.post-meta {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.post-tag {
+  font-size: .68rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.post-date {
+  font-size: .72rem;
+  color: var(--muted2);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ─── PUBLICATIONS ─── */
+.pub-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 36px; }
+.pub-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border2);
+}
+.pub-item:last-child { border-bottom: none; }
+.pub-item-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.pub-title-link {
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  flex: 1;
+}
+.pub-title-link:hover { color: var(--blue); }
+.pub-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .62rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.badge-conf   { background: var(--green-bg); color: var(--green); border: 1px solid rgba(63,185,80,.3); }
+.badge-jour   { background: var(--blue-bg);  color: var(--blue);  border: 1px solid rgba(88,166,255,.3); }
+.badge-wip    { background: var(--yellow-bg);color: var(--yellow);border: 1px solid rgba(227,179,65,.3); }
+.pub-meta { font-size: .78rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+.pub-meta .venue { color: var(--blue); }
+
+/* ─── RESEARCH INTEREST PILLS (IG story row) ─── */
+.research-stories {
+  display: flex; gap: 16px; overflow-x: auto;
+  padding-bottom: 12px; margin-bottom: 36px;
+  scrollbar-width: none;
+}
+.research-stories::-webkit-scrollbar { display: none; }
+.story-item {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  flex-shrink: 0; cursor: pointer;
+}
+.story-ring {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--orange), var(--pink), var(--purple));
+}
+.story-inner {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  border: 3px solid var(--bg);
+  background: var(--bg3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+}
+.story-label {
+  font-size: .65rem;
+  color: var(--muted);
+  text-align: center;
+  max-width: 70px;
+  line-height: 1.3;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ─── RIGHT SIDEBAR CARD ─── */
+.right-col { position: sticky; top: 64px; }
+.profile-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.profile-card-header {
+  background: linear-gradient(135deg, #1c2d3f 0%, #1f2a3f 40%, #2d1f3f 100%);
+  padding: 16px 16px 0;
+  text-align: right;
+  position: relative;
+  height: 80px;
+}
+.profile-card-header .repo-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  color: rgba(255,255,255,.4);
+}
+.profile-avatar {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  border: 4px solid var(--bg2);
+  background: linear-gradient(135deg, var(--blue-bg), var(--purple-bg));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--blue);
+  margin: -40px 16px 12px;
+  position: relative; z-index: 2;
+}
+.profile-card-body { padding: 0 16px 16px; }
+.profile-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.profile-handle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .75rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.profile-pronouns {
+  display: inline-block;
+  font-size: .65rem;
+  color: var(--muted2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  margin-bottom: 10px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.profile-bio {
+  font-size: .82rem;
+  color: var(--muted);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.profile-bio .quote { font-style: italic; color: var(--yellow); }
+.profile-stats {
+  display: flex; gap: 16px;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border2);
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.stat-label { font-size: .65rem; color: var(--muted2); }
+.profile-info { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+.profile-info li {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: .8rem; color: var(--muted);
+}
+.profile-info li .ico { font-size: .85rem; flex-shrink: 0; margin-top: 1px; }
+.profile-info li a { color: var(--blue); }
+.profile-info li a:hover { text-decoration: underline; }
+.profile-links {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border2);
+}
+.profile-link-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem;
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: var(--bg);
+  transition: all .15s;
+}
+.profile-link-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+/* Contribution heatmap */
+.heatmap-section {}
+.heatmap-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem;
+  color: var(--muted2);
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 4px;
+}
+.heatmap-label::before { content: '//'; color: var(--muted2); }
+#heatmap-canvas {
+  display: grid;
+  grid-template-columns: repeat(26, 1fr);
+  gap: 2px;
+}
+.hm-cell {
+  width: 100%; aspect-ratio: 1;
+  border-radius: 2px;
+  background: var(--bg3);
+}
+.hm-l1 { background: #1f3a1f; }
+.hm-l2 { background: #2d5a2d; }
+.hm-l3 { background: #3fb950; }
+.hm-l4 { background: #56d364; }
+
+/* Skills card */
+.skills-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+.skills-card-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  color: var(--muted2);
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 5px;
+}
+.skills-card-title::before { content: '//'; }
+.skill-row { margin-bottom: 8px; }
+.skill-row-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 4px;
+}
+.skill-name { font-size: .72rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+.skill-pct  { font-size: .68rem; color: var(--muted2); font-family: 'JetBrains Mono', monospace; }
+.skill-bar  { height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+.skill-fill { height: 100%; border-radius: 2px; }
+
+/* Awards card */
+.awards-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.award-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border2);
+  font-size: .8rem;
+}
+.award-item:last-child { border-bottom: none; }
+.award-icon { font-size: 1rem; flex-shrink: 0; }
+.award-text { color: var(--muted); line-height: 1.4; }
+.award-text strong { color: var(--text); display: block; font-size: .8rem; }
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,.8); backdrop-filter: blur(8px);
+  overflow-y: auto; padding: 40px 20px;
+}
+.modal-overlay.active { display: block; }
+.modal-box {
+  max-width: 720px; margin: 0 auto;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+.modal-top-bar {
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-dots { display: flex; gap: 6px; }
+.modal-dot { width: 12px; height: 12px; border-radius: 50%; }
+.modal-dot.red { background: #ff5f57; }
+.modal-dot.yellow { background: #ffbd2e; }
+.modal-dot.green  { background: #28c940; }
+.modal-file { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--muted); }
+.modal-close {
+  background: none; border: none; color: var(--muted);
+  font-size: 1.1rem; cursor: pointer; padding: 2px 6px;
+  border-radius: 4px;
+}
+.modal-close:hover { background: var(--bg); color: var(--text); }
+.modal-inner { padding: 28px 32px; }
+.modal-tag-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.modal-title {
+  font-size: 1.5rem; font-weight: 700; color: var(--text);
+  line-height: 1.3; margin-bottom: 6px;
+}
+.modal-byline {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem; color: var(--muted2);
+  margin-bottom: 20px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-content { font-size: .92rem; line-height: 1.82; color: var(--muted); }
+.modal-content h2 {
+  font-size: 1.02rem; font-weight: 600; color: var(--text);
+  margin: 20px 0 8px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.modal-content h2::before { content: '## '; color: var(--muted2); }
+.modal-content p { margin-bottom: 12px; }
+.modal-content strong { color: var(--text); }
+.modal-content em { color: var(--yellow); font-style: normal; }
+.modal-content code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--pink);
+}
+.modal-content blockquote {
+  border-left: 3px solid var(--orange);
+  padding-left: 14px;
+  margin: 16px 0;
+  color: var(--muted);
+  font-style: italic;
+  background: var(--bg3);
+  padding: 10px 10px 10px 14px;
+  border-radius: 0 4px 4px 0;
+}
+.modal-content ul { margin: 8px 0 12px 16px; }
+.modal-content ul li { margin-bottom: 5px; }
+.modal-content ul li::marker { color: var(--green); }
+
+/* ─── TEACHING SECTION ─── */
+.teaching-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px; margin-bottom: 36px;
+}
+.teaching-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  transition: border-color .15s;
+}
+.teaching-card:hover { border-color: var(--blue); }
+.tc-school {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .63rem; color: var(--muted2);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
+}
+.tc-school::before { content: '📍'; }
+.tc-title {
+  font-size: .88rem; font-weight: 600; color: var(--text);
+  margin-bottom: 6px; line-height: 1.35;
+}
+.tc-desc { font-size: .78rem; color: var(--muted); line-height: 1.55; margin-bottom: 10px; }
+.tc-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.tc-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .6rem; padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--bg3); color: var(--muted2);
+  border: 1px solid var(--border2);
+}
+
+/* ─── DIVIDER ─── */
+.divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-greeting, .hero-name, .topic-tags, .hero-bio, .cta-row, .social-pills {
+  animation: fadeSlide .5s ease both;
+}
+.hero-greeting { animation-delay: .05s; }
+.hero-name     { animation-delay: .12s; }
+.topic-tags    { animation-delay: .20s; }
+.hero-bio      { animation-delay: .28s; }
+.cta-row       { animation-delay: .35s; }
+.social-pills  { animation-delay: .42s; }
+
+@media (max-width: 900px) {
+  .main-wrap { grid-template-columns: 1fr; }
+  .right-col { position: static; }
+}
+@media (max-width: 600px) {
+  .top-nav { padding: 0 12px; }
+  .main-wrap { padding: 20px 12px; }
+  .hero-name { font-size: 2.4rem; }
+  .modal-inner { padding: 20px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="top-nav">
+  <div class="nav-brand mono">
+    <span class="path">~/suki-wang</span>&nbsp;
+    <span class="branch">(main)</span><span class="cursor"></span>&nbsp;|
+  </div>
+  <ul class="nav-tabs">
+    <li><a href="#overview" class="active"><span class="tab-icon">⬡</span> Overview</a></li>
+    <li><a href="#writing"><span class="tab-icon">✦</span> Writing</a></li>
+    <li><a href="#pubs"><span class="tab-icon">📄</span> Publications</a></li>
+    <li><a href="#teaching"><span class="tab-icon">🎓</span> Teaching</a></li>
+    <li><a href="#cv-section"><span class="tab-icon">⌗</span> CV</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="search-box">
+      <span>🔍</span> Search <kbd>/</kbd>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<div class="main-wrap" id="overview">
+  <!-- ── LEFT ── -->
+  <div class="left-col">
+
+    <!-- Terminal intro -->
+    <div class="terminal-intro">
+      <span class="prompt-user">suki</span><span class="prompt-at">@</span><span class="prompt-host">suki-wang</span> <span class="prompt-dir">(main)</span> $ <span class="prompt-cmd">cat about.md</span><br>
+      <span class="comment"># reading profile...</span>
+    </div>
+
+    <div class="hero-greeting">Hi, I'm</div>
+    <div class="hero-name">Suki Wang</div>
+
+    <!-- Identity tags -->
+    <div class="topic-tags">
+      <span class="tag tag-yellow">Educator · USC CMGT</span>
+      <span class="tag tag-blue">Data Scientist · Roblox</span>
+      <span class="tag tag-purple">NSF Fellow</span>
+      <span class="tag tag-green">PhD · UCR</span>
+      <span class="tag tag-orange">Causal Inference</span>
+      <span class="tag tag-pink">Network Scientist</span>
+      <span class="tag tag-teal">GenAI Builder</span>
+      <span class="tag tag-red">日本語学習中 🇯🇵</span>
+    </div>
+
+    <!-- Bio -->
+    <p class="hero-bio">
+      Every fall, you'll find me in a classroom at <span class="hl-yellow">USC Annenberg's CMGT program</span>, teaching graduate students how to think with data — not just compute with it. It's the part of my week I protect most fiercely.<br><br>
+      The rest of the year, I'm a <a href="https://www.linkedin.com/in/sukiwang/" target="_blank"><span class="hl-orange">Senior Data Scientist at Roblox</span></a>, working on AI product analytics, meeting intelligence, and GenAI evaluation systems. PhD in Quantitative Psychology from UC Riverside, NSF Fellow, former <span class="hl-purple">People Research Scientist at Meta</span>. My research lives at the intersection of causal inference, network science, psychometrics, and survival analysis — which is a long way of saying I care deeply about measuring things correctly.<br><br>
+      Non-professionally: I hold a <span class="hl-green">real estate agent license</span> (expired — turns out I preferred regression models to open houses). Currently on a <span class="hl-yellow">Duolingo streak learning Japanese</span> 🇯🇵, which is humbling in ways that no p-value ever has been.
+    </p>
+
+    <!-- CTAs -->
+    <div class="cta-row">
+      <a class="btn-gh btn-gh-primary" href="#pubs">📄 Publications</a>
+      <a class="btn-gh btn-gh-outline" href="#writing">✦ Read Posts</a>
+      <a class="btn-gh btn-gh-outline" href="mailto:wang.s.2012@gmail.com">✉ Email</a>
+    </div>
+
+    <!-- Social pills -->
+    <div class="social-pills">
+      <a class="pill" href="https://github.com/sukiwang" target="_blank">🐙 GitHub</a>
+      <a class="pill" href="https://www.linkedin.com/in/sukiwang/" target="_blank">in LinkedIn</a>
+      <a class="pill" href="mailto:wang.s.2012@gmail.com">✉ wang.s.2012</a>
+      <a class="pill" href="#">📊 Google Scholar</a>
+      <a class="pill" href="#">🔬 ResearchGate</a>
+    </div>
+
+    <hr class="divider">
+
+    <!-- IG story row: research interests -->
+    <div class="section-header">
+      <h2>🔬 Research Areas</h2>
+    </div>
+    <div class="research-stories">
+      <div class="story-item">
+        <div class="story-ring"><div class="story-inner">🔗</div></div>
+        <div class="story-label">Network Science</div>
+      </div>
+      <div class="story-item">
+        <div class="story-ring"><div class="story-inner">⚗️</div></div>
+        <div class="story-label">Causal Inference</div>
+      </div>
+      <div class="story-item">
+        <div class="story-ring"><div class="story-inner">⏳</div></div>
+        <div class="story-label">Survival Analysis</div>
+      </div>
+      <div class="story-item">
+        <div class="story-ring"><div class="story-inner">🤖</div></div>
+        <div class="story-label">GenAI Eval</div>
+      </div>
+      <div class="story-item">
+        <div class="story-ring"><div class="story-inner">📐</div></div>
+        <div class="story-label">Psychometrics</div>
+      </div>
+      <div class="story-item">
+        <div class="story-ring"><div class="story-inner">🎮</div></div>
+        <div class="story-label">Player Analytics</div>
+      </div>
+      <div class="story-item">
+        <div class="story-ring"><div class="story-inner">🧠</div></div>
+        <div class="story-label">Learning Analytics</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Recent Posts -->
+    <div class="section-header" id="writing">
+      <h2>✦ Recent Posts</h2>
+      <a class="see-all" href="#">All posts →</a>
+    </div>
+    <div class="post-list">
+
+      <div class="post-item" onclick="openModal('m1')">
+        <div class="post-avatar" style="background:var(--blue-bg);color:var(--blue);">⚗</div>
+        <div class="post-content">
+          <div class="post-title">Beyond Correlation: A Practitioner's Guide to Causal Inference in People Analytics</div>
+          <div class="post-excerpt">Most analytics teams are drowning in correlations. Here's what it actually takes to make causal claims — and why the distinction matters when real decisions are on the line.</div>
+          <div class="post-meta">
+            <span class="post-tag tag-blue">causal-inference</span>
+            <span class="post-date">Apr 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-item" onclick="openModal('m2')">
+        <div class="post-avatar" style="background:var(--purple-bg);color:var(--purple);">⏳</div>
+        <div class="post-content">
+          <div class="post-title">What Survival Models Tell Us About Churn That Classification Simply Can't</div>
+          <div class="post-excerpt">Predicting who will leave is not the same as understanding when. Time-to-event models unlock a richer view — whether you're modeling player drop-off or employee attrition.</div>
+          <div class="post-meta">
+            <span class="post-tag tag-purple">survival-analysis</span>
+            <span class="post-date">Mar 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-item" onclick="openModal('m3')">
+        <div class="post-avatar" style="background:var(--green-bg);color:var(--green);">🔗</div>
+        <div class="post-content">
+          <div class="post-title">The Projection Problem: Why Your Co-Attendance Network Might Be Lying to You</div>
+          <div class="post-excerpt">Meeting co-attendance networks introduce systematic artifacts that can produce false signals of social contagion. The paper I'm presenting at NetSci 2026 is about exactly this.</div>
+          <div class="post-meta">
+            <span class="post-tag tag-green">network-science</span>
+            <span class="post-date">Feb 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-item" onclick="openModal('m4')">
+        <div class="post-avatar" style="background:var(--orange-bg);color:var(--orange);">🤖</div>
+        <div class="post-content">
+          <div class="post-title">Evaluating LLMs for Real Products: What "Good" Actually Means at Scale</div>
+          <div class="post-excerpt">Benchmark leaderboards don't tell you whether your AI feature is working for your users. Here's how I think about GenAI evaluation — drawing on my background in psychometrics.</div>
+          <div class="post-meta">
+            <span class="post-tag tag-orange">genai</span>
+            <span class="post-date">Jan 2026</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider">
+
+    <!-- Publications -->
+    <div class="section-header" id="pubs">
+      <h2>📄 Publications</h2>
+    </div>
+    <div class="pub-list">
+
+      <div class="pub-item">
+        <div class="pub-item-header">
+          <span class="pub-title-link">Concordance Without Contagion: Diagnostic Tests for Peer Effects in Projected Co-Attendance Networks</span>
+          <span class="pub-badge badge-conf">NetSci 2026</span>
+        </div>
+        <div class="pub-meta">Wang, S. &nbsp;·&nbsp; <span class="venue">International Conference on Network Science · 2026</span></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-item-header">
+          <span class="pub-title-link">Cart Abandonment Modeling and Consumer Hesitation Forecasting</span>
+          <span class="pub-badge badge-jour">Journal</span>
+        </div>
+        <div class="pub-meta">Wang, S. et al. &nbsp;·&nbsp; <span class="venue">Journal of Retailing and Consumer Services · 2022–2024</span></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-item-header">
+          <span class="pub-title-link">Attention Metrics and Decision-Making in Digital Environments</span>
+          <span class="pub-badge badge-jour">Journal</span>
+        </div>
+        <div class="pub-meta">Wang, S. et al. &nbsp;·&nbsp; <span class="venue">Frontiers in Psychology · 2022–2024</span></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-item-header">
+          <span class="pub-title-link">Consumer Hesitation and Behavioral Signals: A Psychometric Approach</span>
+          <span class="pub-badge badge-jour">Journal</span>
+        </div>
+        <div class="pub-meta">Wang, S. et al. &nbsp;·&nbsp; <span class="venue">International Journal of Consumer Studies (IJCS) · 2022–2024</span></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-item-header">
+          <span class="pub-title-link">Game-Based Assessment: Estimating Latent Player Ability from Continuous Interaction Telemetry Using IRT Models</span>
+          <span class="pub-badge badge-wip">In Progress</span>
+        </div>
+        <div class="pub-meta">Wang, S. &nbsp;·&nbsp; <span class="venue">Roblox Research · In preparation</span></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-item-header">
+          <span class="pub-title-link">Meeting Quality Score (MQS): A Human-Calibrated Behavioral Index for Collaboration Effectiveness</span>
+          <span class="pub-badge badge-wip">In Progress</span>
+        </div>
+        <div class="pub-meta">Wang, S. &nbsp;·&nbsp; <span class="venue">Roblox Work Intelligence · In preparation</span></div>
+      </div>
+
+    </div>
+
+    <hr class="divider">
+
+    <!-- Teaching -->
+    <div class="section-header" id="teaching">
+      <h2>🎓 Teaching @ USC CMGT</h2>
+    </div>
+    <div class="teaching-grid">
+      <div class="teaching-card">
+        <div class="tc-school">USC Annenberg · CMGT</div>
+        <div class="tc-title">Data Analytics for Communication Professionals</div>
+        <div class="tc-desc">Applied data science for graduate students: exploratory analysis, visualization, predictive modeling, communicating to decision-makers.</div>
+        <div class="tc-tags">
+          <span class="tc-tag">Graduate</span>
+          <span class="tc-tag">Python</span>
+          <span class="tc-tag">Lecturer</span>
+        </div>
+      </div>
+      <div class="teaching-card">
+        <div class="tc-school">USC Annenberg · CMGT</div>
+        <div class="tc-title">Research Methods & Quantitative Analysis</div>
+        <div class="tc-desc">Survey design, regression analysis, hypothesis testing, and experimental methods grounded in real media and organizational contexts.</div>
+        <div class="tc-tags">
+          <span class="tc-tag">Graduate</span>
+          <span class="tc-tag">R & SPSS</span>
+          <span class="tc-tag">Lecturer</span>
+        </div>
+      </div>
+      <div class="teaching-card">
+        <div class="tc-school">USC Annenberg · Guest Series</div>
+        <div class="tc-title">AI, Data & the Future of Work</div>
+        <div class="tc-desc">GenAI evaluation, causal thinking for product decisions, and making evidence-based decisions in an AI-augmented workplace.</div>
+        <div class="tc-tags">
+          <span class="tc-tag">Seminar</span>
+          <span class="tc-tag">Industry</span>
+          <span class="tc-tag">Guest</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CV section -->
+    <div class="section-header" id="cv-section">
+      <h2>⌗ Experience</h2>
+      <a class="see-all" href="mailto:wang.s.2012@gmail.com">Request CV →</a>
+    </div>
+
+    <div class="pub-list">
+      <div class="pub-item">
+        <div class="pub-item-header">
+          <span class="pub-title-link">Senior Data Scientist — <span style="color:var(--blue)">Roblox</span></span>
+          <span class="pub-badge" style="background:var(--blue-bg);color:var(--blue);border:1px solid rgba(88,166,255,.3)">2022 – Now</span>
+        </div>
+        <div class="pub-meta">AI Product Analytics · Meeting Intelligence · GenAI Evaluation · Player Learning · Survival Models · IRT</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-item-header">
+          <span class="pub-title-link">People Research Scientist — <span style="color:var(--blue)">Meta</span></span>
+          <span class="pub-badge" style="background:var(--purple-bg);color:var(--purple);border:1px solid rgba(188,140,255,.3)">2020 – 2022</span>
+        </div>
+        <div class="pub-meta">Causal Experiments · Network Metrics · Attrition Modeling · NLP · Behavioral Telemetry</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-item-header">
+          <span class="pub-title-link">Faculty Lecturer — <span style="color:var(--blue)">USC Annenberg CMGT</span></span>
+          <span class="pub-badge" style="background:var(--green-bg);color:var(--green);border:1px solid rgba(63,185,80,.3)">Ongoing</span>
+        </div>
+        <div class="pub-meta">Data Analytics · Research Methods · AI & Future of Work</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-item-header">
+          <span class="pub-title-link">Learning Analytics Intern — <span style="color:var(--blue)">Coursera</span></span>
+          <span class="pub-badge" style="background:var(--bg3);color:var(--muted2);border:1px solid var(--border)">Summer 2019</span>
+        </div>
+        <div class="pub-meta">Survival Analysis · Learner Drop-off · Psychometric Instrument Validation</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- GitHub -->
+    <div class="section-header">
+      <h2>🐙 GitHub</h2>
+      <a class="see-all" href="https://github.com/sukiwang" target="_blank">github.com/sukiwang →</a>
+    </div>
+    <div class="teaching-grid" style="margin-bottom:36px;">
+      <div class="teaching-card">
+        <div class="tc-school" style="color:var(--green);">🐙 sukiwang / ona-projection-tests</div>
+        <div class="tc-title">ONA Projection Diagnostic Tests</div>
+        <div class="tc-desc">Companion code for "Concordance Without Contagion" (NetSci 2026). Diagnostic tests for peer effects in projected co-attendance networks.</div>
+        <div class="tc-tags">
+          <span class="tc-tag">Python</span><span class="tc-tag">NetworkX</span><span class="tc-tag">Research</span>
+        </div>
+      </div>
+      <div class="teaching-card">
+        <div class="tc-school" style="color:var(--purple);">🐙 sukiwang / survival-churn-toolkit</div>
+        <div class="tc-title">Survival Analysis for Churn</div>
+        <div class="tc-desc">Reusable survival modeling pipeline: Kaplan-Meier, Cox PH, competing risks (Fine-Gray), and Monte Carlo trajectory simulation. Works on player or employee data.</div>
+        <div class="tc-tags">
+          <span class="tc-tag">Python</span><span class="tc-tag">lifelines</span><span class="tc-tag">R</span>
+        </div>
+      </div>
+      <div class="teaching-card">
+        <div class="tc-school" style="color:var(--orange);">🐙 sukiwang / llm-eval-rubric</div>
+        <div class="tc-title">LLM Evaluation Framework</div>
+        <div class="tc-desc">Human-in-the-loop + automated scoring pipeline for GenAI feature evaluation. Includes rubric templates, inter-rater reliability metrics, and calibration tooling.</div>
+        <div class="tc-tags">
+          <span class="tc-tag">Python</span><span class="tc-tag">LLM</span><span class="tc-tag">Psychometrics</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /left-col -->
+
+  <!-- ── RIGHT SIDEBAR ── -->
+  <div class="right-col">
+
+    <!-- Profile card -->
+    <div class="profile-card">
+      <div class="profile-card-header">
+        <span class="repo-label">suki-wang</span>
+      </div>
+      <div class="profile-avatar">SW</div>
+      <div class="profile-card-body">
+        <div class="profile-name">Suki Wang, PhD</div>
+        <div class="profile-handle">@sukiwang</div>
+        <div class="profile-pronouns">she/her</div>
+        <div class="profile-bio">
+          PhD · Quantitative Psychology · UCR.<br>
+          Educator @ USC CMGT every fall.<br>
+          Data scientist. Researcher. Former realtor 🏠.<br>
+          <span class="quote">"Currently losing at Duolingo Japanese 🇯🇵"</span>
+        </div>
+        <div class="profile-stats">
+          <div class="stat-item">
+            <div class="stat-num">3+</div>
+            <div class="stat-label">journals</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">1</div>
+            <div class="stat-label">NetSci</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">USC</div>
+            <div class="stat-label">lecturer</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">NSF</div>
+            <div class="stat-label">fellow</div>
+          </div>
+        </div>
+        <ul class="profile-info">
+          <li><span class="ico">🏢</span><span>Roblox &nbsp;—&nbsp; San Mateo / LA</span></li>
+          <li><span class="ico">🎓</span><span>PhD · UC Riverside</span></li>
+          <li><span class="ico">🎓</span><span>MS & BS · USC Marshall</span></li>
+          <li><span class="ico">📍</span><span>Los Angeles, CA</span></li>
+          <li><span class="ico">✉️</span><a href="mailto:wang.s.2012@gmail.com">wang.s.2012@gmail.com</a></li>
+          <li><span class="ico">🌐</span><a href="#">suki-wang.com</a></li>
+        </ul>
+        <div class="profile-links">
+          <a class="profile-link-btn" href="https://github.com/sukiwang" target="_blank">🐙 GitHub</a>
+          <a class="profile-link-btn" href="https://www.linkedin.com/in/sukiwang/" target="_blank">in LinkedIn</a>
+          <a class="profile-link-btn" href="#">📊 Scholar</a>
+          <a class="profile-link-btn" href="#">🔬 ResearchGate</a>
+        </div>
+        <div class="heatmap-label">writing activity</div>
+        <div id="heatmap-canvas"></div>
+      </div>
+    </div>
+
+    <!-- Skills card -->
+    <div class="skills-card">
+      <div class="skills-card-title">tech stack</div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-name">Python / R</span><span class="skill-pct">95%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:95%;background:var(--blue);"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-name">Causal Inference</span><span class="skill-pct">93%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:93%;background:var(--purple);"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-name">Survival Analysis</span><span class="skill-pct">90%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:90%;background:var(--green);"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-name">LLM Evaluation</span><span class="skill-pct">88%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:88%;background:var(--orange);"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-name">Network Analysis</span><span class="skill-pct">85%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:85%;background:var(--pink);"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-row-header"><span class="skill-name">Psychometrics / IRT</span><span class="skill-pct">92%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:92%;background:var(--teal);"></div></div>
+      </div>
+    </div>
+
+    <!-- Awards card -->
+    <div class="awards-card">
+      <div class="skills-card-title">recognition</div>
+      <div class="award-item">
+        <span class="award-icon">🏆</span>
+        <div class="award-text">
+          <strong>NSF Graduate Research Fellow</strong>
+          National Science Foundation · UC Riverside
+        </div>
+      </div>
+      <div class="award-item">
+        <span class="award-icon">🎖</span>
+        <div class="award-text">
+          <strong>Best Dissertation Award</strong>
+          UC Riverside · Dept. of Psychology
+        </div>
+      </div>
+      <div class="award-item">
+        <span class="award-icon">🌐</span>
+        <div class="award-text">
+          <strong>NetSci 2026 Accepted</strong>
+          "Concordance Without Contagion"
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right-col -->
+</div><!-- /main-wrap -->
+
+<!-- ═══════ MODALS ═══════ -->
+
+<div class="modal-overlay" id="m1" onclick="closeBg(event,'m1')">
+  <div class="modal-box">
+    <div class="modal-top-bar">
+      <div class="modal-dots">
+        <div class="modal-dot red"></div>
+        <div class="modal-dot yellow"></div>
+        <div class="modal-dot green"></div>
+      </div>
+      <span class="modal-file">causal-inference.md</span>
+      <button class="modal-close" onclick="closeModal('m1')">✕</button>
+    </div>
+    <div class="modal-inner">
+      <div class="modal-tag-row">
+        <span class="tag tag-blue" style="font-size:.62rem;">causal-inference</span>
+        <span style="font-size:.72rem;color:var(--muted2);font-family:'JetBrains Mono',monospace;">· Apr 2026 · 10 min</span>
+      </div>
+      <div class="modal-title">Beyond Correlation: A Practitioner's Guide to Causal Inference in People Analytics</div>
+      <div class="modal-byline">Suki Wang, PhD &nbsp;·&nbsp; April 2026</div>
+      <div class="modal-content">
+        <p>There's a question I hear constantly in analytics reviews: <em>"Is this significant?"</em> My follow-up is always the same: <em>"Significant in what sense — statistically, or causally?"</em> These are not the same question. Confusing them has led to some of the most expensive decisions I've seen go sideways — in people analytics, in product analytics, wherever data is supposed to inform action.</p>
+        <p>Most teams are producing correlations and calling them insights. Employees who attend more meetings have lower engagement. Players who unlock certain achievements churn less. Teams with longer-tenured managers retain more people. These may all be empirically true. None of them tell you what happens if you <em>act</em> on them.</p>
+        <h2>The Fundamental Problem</h2>
+        <p>The core challenge is the <strong>fundamental problem of counterfactuals</strong>: we can never observe the same unit in both treatment and control simultaneously. We can't see what would have happened to a player if onboarding had been different, or what attrition would look like if the stock hadn't moved. Randomized experiments solve this — random assignment makes groups comparable on everything except treatment. But we can't always run experiments, so we need identification strategies with explicit, defensible assumptions.</p>
+        <h2>The Toolkit</h2>
+        <p><strong>Instrumental Variables (IV)</strong> find a variable that shifts treatment but has no direct effect on the outcome. Stock market volatility has served as an instrument for wealth-effect-driven attrition — it shifts financial security without directly determining job satisfaction. Hard part: defending the exclusion restriction.</p>
+        <p><strong>Difference-in-Differences (DiD)</strong> compares outcome changes for treated vs. untreated groups before and after treatment. The key assumption is parallel trends. Staggered DiD with Callaway-Sant'Anna estimators handles varying treatment timing — essential for phased rollouts.</p>
+        <p><strong>BSTS</strong> is my go-to for single-unit interventions hitting everyone at once. It constructs a synthetic counterfactual from control time series, quantifying uncertainty honestly.</p>
+        <blockquote>"Correlation is not causation" is the beginning of the analysis, not the punchline. The hard work is earning the word "because" with an identification strategy you can defend out loud.</blockquote>
+        <h2>In Practice at Roblox</h2>
+        <p>When we shipped AI meeting features, a pre-post comparison wasn't credible — too many confounds changed simultaneously. We ran randomized eligibility rollouts and used BSTS to validate the aggregate signal. The estimate wasn't the largest number we could have reported — it was the one I could actually defend to a skeptical engineering team. That mattered more.</p>
+        <p>Good causal analysis isn't about p &lt; 0.05. It's about being honest about what your assumptions require — and then checking whether they hold.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m2" onclick="closeBg(event,'m2')">
+  <div class="modal-box">
+    <div class="modal-top-bar">
+      <div class="modal-dots"><div class="modal-dot red"></div><div class="modal-dot yellow"></div><div class="modal-dot green"></div></div>
+      <span class="modal-file">survival-analysis.md</span>
+      <button class="modal-close" onclick="closeModal('m2')">✕</button>
+    </div>
+    <div class="modal-inner">
+      <div class="modal-tag-row">
+        <span class="tag tag-purple" style="font-size:.62rem;">survival-analysis</span>
+        <span style="font-size:.72rem;color:var(--muted2);font-family:'JetBrains Mono',monospace;">· Mar 2026 · 9 min</span>
+      </div>
+      <div class="modal-title">What Survival Models Tell Us About Churn That Classification Simply Can't</div>
+      <div class="modal-byline">Suki Wang, PhD &nbsp;·&nbsp; March 2026</div>
+      <div class="modal-content">
+        <p>Every analytics team eventually builds a churn model. The default is almost always a binary classifier predicting whether someone leaves within a fixed window. It works. Stakeholders understand it. You can rank users and run a campaign.</p>
+        <p>But it throws away the most important dimension of the problem: <em>time</em>.</p>
+        <h2>Why Binary Framing Fails</h2>
+        <p>Two players both flagged high-risk by your classifier. One has two sessions played. The other has 200 hours and has been dark for two weeks. Their risk profiles look completely different — not just in magnitude, but in <em>shape</em>. Treating them identically misallocates your intervention budget. Binary classifiers also can't handle censoring — they silently discard all information from users still active at your window's end. Survival models handle censoring correctly by design.</p>
+        <h2>The Core Machinery</h2>
+        <p>The <strong>Kaplan-Meier estimator</strong> gives you the non-parametric survival curve: probability of remaining past each time point. It's the first thing I plot in any new retention analysis, stratified by a key variable. The visual tells me more than a page of logistic coefficients.</p>
+        <p>The <strong>Cox proportional hazards model</strong> extends this to covariates. Each feature shifts the hazard multiplicatively. The proportional hazards assumption is testable with Schoenfeld residuals — and when it fails (which it does in behavioral data), you stratify or use time-varying coefficients.</p>
+        <h2>What I Found at Roblox</h2>
+        <p>Survival models on session-level data revealed that the hazard of drop-off spikes at specific interaction moments — challenge types, loading screens, inventory prompts — and those spikes vary systematically by experience level. A binary outcome metric would never surface this. The survival curve, stratified by experience, made it immediately visible and actionable for Games Engineering.</p>
+        <p>At Coursera, survival curves stratified by motivation profile showed different hazard <em>shapes</em>, not just different completion levels. Low-motivation learners face a sharp spike at week three that high-motivation learners don't. That shape information was what connected psychometric measurement to product design.</p>
+        <blockquote>The most useful thing survival analysis gives you isn't better prediction — it's a more honest picture of when risk is concentrated. That's what makes retention interventions actually work.</blockquote>
+        <p>For competing risks (voluntary vs. involuntary churn), use Fine-Gray subdistribution hazard models. <code>lifelines</code> in Python is excellent. <code>survival</code> in R handles competing risks elegantly. The data engineering — counting process formulation for time-varying covariates — is harder than the modeling, but non-negotiable.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m3" onclick="closeBg(event,'m3')">
+  <div class="modal-box">
+    <div class="modal-top-bar">
+      <div class="modal-dots"><div class="modal-dot red"></div><div class="modal-dot yellow"></div><div class="modal-dot green"></div></div>
+      <span class="modal-file">network-projection.md</span>
+      <button class="modal-close" onclick="closeModal('m3')">✕</button>
+    </div>
+    <div class="modal-inner">
+      <div class="modal-tag-row">
+        <span class="tag tag-green" style="font-size:.62rem;">network-science</span>
+        <span style="font-size:.72rem;color:var(--muted2);font-family:'JetBrains Mono',monospace;">· Feb 2026 · 11 min</span>
+      </div>
+      <div class="modal-title">The Projection Problem: Why Your Co-Attendance Network Might Be Lying to You</div>
+      <div class="modal-byline">Suki Wang, PhD &nbsp;·&nbsp; February 2026</div>
+      <div class="modal-content">
+        <p>Meeting co-attendance networks have become one of the most popular data sources in ONA. If two people attend the same meetings, they're probably interacting, building shared context, influencing each other. Extract those relationships, build a graph, compute centrality — you have a map of the informal organization.</p>
+        <p>The problem is that this intuition is only partially right. Where it breaks down, it generates <em>systematically misleading</em> findings about peer effects and social contagion. My NetSci 2026 paper is about exactly this.</p>
+        <h2>The Bipartite Projection Problem</h2>
+        <p>Co-attendance data is naturally bipartite: people and meetings, with edges only connecting people to meetings. To get a person-to-person network, you project: two people are connected if they share any meeting. If 500 people attend an all-hands, this creates ~125,000 edges between pairs who may have never spoken. These phantom edges distort every metric you compute.</p>
+        <p>More dangerously: they create false signals of peer effects. If connected employees show similar engagement scores, the naive interpretation is social influence. But if the edge comes from shared all-hands attendance rather than real interaction, the concordance reflects shared exposure — not contagion.</p>
+        <h2>Concordance Without Contagion</h2>
+        <p>This is the phenomenon I call <strong>concordance without contagion</strong>. Similar outcomes cluster in the projected network not because of influence, but because projection artifacts make structurally distant people appear adjacent.</p>
+        <p>The diagnostic tests I develop test whether observed dyadic concordance exceeds what would be expected under a null model that preserves the bipartite structure but destroys peer influence. If concordance is explained by projection density — meeting size, broadcast vs. working group — rather than tie strength controlling for meeting size, that's evidence of artifact, not social influence.</p>
+        <blockquote>The most common mistake in ONA isn't computing the wrong centrality metric — it's trusting a projection artifact as evidence of social influence. The network looks like a social world, but a broadcast channel can look like a conversation.</blockquote>
+        <h2>What To Do About It</h2>
+        <p>Weight edges by inverse meeting size. A 4-person working group co-attendance carries different information than a 400-person town hall. Classify meeting types and filter large broadcast meetings before building interaction graphs. At Meta, I built network-based inclusion metrics using this filtering logic — separating broadcast from bilateral interaction before making any claim about peer effects or organizational connectivity. Unglamorous, but essential.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m4" onclick="closeBg(event,'m4')">
+  <div class="modal-box">
+    <div class="modal-top-bar">
+      <div class="modal-dots"><div class="modal-dot red"></div><div class="modal-dot yellow"></div><div class="modal-dot green"></div></div>
+      <span class="modal-file">llm-evaluation.md</span>
+      <button class="modal-close" onclick="closeModal('m4')">✕</button>
+    </div>
+    <div class="modal-inner">
+      <div class="modal-tag-row">
+        <span class="tag tag-orange" style="font-size:.62rem;">genai</span>
+        <span style="font-size:.72rem;color:var(--muted2);font-family:'JetBrains Mono',monospace;">· Jan 2026 · 8 min</span>
+      </div>
+      <div class="modal-title">Evaluating LLMs for Real Products: What "Good" Actually Means at Scale</div>
+      <div class="modal-byline">Suki Wang, PhD &nbsp;·&nbsp; January 2026</div>
+      <div class="modal-content">
+        <p>When we shipped Roblox's AI Meeting Intelligence platform, the hardest problem wasn't the model or the integration. It was: <em>how do we know if this is actually good?</em></p>
+        <p>Benchmark leaderboards don't answer that. They tell you how a model performs on standardized tasks for users who may be nothing like yours. The moment you put an LLM in a real product, you need evaluation infrastructure specific to your context.</p>
+        <h2>Defining "Good" Precisely</h2>
+        <p>For meeting summaries, we decomposed quality into three distinct dimensions:</p>
+        <ul>
+          <li><strong>Factuality</strong>: Does the summary accurately represent what was said? Hallucinations in meeting summaries contaminate organizational memory.</li>
+          <li><strong>Usefulness</strong>: Does it help the reader act or decide differently? A perfectly accurate summary of a low-stakes meeting may have zero usefulness.</li>
+          <li><strong>Decision impact</strong>: Does acting on the output lead to better outcomes? Hardest to measure, most important.</li>
+        </ul>
+        <p>These don't always correlate. Collapsing them into one score destroys the signal that tells you what to fix.</p>
+        <h2>Human-in-the-Loop for Real</h2>
+        <p>A two-stage pipeline: automated signals (confidence scores, embedding similarity, known failure modes) filter out ~75% of outputs that clearly pass or clearly fail before human review. Then structured human evaluation with behavioral anchors for each quality dimension, inter-rater reliability checks, and calibration sessions. The rubric matters enormously — vague "rate overall quality" instructions produce noisy labels.</p>
+        <blockquote>The goal of human-in-the-loop evaluation is not to replace automated metrics — it's to calibrate them, and to generate labeled data that improves automated signals over time.</blockquote>
+        <h2>The Psychometrics Connection</h2>
+        <p>My PhD background in quantitative psychology turned out to be unexpectedly foundational. Designing a reliable LLM evaluation rubric is exactly the same problem as designing a valid survey instrument: you're measuring a latent construct from noisy, subjective human judgment. The same considerations apply — construct definition, behavioral anchors, rater effects, inter-rater reliability, calibration. My dissertation was about reliable evaluation under noisy human judgment. It was better preparation for LLM eval than anything I could have planned.</p>
+        <p>LLM evaluation as a field is roughly where psychometrics was in 1980. All the tools to do it rigorously already exist — in a different academic silo. The opportunity for people who can bridge these worlds is significant.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Heatmap generator ──
+(function(){
+  const canvas = document.getElementById('heatmap-canvas');
+  const levels = [0,0,0,0,0,0,1,0,0,0,1,2,0,0,1,0,0,2,1,0,0,0,3,1,2,3,
+                  0,0,1,0,0,0,0,2,0,1,0,0,3,2,1,0,2,0,0,4,3,2,1,0,0,0];
+  levels.forEach(l => {
+    const cell = document.createElement('div');
+    cell.className = 'hm-cell' + (l>0 ? ' hm-l'+Math.min(l,4) : '');
+    cell.title = l > 0 ? `${l} post${l>1?'s':''}` : 'no posts';
+    canvas.appendChild(cell);
+  });
+})();
+
+// ── Modals ──
+function openModal(id){ document.getElementById(id).classList.add('active'); document.body.style.overflow='hidden'; }
+function closeModal(id){ document.getElementById(id).classList.remove('active'); document.body.style.overflow=''; }
+function closeBg(e,id){ if(e.target===document.getElementById(id)) closeModal(id); }
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') document.querySelectorAll('.modal-overlay.active').forEach(m=>{ m.classList.remove('active'); document.body.style.overflow=''; });
+});
+
+// ── Nav active state ──
+const tabs = document.querySelectorAll('.nav-tabs a');
+tabs.forEach(t => t.addEventListener('click', ()=>{ tabs.forEach(x=>x.classList.remove('active')); t.classList.add('active'); }));
+</script>
+</body>
+</html>
