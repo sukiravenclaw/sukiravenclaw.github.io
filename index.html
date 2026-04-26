@@ -3,886 +3,708 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>~/suki-wang</title>
+<title>~/suki-wang · Suki Wang, PhD</title>
+<meta name="description" content="Personal site of Suki Wang — Senior Data Scientist at Roblox, lecturer at USC Annenberg, NSF Fellow. Writing on causal inference, survival analysis, GenAI evaluation, and network science. Also: currently losing at Duolingo Japanese.">
+<meta property="og:title" content="~/suki-wang · Suki Wang, PhD">
+<meta property="og:description" content="Senior Data Scientist at Roblox · Educator at USC CMGT · NSF Fellow · PhD Quantitative Psychology.">
+<meta property="og:image" content="https://sukiravenclaw.github.io/og-image.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://sukiravenclaw.github.io">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://sukiravenclaw.github.io/og-image.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:       #0d1117;
-  --bg2:      #161b22;
-  --bg3:      #21262d;
-  --border:   #30363d;
-  --border2:  #21262d;
-  --text:     #e6edf3;
-  --muted:    #8b949e;
-  --muted2:   #6e7681;
-  --green:    #3fb950;
-  --green-bg: #1f3a24;
-  --blue:     #58a6ff;
-  --blue-bg:  #1c2d3f;
-  --purple:   #bc8cff;
-  --purple-bg:#2e1f4a;
-  --orange:   #f0883e;
-  --orange-bg:#3d2010;
-  --yellow:   #e3b341;
-  --yellow-bg:#3a2a06;
-  --pink:     #f778ba;
-  --pink-bg:  #3d1224;
-  --red:      #ff7b72;
-  --red-bg:   #3d1010;
-  --teal:     #39d0d0;
-  --teal-bg:  #0e2d2d;
+  --bg:         #0f0a1e;
+  --bg2:        #16112b;
+  --bg3:        #1e1836;
+  --bg4:        #251f42;
+  --border:     #2e2850;
+  --border2:    #221d3a;
+  --text:       #f0eaf8;
+  --muted:      #9b8bb0;
+  --muted2:     #6b5f82;
+  --coral:      #ff6b9d;
+  --coral-bg:   #2d0f1f;
+  --purple:     #c44dff;
+  --purple-bg:  #1e0d33;
+  --gold:       #ffb347;
+  --gold-bg:    #2a1a00;
+  --mint:       #4dffc3;
+  --mint-bg:    #0a2a1e;
+  --sky:        #4db8ff;
+  --sky-bg:     #0a1e30;
+  --rose:       #ff8fab;
+  --rose-bg:    #2a0f18;
+  --grad1: linear-gradient(135deg, #ff6b9d, #c44dff);
+  --grad2: linear-gradient(135deg, #ffb347, #ff6b9d);
+  --grad3: linear-gradient(135deg, #4dffc3, #4db8ff);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 body {
-  font-family: 'Inter', -apple-system, sans-serif;
+  font-family: "DM Sans", -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.65;
   min-height: 100vh;
 }
-a { color: inherit; text-decoration: none; }
-code, .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+a { color:inherit; text-decoration:none; }
+.mono { font-family: "DM Mono", monospace; }
 
-/* ─── TOP NAV ─── */
-.top-nav {
+/* ── ambient glows ── */
+body::before {
+  content: "";
+  position: fixed; top: -200px; right: -200px;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,77,255,.12) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+body::after {
+  content: "";
+  position: fixed; bottom: -200px; left: -200px;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,107,157,.10) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(15,10,30,.85);
+  backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
-  background: var(--bg2);
-  position: sticky; top: 0; z-index: 50;
-  padding: 0 24px;
-  display: flex; align-items: stretch;
-  gap: 0;
-  height: 48px;
-}
-.nav-brand {
-  display: flex; align-items: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .78rem;
-  padding-right: 24px;
-  border-right: 1px solid var(--border);
-  color: var(--muted);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.nav-brand .path    { color: var(--green); }
-.nav-brand .branch  { color: var(--purple); }
-.nav-brand .cursor  {
-  display: inline-block;
-  width: 8px; height: 14px;
-  background: var(--blue);
-  margin-left: 2px;
-  animation: blink 1s step-end infinite;
-  vertical-align: middle;
-}
-@keyframes blink { 50%{opacity:0;} }
-.nav-tabs {
-  display: flex; list-style: none;
-  gap: 0; margin-left: 8px; align-items: center;
-  flex: 1;
-}
-.nav-tabs li a {
-  display: flex; align-items: center; gap: 6px;
-  height: 48px;
-  padding: 0 16px;
-  font-size: .84rem;
-  color: var(--muted);
-  border-bottom: 2px solid transparent;
-  transition: color .15s, border-color .15s;
-}
-.nav-tabs li a:hover  { color: var(--text); }
-.nav-tabs li a.active {
-  color: var(--text);
-  border-bottom-color: var(--orange);
-  font-weight: 500;
-}
-.nav-tabs li a .tab-icon { font-size: .9rem; }
-.nav-right {
-  display: flex; align-items: center; gap: 8px; margin-left: auto;
-}
-.search-box {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 4px 10px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .75rem;
-  color: var(--muted);
-  cursor: pointer;
-}
-.search-box kbd {
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  padding: 1px 5px;
-  font-size: .7rem;
-}
-
-/* ─── MAIN LAYOUT ─── */
-.main-wrap {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 32px 24px;
-  display: grid;
-  grid-template-columns: 1fr 296px;
-  gap: 32px;
-  align-items: start;
-}
-
-/* ─── LEFT COLUMN ─── */
-.left-col {}
-
-/* Terminal intro */
-.terminal-intro {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .78rem;
-  color: var(--muted);
-  margin-bottom: 8px;
-  line-height: 1.8;
-}
-.terminal-intro .prompt-user  { color: var(--green); }
-.terminal-intro .prompt-at    { color: var(--muted2); }
-.terminal-intro .prompt-host  { color: var(--blue); }
-.terminal-intro .prompt-dir   { color: var(--purple); }
-.terminal-intro .prompt-cmd   { color: var(--text); }
-.terminal-intro .comment      { color: var(--muted2); }
-
-/* Hero name */
-.hero-greeting {
-  font-family: 'Inter', sans-serif;
-  font-size: 2rem;
-  font-weight: 300;
-  color: var(--muted);
-  margin-bottom: 4px;
-  margin-top: 20px;
-}
-.hero-name {
-  font-family: 'Inter', sans-serif;
-  font-size: 3.2rem;
-  font-weight: 700;
-  color: var(--blue);
-  line-height: 1;
-  margin-bottom: 20px;
-  letter-spacing: -.02em;
-}
-
-/* IG-style topic tags */
-.topic-tags {
-  display: flex; flex-wrap: wrap; gap: 8px;
-  margin-bottom: 28px;
-}
-.tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .72rem;
-  font-weight: 500;
-  padding: 4px 12px;
-  border-radius: 20px;
-  border: 1px solid;
-  cursor: default;
-  transition: opacity .15s;
-  letter-spacing: .01em;
-}
-.tag:hover { opacity: .8; }
-.tag-blue   { color: var(--blue);   background: var(--blue-bg);   border-color: rgba(88,166,255,.3); }
-.tag-purple { color: var(--purple); background: var(--purple-bg); border-color: rgba(188,140,255,.3); }
-.tag-green  { color: var(--green);  background: var(--green-bg);  border-color: rgba(63,185,80,.3); }
-.tag-orange { color: var(--orange); background: var(--orange-bg); border-color: rgba(240,136,62,.3); }
-.tag-yellow { color: var(--yellow); background: var(--yellow-bg); border-color: rgba(227,179,65,.3); }
-.tag-pink   { color: var(--pink);   background: var(--pink-bg);   border-color: rgba(247,120,186,.3); }
-.tag-teal   { color: var(--teal);   background: var(--teal-bg);   border-color: rgba(57,208,208,.3); }
-.tag-red    { color: var(--red);    background: var(--red-bg);    border-color: rgba(255,123,114,.3); }
-
-/* Bio */
-.hero-bio {
-  font-size: .95rem;
-  color: var(--muted);
-  line-height: 1.75;
-  max-width: 640px;
-  margin-bottom: 28px;
-}
-.hero-bio a    { color: var(--blue); }
-.hero-bio a:hover { text-decoration: underline; }
-.hero-bio .hl-green  { color: var(--green);  font-weight: 500; }
-.hero-bio .hl-orange { color: var(--orange); font-weight: 500; }
-.hero-bio .hl-purple { color: var(--purple); font-weight: 500; }
-.hero-bio .hl-yellow { color: var(--yellow); font-weight: 500; }
-
-/* CTA buttons */
-.cta-row {
-  display: flex; gap: 8px; flex-wrap: wrap;
-  margin-bottom: 24px;
-}
-.btn-gh {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 16px;
-  border-radius: 6px;
-  font-size: .84rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all .15s;
-  border: 1px solid;
-}
-.btn-gh-primary {
-  background: var(--blue);
-  border-color: rgba(88,166,255,.5);
-  color: #0d1117;
-}
-.btn-gh-primary:hover { background: #79c0ff; }
-.btn-gh-outline {
-  background: var(--bg3);
-  border-color: var(--border);
-  color: var(--text);
-}
-.btn-gh-outline:hover { background: var(--border); }
-
-/* Social pill links */
-.social-pills {
-  display: flex; gap: 8px; flex-wrap: wrap;
-  margin-bottom: 36px;
-}
-.pill {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  background: var(--bg2);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .68rem;
-  color: var(--muted);
-  transition: border-color .15s, color .15s;
-}
-.pill:hover { border-color: var(--blue); color: var(--blue); }
-
-/* ─── SECTION HEADERS ─── */
-.section-header {
   display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
+  padding: 0 32px; height: 56px;
 }
-.section-header h2 {
-  font-size: .95rem;
-  font-weight: 600;
-  color: var(--text);
+.nav-logo {
+  font-family: "Playfair Display", serif;
+  font-size: 1.1rem; font-weight: 700;
+  background: var(--grad1);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nav-links { display:flex; gap:0; list-style:none; }
+.nav-links a {
+  display: flex; align-items: center; gap: 5px;
+  height: 56px; padding: 0 16px;
+  font-size: .82rem; font-weight: 500;
+  color: var(--muted); border-bottom: 2px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--text); border-bottom-color: var(--coral); }
+.nav-right { display:flex; align-items:center; gap:10px; }
+.nav-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--grad1); opacity: .8;
+}
+
+/* ── LAYOUT ── */
+.wrap {
+  max-width: 1160px; margin: 0 auto;
+  padding: 40px 24px;
+  display: grid; grid-template-columns: 1fr 280px;
+  gap: 36px; align-items: start;
+  position: relative; z-index: 1;
+}
+
+/* ── HERO ── */
+.hero { margin-bottom: 40px; }
+.hero-eyebrow {
+  font-family: "DM Mono", monospace;
+  font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted2); margin-bottom: 14px;
   display: flex; align-items: center; gap: 8px;
 }
-.section-header .see-all {
-  font-size: .8rem;
-  color: var(--blue);
-  display: flex; align-items: center; gap: 4px;
+.hero-eyebrow::before {
+  content: "";
+  display: inline-block; width: 20px; height: 1px;
+  background: var(--grad1);
 }
-.section-header .see-all:hover { text-decoration: underline; }
-
-/* ─── BLOG / POST CARDS ─── */
-.post-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 36px; }
-.post-item {
-  display: flex; gap: 12px; align-items: flex-start;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border2);
-  transition: background .1s;
-  cursor: pointer;
+.hero-greeting {
+  font-size: 1.8rem; font-weight: 300;
+  color: var(--muted); margin-bottom: 2px;
 }
-.post-item:first-child { border-top: none; }
-.post-item:last-child { border-bottom: none; }
-.post-item:hover { padding-left: 8px; }
-.post-avatar {
-  width: 38px; height: 38px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: .85rem; font-weight: 700;
-  flex-shrink: 0;
-  font-family: 'JetBrains Mono', monospace;
-}
-.post-content { flex: 1; min-width: 0; }
-.post-title {
-  font-size: .92rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 3px;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.post-title:hover { color: var(--blue); }
-.post-excerpt {
-  font-size: .82rem;
-  color: var(--muted);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-bottom: 6px;
-  line-height: 1.5;
-}
-.post-meta {
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-}
-.post-tag {
-  font-size: .68rem;
-  padding: 2px 8px;
-  border-radius: 20px;
-  font-family: 'JetBrains Mono', monospace;
-}
-.post-date {
-  font-size: .72rem;
-  color: var(--muted2);
-  font-family: 'JetBrains Mono', monospace;
+.hero-name {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 700; line-height: 1.05; margin-bottom: 22px;
+  background: linear-gradient(135deg, #f0eaf8 0%, #c44dff 60%, #ff6b9d 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* ─── PUBLICATIONS ─── */
-.pub-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 36px; }
-.pub-item {
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border2);
+/* ── TAGS ── */
+.tag-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+.tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 14px; border-radius: 99px;
+  font-size: .75rem; font-weight: 500;
+  letter-spacing: .01em; cursor: default;
+  transition: transform .15s, box-shadow .15s;
+  border: 1px solid transparent;
 }
-.pub-item:last-child { border-bottom: none; }
-.pub-item-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
-.pub-title-link {
-  font-size: .9rem;
-  font-weight: 600;
-  color: var(--text);
-  line-height: 1.4;
-  flex: 1;
-}
-.pub-title-link:hover { color: var(--blue); }
-.pub-badge {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .62rem;
-  padding: 2px 8px;
-  border-radius: 20px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.badge-conf   { background: var(--green-bg); color: var(--green); border: 1px solid rgba(63,185,80,.3); }
-.badge-jour   { background: var(--blue-bg);  color: var(--blue);  border: 1px solid rgba(88,166,255,.3); }
-.badge-wip    { background: var(--yellow-bg);color: var(--yellow);border: 1px solid rgba(227,179,65,.3); }
-.pub-meta { font-size: .78rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
-.pub-meta .venue { color: var(--blue); }
+.tag:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+.t-coral  { color:var(--coral);  background:var(--coral-bg);  border-color:rgba(255,107,157,.25); }
+.t-purple { color:var(--purple); background:var(--purple-bg); border-color:rgba(196,77,255,.25); }
+.t-gold   { color:var(--gold);   background:var(--gold-bg);   border-color:rgba(255,179,71,.25); }
+.t-mint   { color:var(--mint);   background:var(--mint-bg);   border-color:rgba(77,255,195,.25); }
+.t-sky    { color:var(--sky);    background:var(--sky-bg);    border-color:rgba(77,184,255,.25); }
+.t-rose   { color:var(--rose);   background:var(--rose-bg);   border-color:rgba(255,143,171,.25); }
 
-/* ─── RESEARCH INTEREST PILLS (IG story row) ─── */
-.research-stories {
-  display: flex; gap: 16px; overflow-x: auto;
-  padding-bottom: 12px; margin-bottom: 36px;
+/* ── BIO ── */
+.hero-bio {
+  font-size: .97rem; color: var(--muted);
+  line-height: 1.82; max-width: 620px; margin-bottom: 28px;
+}
+.hero-bio .hl { font-weight: 600; }
+.hero-bio .hl-coral  { color: var(--coral); }
+.hero-bio .hl-purple { color: var(--purple); }
+.hero-bio .hl-gold   { color: var(--gold); }
+.hero-bio .hl-mint   { color: var(--mint); }
+
+/* ── BUTTONS ── */
+.btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 20px; border-radius: 99px;
+  font-size: .83rem; font-weight: 600;
+  cursor: pointer; transition: all .2s; border: none;
+  text-decoration: none;
+}
+.btn-grad {
+  background: var(--grad1); color: #fff;
+  box-shadow: 0 4px 20px rgba(196,77,255,.35);
+}
+.btn-grad:hover { box-shadow: 0 8px 32px rgba(196,77,255,.55); transform: translateY(-1px); }
+.btn-ghost {
+  background: var(--bg3); color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover { border-color: var(--coral); color: var(--coral); }
+
+/* ── SOCIAL PILLS ── */
+.social-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:40px; }
+.s-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 99px;
+  background: var(--bg3); border: 1px solid var(--border);
+  font-size: .75rem; color: var(--muted);
+  transition: border-color .15s, color .15s;
+}
+.s-pill:hover { border-color: var(--purple); color: var(--purple); }
+
+/* ── SECTION HEADERS ── */
+.sec-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px;
+}
+.sec-title {
+  font-size: .82rem; font-weight: 600; color: var(--text);
+  display: flex; align-items: center; gap: 8px;
+}
+.sec-title::before {
+  content: "";
+  display: inline-block; width: 3px; height: 16px;
+  background: var(--grad1); border-radius: 2px;
+}
+.sec-link { font-size: .78rem; color: var(--coral); }
+.sec-link:hover { text-decoration: underline; }
+.divider { border:none; border-top:1px solid var(--border); margin:32px 0; }
+
+/* ── IG STORIES ── */
+.stories-row {
+  display: flex; gap: 18px; overflow-x: auto;
+  padding-bottom: 8px; margin-bottom: 36px;
   scrollbar-width: none;
 }
-.research-stories::-webkit-scrollbar { display: none; }
+.stories-row::-webkit-scrollbar { display:none; }
 .story-item {
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   flex-shrink: 0; cursor: pointer;
+  transition: transform .2s;
 }
+.story-item:hover { transform: scale(1.07); }
 .story-ring {
-  width: 64px; height: 64px;
-  border-radius: 50%;
-  padding: 2px;
-  background: linear-gradient(135deg, var(--orange), var(--pink), var(--purple));
+  width: 68px; height: 68px; border-radius: 50%; padding: 2.5px;
+  background: var(--grad1);
 }
+.story-ring.gr2 { background: var(--grad2); }
+.story-ring.gr3 { background: var(--grad3); }
 .story-inner {
-  width: 100%; height: 100%;
-  border-radius: 50%;
+  width: 100%; height: 100%; border-radius: 50%;
   border: 3px solid var(--bg);
   background: var(--bg3);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.4rem;
+  font-size: 1.45rem;
 }
 .story-label {
-  font-size: .65rem;
-  color: var(--muted);
-  text-align: center;
-  max-width: 70px;
-  line-height: 1.3;
-  font-family: 'JetBrains Mono', monospace;
+  font-size: .65rem; font-weight: 500;
+  color: var(--muted); text-align: center;
+  max-width: 72px; line-height: 1.3;
 }
 
-
-/* ─── STORY MODAL ─── */
-.story-item { transition: transform .15s; }
-.story-item:hover { transform: scale(1.08); }
-.story-item:hover .story-label { color: var(--text); }
-
-.story-overlay {
-  display: none; position: fixed; inset: 0; z-index: 300;
-  background: rgba(0,0,0,.92); backdrop-filter: blur(10px);
-  align-items: center; justify-content: center;
+/* ── POST CARDS ── */
+.post-list { display:flex; flex-direction:column; gap:2px; margin-bottom:36px; }
+.post-card {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 16px; border-radius: 14px;
+  cursor: pointer; transition: background .15s;
 }
-.story-overlay.active { display: flex; }
-
-.story-card {
-  width: 390px; max-height: 92vh;
-  border-radius: 16px; overflow: hidden;
-  position: relative; display: flex; flex-direction: column;
-  box-shadow: 0 32px 80px rgba(0,0,0,.8);
-  animation: storyPop .25s cubic-bezier(.34,1.56,.64,1) both;
-}
-@keyframes storyPop {
-  from { opacity:0; transform: scale(.92); }
-  to   { opacity:1; transform: scale(1); }
-}
-.story-progress-bars {
-  position: absolute; top: 12px; left: 12px; right: 12px;
-  display: flex; gap: 4px; z-index: 10;
-}
-.story-prog-seg { flex: 1; height: 3px; background: rgba(255,255,255,.3); border-radius: 2px; overflow: hidden; }
-.story-prog-fill { height: 100%; background: #fff; border-radius: 2px; width: 0%; }
-.story-prog-seg.done .story-prog-fill { width: 100%; }
-.story-prog-seg.active .story-prog-fill { width: 100%; transition: width 8s linear; }
-.story-top-bar {
-  position: absolute; top: 26px; left: 12px; right: 12px;
-  display: flex; align-items: center; gap: 8px; z-index: 10;
-}
-.story-top-avatar {
-  width: 34px; height: 34px; border-radius: 50%;
-  border: 2px solid rgba(255,255,255,.8); background: var(--bg3);
+.post-card:hover { background: var(--bg2); }
+.post-icon {
+  width: 44px; height: 44px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  font-family: "JetBrains Mono",monospace; font-size: .75rem; font-weight: 700; color: var(--blue); flex-shrink: 0;
+  font-size: 1.1rem; flex-shrink: 0;
 }
-.story-top-meta { flex: 1; }
-.story-top-name { font-size: .8rem; font-weight: 600; color: #fff; font-family: "JetBrains Mono",monospace; line-height: 1.2; }
-.story-top-time { font-size: .68rem; color: rgba(255,255,255,.55); }
-.story-close-btn { background: none; border: none; color: rgba(255,255,255,.8); font-size: 1.3rem; cursor: pointer; padding: 4px; border-radius: 50%; transition: background .15s; }
-.story-close-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
-.story-visual {
-  height: 400px; position: relative; flex-shrink: 0;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
+.post-body { flex:1; min-width:0; }
+.post-title {
+  font-size: .93rem; font-weight: 600; color: var(--text);
+  margin-bottom: 4px; line-height: 1.4;
 }
-.story-visual-icon { font-size: 4.5rem; margin-bottom: 12px; filter: drop-shadow(0 4px 16px rgba(0,0,0,.5)); }
-.story-visual-stat {
-  font-family: "JetBrains Mono",monospace; font-size: .72rem; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase;
-  background: rgba(0,0,0,.4); color: #fff;
-  border: 1px solid rgba(255,255,255,.2); padding: 5px 14px;
-  border-radius: 20px; backdrop-filter: blur(4px);
-}
-.story-visual-badge {
-  position: absolute; top: 72px; right: 14px;
-  background: rgba(0,0,0,.5); backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,.15); border-radius: 10px;
-  padding: 8px 12px; text-align: center;
-}
-.story-visual-badge .bnum { font-family: "JetBrains Mono",monospace; font-size: 1.05rem; font-weight: 700; color: #fff; display: block; }
-.story-visual-badge .blbl { font-size: .6rem; color: rgba(255,255,255,.5); font-family: "JetBrains Mono",monospace; text-transform: uppercase; letter-spacing: .08em; }
-.story-content { background: var(--bg2); padding: 18px 20px 22px; border-top: 1px solid rgba(255,255,255,.07); }
-.story-content-tag { font-family: "JetBrains Mono",monospace; font-size: .63rem; letter-spacing: .15em; text-transform: uppercase; margin-bottom: 5px; display: block; }
-.story-content-title { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 10px; line-height: 1.3; }
-.story-bullets { list-style: none; display: flex; flex-direction: column; gap: 5px; }
-.story-bullets li { font-size: .8rem; color: var(--muted); line-height: 1.5; display: flex; gap: 7px; align-items: flex-start; }
-.story-bullets li::before { content: "▸"; color: var(--green); flex-shrink: 0; }
-.story-arrow {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
-  backdrop-filter: blur(4px); color: #fff; cursor: pointer;
-  width: 38px; height: 38px; border-radius: 50%; font-size: .9rem;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .15s; z-index: 20;
-}
-.story-arrow:hover { background: rgba(255,255,255,.22); }
-.story-arrow-left  { left: -52px; }
-.story-arrow-right { right: -52px; }
-@media(max-width:560px){ .story-card { width: 95vw; } .story-arrow { display:none; } }
-/* ─── RIGHT SIDEBAR CARD ─── */
-.right-col { position: sticky; top: 64px; }
-.profile-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.profile-card-header {
-  background: linear-gradient(135deg, #1c2d3f 0%, #1f2a3f 40%, #2d1f3f 100%);
-  padding: 16px 16px 0;
-  text-align: right;
-  position: relative;
-  height: 80px;
-}
-.profile-card-header .repo-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .7rem;
-  color: rgba(255,255,255,.4);
-}
-.profile-avatar {
-  width: 80px; height: 80px;
-  border-radius: 50%;
-  border: 4px solid var(--bg2);
-  background: linear-gradient(135deg, var(--blue-bg), var(--purple-bg));
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--blue);
-  margin: -40px 16px 12px;
-  position: relative; z-index: 2;
-}
-.profile-card-body { padding: 0 16px 16px; }
-.profile-name {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 2px;
-}
-.profile-handle {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .75rem;
-  color: var(--muted);
-  margin-bottom: 4px;
-}
-.profile-pronouns {
-  display: inline-block;
-  font-size: .65rem;
-  color: var(--muted2);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  padding: 1px 5px;
-  margin-bottom: 10px;
-  font-family: 'JetBrains Mono', monospace;
-}
-.profile-bio {
-  font-size: .82rem;
-  color: var(--muted);
-  margin-bottom: 14px;
-  line-height: 1.5;
-}
-.profile-bio .quote { font-style: italic; color: var(--yellow); }
-.profile-stats {
-  display: flex; gap: 16px;
-  margin-bottom: 14px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--border2);
-}
-.stat-item { text-align: center; }
-.stat-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .95rem;
-  font-weight: 700;
-  color: var(--text);
-}
-.stat-label { font-size: .65rem; color: var(--muted2); }
-.profile-info { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
-.profile-info li {
-  display: flex; align-items: flex-start; gap: 8px;
-  font-size: .8rem; color: var(--muted);
-}
-.profile-info li .ico { font-size: .85rem; flex-shrink: 0; margin-top: 1px; }
-.profile-info li a { color: var(--blue); }
-.profile-info li a:hover { text-decoration: underline; }
-.profile-links {
-  display: flex; flex-wrap: wrap; gap: 6px;
-  margin-bottom: 14px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--border2);
-}
-.profile-link-btn {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .65rem;
-  padding: 3px 8px;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  background: var(--bg);
-  transition: all .15s;
-}
-.profile-link-btn:hover { border-color: var(--blue); color: var(--blue); }
-
-/* Contribution heatmap */
-.heatmap-section {}
-.heatmap-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .65rem;
-  color: var(--muted2);
+.post-card:hover .post-title { color: var(--coral); }
+.post-excerpt {
+  font-size: .81rem; color: var(--muted); line-height: 1.55;
+  display: -webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
   margin-bottom: 8px;
-  display: flex; align-items: center; gap: 4px;
 }
-.heatmap-label::before { content: '//'; color: var(--muted2); }
-#heatmap-canvas {
-  display: grid;
-  grid-template-columns: repeat(26, 1fr);
-  gap: 2px;
+.post-foot {
+  display: flex; align-items: center; gap: 8px;
 }
-.hm-cell {
-  width: 100%; aspect-ratio: 1;
-  border-radius: 2px;
-  background: var(--bg3);
+.post-tag {
+  font-size: .67rem; font-weight: 500; padding: 2px 9px;
+  border-radius: 99px;
 }
-.hm-l1 { background: #1f3a1f; }
-.hm-l2 { background: #2d5a2d; }
-.hm-l3 { background: #3fb950; }
-.hm-l4 { background: #56d364; }
+.post-date { font-size: .71rem; color: var(--muted2); font-family:"DM Mono",monospace; }
 
-/* Skills card */
-.skills-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px 16px;
-  margin-bottom: 16px;
-}
-.skills-card-title {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .68rem;
-  color: var(--muted2);
-  margin-bottom: 10px;
-  display: flex; align-items: center; gap: 5px;
-}
-.skills-card-title::before { content: '//'; }
-.skill-row { margin-bottom: 8px; }
-.skill-row-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 4px;
-}
-.skill-name { font-size: .72rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
-.skill-pct  { font-size: .68rem; color: var(--muted2); font-family: 'JetBrains Mono', monospace; }
-.skill-bar  { height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
-.skill-fill { height: 100%; border-radius: 2px; }
-
-/* Awards card */
-.awards-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px 16px;
-}
-.award-item {
-  display: flex; align-items: flex-start; gap: 8px;
-  padding: 7px 0;
+/* ── PUBLICATIONS ── */
+.pub-list { display:flex; flex-direction:column; gap:0; margin-bottom:36px; }
+.pub-item {
+  padding: 14px 0;
   border-bottom: 1px solid var(--border2);
-  font-size: .8rem;
+  display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start;
 }
-.award-item:last-child { border-bottom: none; }
-.award-icon { font-size: 1rem; flex-shrink: 0; }
-.award-text { color: var(--muted); line-height: 1.4; }
-.award-text strong { color: var(--text); display: block; font-size: .8rem; }
+.pub-item:last-child { border-bottom:none; }
+.pub-title { font-size:.9rem; font-weight:600; color:var(--text); line-height:1.4; margin-bottom:4px; }
+.pub-meta  { font-size:.77rem; color:var(--muted); font-family:"DM Mono",monospace; }
+.pub-meta .venue { color:var(--coral); }
+.badge {
+  font-size:.63rem; font-weight:600; padding:3px 10px; border-radius:99px;
+  white-space:nowrap; height:fit-content; font-family:"DM Mono",monospace;
+  letter-spacing:.04em;
+}
+.badge-conf { background:rgba(77,255,195,.15); color:var(--mint); border:1px solid rgba(77,255,195,.3); }
+.badge-jour { background:rgba(77,184,255,.15); color:var(--sky);  border:1px solid rgba(77,184,255,.3); }
+.badge-wip  { background:rgba(255,179,71,.12); color:var(--gold); border:1px solid rgba(255,179,71,.3); }
 
-/* ─── MODAL ─── */
-.modal-overlay {
-  display: none; position: fixed; inset: 0; z-index: 200;
-  background: rgba(0,0,0,.8); backdrop-filter: blur(8px);
-  overflow-y: auto; padding: 40px 20px;
+/* ── TEACHING ── */
+.teaching-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:14px; margin-bottom:36px; }
+.teach-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 18px;
+  transition: border-color .2s, transform .2s;
 }
-.modal-overlay.active { display: block; }
-.modal-box {
-  max-width: 720px; margin: 0 auto;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
+.teach-card:hover { border-color: var(--purple); transform: translateY(-3px); }
+.teach-school { font-size:.67rem; color:var(--muted2); font-family:"DM Mono",monospace; margin-bottom:7px; }
+.teach-title { font-size:.9rem; font-weight:600; color:var(--text); margin-bottom:7px; line-height:1.35; }
+.teach-desc  { font-size:.79rem; color:var(--muted); line-height:1.55; margin-bottom:12px; }
+.teach-tags  { display:flex; gap:5px; flex-wrap:wrap; }
+.teach-tag {
+  font-size:.63rem; padding:2px 8px; border-radius:99px;
+  background:var(--bg3); color:var(--muted2); border:1px solid var(--border2);
+}
+
+/* ── EXP ITEMS ── */
+.exp-list { display:flex; flex-direction:column; gap:0; margin-bottom:36px; }
+.exp-item { padding:14px 0; border-bottom:1px solid var(--border2); display:grid; grid-template-columns:1fr auto; gap:12px; align-items:start; }
+.exp-item:last-child { border-bottom:none; }
+.exp-role { font-size:.9rem; font-weight:600; color:var(--text); margin-bottom:3px; }
+.exp-co   { font-size:.81rem; color:var(--muted); }
+.exp-date { font-size:.67rem; font-family:"DM Mono",monospace; padding:3px 10px; border-radius:99px; background:var(--bg3); border:1px solid var(--border); color:var(--muted2); white-space:nowrap; height:fit-content; }
+
+/* ── GITHUB REPOS ── */
+.repo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:14px; margin-bottom:36px; }
+.repo-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 18px;
+  transition: border-color .2s, transform .2s;
+}
+.repo-card:hover { border-color: var(--mint); transform: translateY(-3px); }
+.repo-name { font-family:"DM Mono",monospace; font-size:.72rem; color:var(--sky); margin-bottom:7px; display:flex; align-items:center; gap:5px; }
+.repo-title { font-size:.88rem; font-weight:600; color:var(--text); margin-bottom:6px; }
+.repo-desc  { font-size:.78rem; color:var(--muted); line-height:1.5; margin-bottom:12px; }
+.repo-tags  { display:flex; gap:5px; flex-wrap:wrap; }
+.repo-tag { font-size:.62rem; padding:2px 7px; border-radius:99px; background:var(--bg3); color:var(--muted2); border:1px solid var(--border2); }
+
+/* ── RIGHT SIDEBAR ── */
+.right-col { position:sticky; top:72px; display:flex; flex-direction:column; gap:14px; }
+
+/* Profile card */
+.profile-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden;
+}
+.profile-header {
+  height: 80px;
+  background: linear-gradient(135deg, #1e0d33 0%, #2d0f1f 50%, #1a1530 100%);
   position: relative;
 }
-.modal-top-bar {
-  background: var(--bg3);
-  border-bottom: 1px solid var(--border);
-  padding: 10px 16px;
-  display: flex; align-items: center; justify-content: space-between;
+.profile-header-line {
+  position:absolute; bottom:0; left:0; right:0; height:2px;
+  background: var(--grad1); opacity:.5;
 }
-.modal-dots { display: flex; gap: 6px; }
-.modal-dot { width: 12px; height: 12px; border-radius: 50%; }
-.modal-dot.red { background: #ff5f57; }
-.modal-dot.yellow { background: #ffbd2e; }
-.modal-dot.green  { background: #28c940; }
-.modal-file { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--muted); }
-.modal-close {
-  background: none; border: none; color: var(--muted);
-  font-size: 1.1rem; cursor: pointer; padding: 2px 6px;
-  border-radius: 4px;
+.profile-body { padding: 0 18px 18px; }
+.profile-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  border: 3px solid var(--bg2);
+  margin: -40px 0 12px;
+  background: linear-gradient(135deg, var(--purple-bg), var(--coral-bg));
+  display: flex; align-items: center; justify-content: center;
+  font-family: "DM Mono", monospace; font-size: 1.5rem; font-weight:700;
+  background: var(--grad1); color: #fff; letter-spacing: .02em;
+  position: relative; z-index:2;
 }
-.modal-close:hover { background: var(--bg); color: var(--text); }
-.modal-inner { padding: 28px 32px; }
-.modal-tag-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-.modal-title {
-  font-size: 1.5rem; font-weight: 700; color: var(--text);
-  line-height: 1.3; margin-bottom: 6px;
+.profile-name { font-size:1rem; font-weight:700; color:var(--text); margin-bottom:2px; }
+.profile-handle { font-family:"DM Mono",monospace; font-size:.73rem; color:var(--muted); margin-bottom:5px; }
+.profile-pronouns {
+  display:inline-block; font-size:.62rem; color:var(--muted2);
+  border:1px solid var(--border); border-radius:4px; padding:1px 6px;
+  font-family:"DM Mono",monospace; margin-bottom:10px;
 }
-.modal-byline {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .72rem; color: var(--muted2);
-  margin-bottom: 20px; padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
-}
-.modal-content { font-size: .92rem; line-height: 1.82; color: var(--muted); }
-.modal-content h2 {
-  font-size: 1.02rem; font-weight: 600; color: var(--text);
-  margin: 20px 0 8px;
-  font-family: 'JetBrains Mono', monospace;
-}
-.modal-content h2::before { content: '## '; color: var(--muted2); }
-.modal-content p { margin-bottom: 12px; }
-.modal-content strong { color: var(--text); }
-.modal-content em { color: var(--yellow); font-style: normal; }
-.modal-content code {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .82rem;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  padding: 2px 6px;
-  border-radius: 4px;
-  color: var(--pink);
-}
-.modal-content blockquote {
-  border-left: 3px solid var(--orange);
-  padding-left: 14px;
-  margin: 16px 0;
-  color: var(--muted);
-  font-style: italic;
-  background: var(--bg3);
-  padding: 10px 10px 10px 14px;
-  border-radius: 0 4px 4px 0;
-}
-.modal-content ul { margin: 8px 0 12px 16px; }
-.modal-content ul li { margin-bottom: 5px; }
-.modal-content ul li::marker { color: var(--green); }
+.profile-bio { font-size:.81rem; color:var(--muted); margin-bottom:14px; line-height:1.55; }
+.profile-bio .quote { color:var(--gold); font-style:italic; }
 
-/* ─── TEACHING SECTION ─── */
-.teaching-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 12px; margin-bottom: 36px;
+.stats-row {
+  display:flex; gap:0; margin-bottom:14px;
+  padding:10px 0; border-top:1px solid var(--border2); border-bottom:1px solid var(--border2);
 }
-.teaching-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 14px 16px;
-  transition: border-color .15s;
+.stat { flex:1; text-align:center; }
+.stat-n { font-family:"DM Mono",monospace; font-size:.95rem; font-weight:700; color:var(--text); display:block; }
+.stat-l { font-size:.62rem; color:var(--muted2); }
+
+.info-list { list-style:none; display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+.info-list li { display:flex; gap:8px; font-size:.79rem; color:var(--muted); align-items:flex-start; }
+.info-list a  { color:var(--sky); }
+.info-list a:hover { text-decoration:underline; }
+
+.link-pills { display:flex; flex-wrap:wrap; gap:6px; padding-top:12px; border-top:1px solid var(--border2); }
+.link-pill {
+  display:inline-flex; align-items:center; gap:4px;
+  font-size:.67rem; padding:4px 10px; border-radius:99px;
+  background:var(--bg3); border:1px solid var(--border);
+  color:var(--muted); transition: all .15s;
 }
-.teaching-card:hover { border-color: var(--blue); }
-.tc-school {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .63rem; color: var(--muted2);
-  margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
+.link-pill:hover { border-color:var(--purple); color:var(--purple); }
+
+/* mini card */
+.mini-card {
+  background: var(--bg2); border:1px solid var(--border);
+  border-radius: 16px; padding: 14px 16px;
 }
-.tc-school::before { content: '📍'; }
-.tc-title {
-  font-size: .88rem; font-weight: 600; color: var(--text);
-  margin-bottom: 6px; line-height: 1.35;
+.mini-title { font-size:.7rem; color:var(--muted2); font-family:"DM Mono",monospace; margin-bottom:10px; display:flex; align-items:center; gap:5px; }
+.mini-title::before { content:"//"; color:var(--muted2); }
+
+/* skill bars */
+.skill-row { margin-bottom:8px; }
+.skill-top  { display:flex; justify-content:space-between; margin-bottom:4px; }
+.skill-name { font-size:.73rem; color:var(--muted); }
+.skill-pct  { font-size:.68rem; color:var(--muted2); font-family:"DM Mono",monospace; }
+.skill-bar  { height:4px; background:var(--bg3); border-radius:2px; overflow:hidden; }
+.skill-fill { height:100%; border-radius:2px; }
+
+/* heatmap */
+#heatmap-canvas { display:grid; grid-template-columns:repeat(26,1fr); gap:2px; }
+.hm-cell  { width:100%; aspect-ratio:1; border-radius:2px; background:var(--bg3); }
+.hm-l1 { background:#2d1f4a; }
+.hm-l2 { background:#4a1f6b; }
+.hm-l3 { background:#c44dff; }
+.hm-l4 { background:#d966ff; }
+
+/* awards */
+.award-item { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--border2); font-size:.8rem; }
+.award-item:last-child { border-bottom:none; }
+.award-ico { font-size:1rem; flex-shrink:0; }
+.award-txt { color:var(--muted); line-height:1.45; }
+.award-txt strong { color:var(--text); display:block; font-size:.8rem; }
+
+
+
+/* ── Story Viz Overlays ── */
+.sv-overlay {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  background:#0a0618;
+  overflow:hidden;
 }
-.tc-desc { font-size: .78rem; color: var(--muted); line-height: 1.55; margin-bottom: 10px; }
-.tc-tags { display: flex; gap: 5px; flex-wrap: wrap; }
-.tc-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .6rem; padding: 2px 6px;
-  border-radius: 3px;
-  background: var(--bg3); color: var(--muted2);
-  border: 1px solid var(--border2);
+.sv-header {
+  padding:8px 14px 4px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  flex-shrink:0;
+}
+.sv-title {
+  font-size:.72rem; font-weight:600; color:rgba(255,255,255,.85);
+  font-family:'DM Sans',sans-serif; letter-spacing:.01em;
+}
+.sv-subtitle {
+  font-size:.6rem; color:rgba(255,255,255,.35);
+  font-family:'DM Mono',monospace; margin-top:1px;
+}
+.sv-chart { flex:1; min-height:0; }
+.sv-footer {
+  padding:4px 14px;
+  font-size:.57rem; color:rgba(255,255,255,.2);
+  font-family:'DM Mono',monospace;
+  border-top:1px solid rgba(255,255,255,.05);
+  flex-shrink:0;
 }
 
-/* ─── DIVIDER ─── */
-.divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+/* ── Conference Preview Card (Story visual) ── */
+.conf-preview-card {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  background: #0c0818;
+  border-radius: 0;
+  overflow: hidden;
+}
+.conf-browser-bar {
+  height: 32px; background: #1a1530;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 12px; flex-shrink: 0;
+}
+.conf-browser-dots { display:flex; gap:5px; }
+.conf-browser-dots span { width:9px; height:9px; border-radius:50%; }
+.conf-browser-dots span:nth-child(1){ background:#ff5f57; }
+.conf-browser-dots span:nth-child(2){ background:#ffbd2e; }
+.conf-browser-dots span:nth-child(3){ background:#28c940; }
+.conf-browser-url {
+  flex:1; text-align:center;
+  font-family:"DM Mono",monospace; font-size:.67rem;
+  color:rgba(255,255,255,.35); letter-spacing:.03em;
+}
+.conf-body { flex:1; position:relative; overflow:hidden; }
+.conf-net-bg { position:absolute; inset:0; }
+.conf-content {
+  position:relative; z-index:2;
+  display:flex; flex-direction:column; align-items:center;
+  justify-content:center; height:100%; padding:20px 24px;
+  text-align:center;
+  background: linear-gradient(180deg, rgba(12,8,24,.3) 0%, rgba(12,8,24,.7) 100%);
+}
+.conf-eyebrow {
+  font-family:"DM Mono",monospace; font-size:.62rem;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:rgba(196,77,255,.9); margin-bottom:8px;
+  background: rgba(196,77,255,.12); padding:3px 10px; border-radius:99px;
+  border:1px solid rgba(196,77,255,.3);
+}
+.conf-name {
+  font-family:"Playfair Display",serif;
+  font-size:2.2rem; font-weight:700;
+  background: linear-gradient(135deg,#fff 0%,#c44dff 50%,#ff6b9d 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text; line-height:1; margin-bottom:8px;
+}
+.conf-sub {
+  font-size:.75rem; color:rgba(255,255,255,.55);
+  margin-bottom:14px; line-height:1.4; max-width:240px;
+}
+.conf-details { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; justify-content:center; }
+.conf-pill {
+  font-size:.67rem; padding:3px 10px; border-radius:99px;
+  background:rgba(255,255,255,.08); color:rgba(255,255,255,.7);
+  border:1px solid rgba(255,255,255,.12);
+}
+.conf-org { font-size:.65rem; color:rgba(255,255,255,.35); }
+.conf-cta {
+  display:block; flex-shrink:0;
+  background: linear-gradient(90deg,#c44dff,#ff6b9d);
+  color:#fff; text-align:center;
+  padding:10px 16px;
+  font-family:"DM Mono",monospace; font-size:.72rem;
+  letter-spacing:.06em; font-weight:500;
+  text-decoration:none;
+  transition:opacity .2s;
+}
+.conf-cta:hover { opacity:.85; }
 
-/* ─── ANIMATIONS ─── */
-@keyframes fadeSlide {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* ── STORY MODAL ── */
+.story-overlay {
+  display:none; position:fixed; inset:0; z-index:300;
+  background:rgba(10,5,20,.92); backdrop-filter:blur(12px);
+  align-items:center; justify-content:center;
 }
-.hero-greeting, .hero-name, .topic-tags, .hero-bio, .cta-row, .social-pills {
-  animation: fadeSlide .5s ease both;
+.story-overlay.active { display:flex; }
+.story-card {
+  width:390px; max-height:92vh; border-radius:20px; overflow:hidden;
+  display:flex; flex-direction:column;
+  box-shadow:0 40px 100px rgba(0,0,0,.9);
+  animation:sPop .3s cubic-bezier(.34,1.56,.64,1) both;
 }
-.hero-greeting { animation-delay: .05s; }
-.hero-name     { animation-delay: .12s; }
-.topic-tags    { animation-delay: .20s; }
-.hero-bio      { animation-delay: .28s; }
-.cta-row       { animation-delay: .35s; }
-.social-pills  { animation-delay: .42s; }
+@keyframes sPop { from{opacity:0;transform:scale(.9)} to{opacity:1;transform:scale(1)} }
+.story-progress-bars {
+  position:absolute; top:12px; left:12px; right:12px;
+  display:flex; gap:4px; z-index:10;
+}
+.story-prog-seg { flex:1; height:3px; background:rgba(255,255,255,.25); border-radius:2px; overflow:hidden; }
+.story-prog-fill { height:100%; background:#fff; border-radius:2px; width:0%; }
+.story-prog-seg.done .story-prog-fill { width:100%; }
+.story-prog-seg.active .story-prog-fill { width:100%; transition:width 8s linear; }
+.story-top-bar { position:absolute; top:26px; left:12px; right:12px; display:flex; align-items:center; gap:8px; z-index:10; }
+.story-top-avatar { width:34px; height:34px; border-radius:50%; border:2px solid rgba(255,255,255,.8); background:var(--grad1); display:flex; align-items:center; justify-content:center; font-family:"DM Mono",monospace; font-size:.72rem; font-weight:700; color:#fff; flex-shrink:0; }
+.story-top-meta { flex:1; }
+.story-top-name { font-size:.8rem; font-weight:600; color:#fff; line-height:1.2; }
+.story-top-time { font-size:.67rem; color:rgba(255,255,255,.5); }
+.story-close-btn { background:none; border:none; color:rgba(255,255,255,.75); font-size:1.2rem; cursor:pointer; padding:4px; border-radius:50%; transition:background .15s; }
+.story-close-btn:hover { background:rgba(255,255,255,.15); color:#fff; }
+.story-visual { height:400px; position:relative; flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.story-visual-icon { font-size:4.5rem; margin-bottom:12px; filter:drop-shadow(0 4px 20px rgba(0,0,0,.5)); }
+.story-visual-stat { font-family:"DM Mono",monospace; font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; background:rgba(0,0,0,.45); color:#fff; border:1px solid rgba(255,255,255,.2); padding:5px 14px; border-radius:99px; backdrop-filter:blur(4px); }
+.story-visual-badge { position:absolute; top:72px; right:14px; background:rgba(0,0,0,.5); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.15); border-radius:12px; padding:8px 12px; text-align:center; }
+.story-visual-badge .bnum { font-family:"DM Mono",monospace; font-size:1.05rem; font-weight:700; color:#fff; display:block; }
+.story-visual-badge .blbl { font-size:.6rem; color:rgba(255,255,255,.5); font-family:"DM Mono",monospace; text-transform:uppercase; letter-spacing:.08em; }
+.story-content { background:var(--bg2); padding:18px 20px 22px; border-top:1px solid rgba(255,255,255,.07); }
+.story-content-tag { font-family:"DM Mono",monospace; font-size:.63rem; letter-spacing:.15em; text-transform:uppercase; margin-bottom:5px; display:block; }
+.story-content-title { font-size:1.02rem; font-weight:700; color:var(--text); margin-bottom:10px; line-height:1.3; }
+.story-bullets { list-style:none; display:flex; flex-direction:column; gap:6px; }
+.story-bullets li { font-size:.8rem; color:var(--muted); line-height:1.5; display:flex; gap:7px; align-items:flex-start; }
+.story-bullets li::before { content:"▸"; color:var(--coral); flex-shrink:0; }
+.story-arrow { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.15); backdrop-filter:blur(4px); color:#fff; cursor:pointer; width:38px; height:38px; border-radius:50%; font-size:.95rem; display:flex; align-items:center; justify-content:center; transition:background .15s; z-index:20; }
+.story-arrow:hover { background:rgba(255,255,255,.22); }
+.story-arrow-left { left:-52px; }
+.story-arrow-right { right:-52px; }
 
-@media (max-width: 900px) {
-  .main-wrap { grid-template-columns: 1fr; }
-  .right-col { position: static; }
+/* ── MODAL (articles) ── */
+.modal-overlay { display:none; position:fixed; inset:0; z-index:200; background:rgba(10,5,20,.9); backdrop-filter:blur(10px); overflow-y:auto; padding:50px 20px; }
+.modal-overlay.active { display:block; }
+.modal-box { max-width:720px; margin:0 auto; background:var(--bg2); border:1px solid var(--border); border-radius:20px; overflow:hidden; }
+.modal-bar { background:var(--bg3); border-bottom:1px solid var(--border); padding:12px 18px; display:flex; align-items:center; justify-content:space-between; }
+.modal-dots { display:flex; gap:6px; }
+.modal-dot { width:12px; height:12px; border-radius:50%; }
+.modal-dot.r { background:#ff5f57; } .modal-dot.y { background:#ffbd2e; } .modal-dot.g { background:#28c940; }
+.modal-filename { font-family:"DM Mono",monospace; font-size:.72rem; color:var(--muted); }
+.modal-close { background:none; border:none; color:var(--muted); font-size:1.1rem; cursor:pointer; padding:2px 6px; border-radius:6px; }
+.modal-close:hover { background:var(--bg); color:var(--text); }
+.modal-inner { padding:28px 32px; }
+.modal-tag-row { display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+.modal-title { font-family:"Playfair Display",serif; font-size:1.6rem; font-weight:700; color:var(--text); line-height:1.25; margin-bottom:6px; }
+.modal-byline { font-family:"DM Mono",monospace; font-size:.7rem; color:var(--muted2); margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--border); }
+.modal-content { font-size:.93rem; line-height:1.82; color:var(--muted); }
+.modal-content h2 { font-size:1rem; font-weight:700; color:var(--text); margin:20px 0 8px; padding-left:12px; border-left:3px solid var(--coral); }
+.modal-content p { margin-bottom:12px; }
+.modal-content strong { color:var(--text); }
+.modal-content em { color:var(--gold); font-style:normal; }
+.modal-content code { font-family:"DM Mono",monospace; font-size:.82rem; background:var(--bg3); border:1px solid var(--border); padding:2px 6px; border-radius:6px; color:var(--coral); }
+.modal-content blockquote { border-left:3px solid var(--purple); padding:10px 14px; margin:16px 0; color:var(--muted); font-style:italic; background:var(--bg3); border-radius:0 8px 8px 0; }
+.modal-content ul { margin:.7rem 0 1.1rem 1.5rem; }
+.modal-content ul li { margin-bottom:.4rem; }
+.modal-content ul li::marker { color:var(--coral); }
+
+/* ── ANIMS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.hero-eyebrow { animation:fadeUp .5s ease both .05s; }
+.hero-greeting { animation:fadeUp .5s ease both .12s; }
+.hero-name  { animation:fadeUp .5s ease both .20s; }
+.tag-row    { animation:fadeUp .5s ease both .28s; }
+.hero-bio   { animation:fadeUp .5s ease both .36s; }
+.btn-row    { animation:fadeUp .5s ease both .42s; }
+.social-row { animation:fadeUp .5s ease both .48s; }
+
+@media(max-width:900px) {
+  .wrap { grid-template-columns:1fr; }
+  .right-col { position:static; }
 }
-@media (max-width: 600px) {
-  .top-nav { padding: 0 12px; }
-  .main-wrap { padding: 20px 12px; }
-  .hero-name { font-size: 2.4rem; }
-  .modal-inner { padding: 20px 16px; }
+@media(max-width:560px) {
+  .story-card { width:95vw; }
+  .story-arrow { display:none; }
+  .modal-inner { padding:20px 16px; }
+  nav { padding:0 16px; }
+  .nav-links li:nth-child(n+4) { display:none; }
 }
 </style>
 </head>
 <body>
 
-<!-- ══ NAV ══ -->
-<nav class="top-nav">
-  <div class="nav-brand mono">
-    <span class="path">~/suki-wang</span>&nbsp;
-    <span class="branch">(main)</span><span class="cursor"></span>&nbsp;|
-  </div>
-  <ul class="nav-tabs">
-    <li><a href="#overview" class="active"><span class="tab-icon">⬡</span> Overview</a></li>
-    <li><a href="#writing"><span class="tab-icon">✦</span> Writing</a></li>
-    <li><a href="#pubs"><span class="tab-icon">📄</span> Publications</a></li>
-    <li><a href="#teaching"><span class="tab-icon">🎓</span> Teaching</a></li>
-    <li><a href="#cv-section"><span class="tab-icon">⌗</span> CV</a></li>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Suki Wang</div>
+  <ul class="nav-links">
+    <li><a href="#top" class="active">✦ Overview</a></li>
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#pubs">Papers</a></li>
+    <li><a href="#teaching">Teaching</a></li>
+    <li><a href="#cv">CV</a></li>
   </ul>
   <div class="nav-right">
-    <div class="search-box">
-      <span>🔍</span> Search <kbd>/</kbd>
-    </div>
+    <div class="nav-dot"></div>
   </div>
 </nav>
 
-<!-- ══ MAIN ══ -->
-<div class="main-wrap" id="overview">
-  <!-- ── LEFT ── -->
+<!-- MAIN -->
+<div class="wrap" id="top">
+  <!-- LEFT -->
   <div class="left-col">
 
-    <!-- Terminal intro -->
-    <div class="terminal-intro">
-      <span class="prompt-user">suki</span><span class="prompt-at">@</span><span class="prompt-host">suki-wang</span> <span class="prompt-dir">(main)</span> $ 
-      <span class="comment"># reading profile...</span>
-    </div>
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow">data scientist · researcher · educator</div>
+      <div class="hero-greeting">Hi, I'm</div>
+      <div class="hero-name">Suki Wang</div>
 
-    <div class="hero-greeting">Hi, I'm</div>
-    <div class="hero-name">Suki Wang</div>
+      <div class="tag-row">
+        <span class="tag t-coral">Data Scientist · Roblox</span>
+        <span class="tag t-gold">Educator · USC CMGT</span>
+        <span class="tag t-purple">NSF Fellow</span>
+        <span class="tag t-mint">PhD · Quant Psychology</span>
+        <span class="tag t-sky">Causal Inference</span>
+        <span class="tag t-rose">Network Scientist</span>
+        <span class="tag t-purple">GenAI Builder</span>
+        <span class="tag t-coral">日本語学習中 🇯🇵</span>
+      </div>
 
-    <!-- Identity tags -->
-    <div class="topic-tags">
-      <span class="tag tag-blue">Data Scientist · Roblox</span>
-      <span class="tag tag-yellow">Educator · USC CMGT</span>
-      <span class="tag tag-purple">NSF Fellow</span>
-      <span class="tag tag-green">PhD · Quant Psychology</span>
-      <span class="tag tag-orange">Causal Inference</span>
-      <span class="tag tag-pink">Network Scientist</span>
-      <span class="tag tag-teal">GenAI Builder</span>
-      <span class="tag tag-red">日本語学習中 🇯🇵</span>
-    </div>
+      <p class="hero-bio">
+        I'm a <a href="https://www.linkedin.com/in/sukiwang/" target="_blank"><span class="hl hl-coral">Senior Data Scientist at Roblox</span></a>, working on AI product analytics, meeting intelligence, and GenAI evaluation systems. PhD in Quantitative Psychology, NSF Fellow, former <span class="hl hl-purple">People Research Scientist at Meta</span>. My research lives at the intersection of causal inference, network science, psychometrics, and survival analysis — which is a long way of saying I care deeply about measuring things correctly.<br><br>
+        Every fall, you'll also find me in a classroom at <span class="hl hl-gold">USC Annenberg's CMGT program</span>, teaching graduate students how to think with data — not just compute with it. It's the part of my week I protect most fiercely.<br><br>
+        Non-professionally: I hold a <span class="hl hl-mint">real estate agent license</span> (expired — turns out I preferred regression models to open houses). Currently on a <span class="hl hl-gold">Duolingo streak learning Japanese</span> 🇯🇵, which is humbling in ways that no p-value ever has been.
+      </p>
 
-    <!-- Bio -->
-    <p class="hero-bio">
-      I'm a <a href="https://www.linkedin.com/in/sukiwang/" target="_blank"><span class="hl-orange">Senior Data Scientist at Roblox</span></a>, working on AI product analytics, meeting intelligence, and GenAI evaluation systems. PhD in Quantitative Psychology, NSF Fellow, former <span class="hl-purple">People Research Scientist at Meta</span>. My research lives at the intersection of causal inference, network science, psychometrics, and survival analysis — which is a long way of saying I care deeply about measuring things correctly.<br><br>
-      Every fall, you'll also find me in a classroom at <span class="hl-yellow">USC Annenberg's CMGT program</span>, teaching graduate students how to think with data — not just compute with it. It's the part of my week I protect most fiercely.<br><br>
-      Non-professionally: I hold a <span class="hl-green">real estate agent license</span> (expired — turns out I preferred regression models to open houses). Currently on a <span class="hl-yellow">Duolingo streak learning Japanese</span> 🇯🇵, which is humbling in ways that no p-value ever has been.
-    </p>
+      <div class="btn-row">
+        <a class="btn btn-grad" href="#pubs">📄 Publications</a>
+        <a class="btn btn-ghost" href="#writing">✦ Read Posts</a>
+        <a class="btn btn-ghost" href="mailto:wang.s.2012@gmail.com">✉ Email</a>
+      </div>
 
-    <!-- CTAs -->
-    <div class="cta-row">
-      <a class="btn-gh btn-gh-primary" href="#pubs">📄 Publications</a>
-      <a class="btn-gh btn-gh-outline" href="#writing">✦ Read Posts</a>
-      <a class="btn-gh btn-gh-outline" href="mailto:wang.s.2012@gmail.com">✉ Email</a>
-    </div>
-
-    <!-- Social pills -->
-    <div class="social-pills">
-      <a class="pill" href="https://github.com/sukiwang" target="_blank">🐙 GitHub</a>
-      <a class="pill" href="https://www.linkedin.com/in/sukiwang/" target="_blank">in LinkedIn</a>
-      <a class="pill" href="mailto:wang.s.2012@gmail.com">✉ wang.s.2012</a>
-      <a class="pill" href="#">📊 Google Scholar</a>
-      <a class="pill" href="#">🔬 ResearchGate</a>
+      <div class="social-row">
+        <a class="s-pill" href="https://github.com/sukiravenclaw" target="_blank">🐙 GitHub</a>
+        <a class="s-pill" href="https://www.linkedin.com/in/sukiwang/" target="_blank">in LinkedIn</a>
+        <a class="s-pill" href="mailto:wang.s.2012@gmail.com">✉ wang.s.2012</a>
+        <a class="s-pill" href="#">📊 Google Scholar</a>
+        <a class="s-pill" href="#">🔬 ResearchGate</a>
+      </div>
     </div>
 
     <hr class="divider">
 
-    <!-- IG story row: research interests -->
-    <div class="section-header">
-      <h2>🔬 Research Areas</h2>
+    <!-- RESEARCH STORIES -->
+    <div class="sec-head">
+      <div class="sec-title">Research Areas</div>
     </div>
-    <div class="research-stories">
+    <div class="stories-row">
       <div class="story-item" onclick="openStory(0)">
         <div class="story-ring"><div class="story-inner">🔗</div></div>
         <div class="story-label">Network Science</div>
       </div>
       <div class="story-item" onclick="openStory(1)">
-        <div class="story-ring"><div class="story-inner">⚗️</div></div>
+        <div class="story-ring gr2"><div class="story-inner">⚗️</div></div>
         <div class="story-label">Causal Inference</div>
       </div>
       <div class="story-item" onclick="openStory(2)">
-        <div class="story-ring"><div class="story-inner">⏳</div></div>
+        <div class="story-ring gr3"><div class="story-inner">⏳</div></div>
         <div class="story-label">Survival Analysis</div>
       </div>
       <div class="story-item" onclick="openStory(3)">
@@ -890,11 +712,11 @@ code, .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
         <div class="story-label">GenAI Eval</div>
       </div>
       <div class="story-item" onclick="openStory(4)">
-        <div class="story-ring"><div class="story-inner">📐</div></div>
+        <div class="story-ring gr2"><div class="story-inner">📐</div></div>
         <div class="story-label">Psychometrics</div>
       </div>
       <div class="story-item" onclick="openStory(5)">
-        <div class="story-ring"><div class="story-inner">🎮</div></div>
+        <div class="story-ring gr3"><div class="story-inner">🎮</div></div>
         <div class="story-label">Player Analytics</div>
       </div>
       <div class="story-item" onclick="openStory(6)">
@@ -905,245 +727,212 @@ code, .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
 
     <hr class="divider">
 
-    <!-- Recent Posts -->
-    <div class="section-header" id="writing">
-      <h2>✦ Recent Posts</h2>
-      <a class="see-all" href="#">All posts →</a>
+    <!-- WRITING -->
+    <div class="sec-head" id="writing">
+      <div class="sec-title">Recent Posts</div>
+      <a class="sec-link" href="#">All posts →</a>
     </div>
     <div class="post-list">
-
-      <div class="post-item" onclick="openModal('m1')">
-        <div class="post-avatar" style="background:var(--blue-bg);color:var(--blue);">⚗</div>
-        <div class="post-content">
+      <div class="post-card" onclick="openModal('m1')">
+        <div class="post-icon" style="background:rgba(77,184,255,.12);">⚗️</div>
+        <div class="post-body">
           <div class="post-title">Beyond Correlation: A Practitioner's Guide to Causal Inference in People Analytics</div>
           <div class="post-excerpt">Most analytics teams are drowning in correlations. Here's what it actually takes to make causal claims — and why the distinction matters when real decisions are on the line.</div>
-          <div class="post-meta">
-            <span class="post-tag tag-blue">causal-inference</span>
+          <div class="post-foot">
+            <span class="post-tag t-sky" style="font-size:.67rem;padding:2px 9px;border-radius:99px;">causal-inference</span>
             <span class="post-date">Apr 2026</span>
           </div>
         </div>
       </div>
-
-      <div class="post-item" onclick="openModal('m2')">
-        <div class="post-avatar" style="background:var(--purple-bg);color:var(--purple);">⏳</div>
-        <div class="post-content">
+      <div class="post-card" onclick="openModal('m2')">
+        <div class="post-icon" style="background:rgba(196,77,255,.12);">⏳</div>
+        <div class="post-body">
           <div class="post-title">What Survival Models Tell Us About Churn That Classification Simply Can't</div>
           <div class="post-excerpt">Predicting who will leave is not the same as understanding when. Time-to-event models unlock a richer view — whether you're modeling player drop-off or employee attrition.</div>
-          <div class="post-meta">
-            <span class="post-tag tag-purple">survival-analysis</span>
+          <div class="post-foot">
+            <span class="post-tag t-purple" style="font-size:.67rem;padding:2px 9px;border-radius:99px;">survival-analysis</span>
             <span class="post-date">Mar 2026</span>
           </div>
         </div>
       </div>
-
-      <div class="post-item" onclick="openModal('m3')">
-        <div class="post-avatar" style="background:var(--green-bg);color:var(--green);">🔗</div>
-        <div class="post-content">
+      <div class="post-card" onclick="openModal('m3')">
+        <div class="post-icon" style="background:rgba(77,255,195,.12);">🔗</div>
+        <div class="post-body">
           <div class="post-title">The Projection Problem: Why Your Co-Attendance Network Might Be Lying to You</div>
-          <div class="post-excerpt">Meeting co-attendance networks introduce systematic artifacts that can produce false signals of social contagion. The paper I'm presenting at NetSci 2026 is about exactly this.</div>
-          <div class="post-meta">
-            <span class="post-tag tag-green">network-science</span>
+          <div class="post-excerpt">Meeting co-attendance networks introduce systematic artifacts that can generate false signals of social contagion. The paper I'm presenting at NetSci 2026 is about exactly this.</div>
+          <div class="post-foot">
+            <span class="post-tag t-mint" style="font-size:.67rem;padding:2px 9px;border-radius:99px;">network-science</span>
             <span class="post-date">Feb 2026</span>
           </div>
         </div>
       </div>
-
-      <div class="post-item" onclick="openModal('m4')">
-        <div class="post-avatar" style="background:var(--orange-bg);color:var(--orange);">🤖</div>
-        <div class="post-content">
+      <div class="post-card" onclick="openModal('m4')">
+        <div class="post-icon" style="background:rgba(255,107,157,.12);">🤖</div>
+        <div class="post-body">
           <div class="post-title">Evaluating LLMs for Real Products: What "Good" Actually Means at Scale</div>
           <div class="post-excerpt">Benchmark leaderboards don't tell you whether your AI feature is working for your users. Here's how I think about GenAI evaluation — drawing on my background in psychometrics.</div>
-          <div class="post-meta">
-            <span class="post-tag tag-orange">genai</span>
+          <div class="post-foot">
+            <span class="post-tag t-coral" style="font-size:.67rem;padding:2px 9px;border-radius:99px;">genai</span>
             <span class="post-date">Jan 2026</span>
           </div>
         </div>
       </div>
-
     </div>
 
     <hr class="divider">
 
-    <!-- Publications -->
-    <div class="section-header" id="pubs">
-      <h2>📄 Publications</h2>
+    <!-- PUBLICATIONS -->
+    <div class="sec-head" id="pubs">
+      <div class="sec-title">Publications</div>
     </div>
     <div class="pub-list">
-
       <div class="pub-item">
-        <div class="pub-item-header">
-          <span class="pub-title-link">Concordance Without Contagion: Diagnostic Tests for Peer Effects in Projected Co-Attendance Networks</span>
-          <span class="pub-badge badge-conf">NetSci 2026</span>
+        <div>
+          <div class="pub-title">Concordance Without Contagion: Diagnostic Tests for Peer Effects in Projected Co-Attendance Networks</div>
+          <div class="pub-meta">Wang, S. &nbsp;·&nbsp; <span class="venue">International Conference on Network Science · 2026</span></div>
         </div>
-        <div class="pub-meta">Wang, S. &nbsp;·&nbsp; <span class="venue">International Conference on Network Science · 2026</span></div>
+        <span class="badge badge-conf">NetSci 2026</span>
       </div>
-
       <div class="pub-item">
-        <div class="pub-item-header">
-          <span class="pub-title-link">Cart Abandonment Modeling and Consumer Hesitation Forecasting</span>
-          <span class="pub-badge badge-jour">Journal</span>
+        <div>
+          <div class="pub-title">Cart Abandonment Modeling and Consumer Hesitation Forecasting</div>
+          <div class="pub-meta">Wang, S. et al. &nbsp;·&nbsp; <span class="venue">Journal of Retailing and Consumer Services</span></div>
         </div>
-        <div class="pub-meta">Wang, S. et al. &nbsp;·&nbsp; <span class="venue">Journal of Retailing and Consumer Services · 2022–2024</span></div>
+        <span class="badge badge-jour">Journal</span>
       </div>
-
       <div class="pub-item">
-        <div class="pub-item-header">
-          <span class="pub-title-link">Attention Metrics and Decision-Making in Digital Environments</span>
-          <span class="pub-badge badge-jour">Journal</span>
+        <div>
+          <div class="pub-title">Attention Metrics and Decision-Making in Digital Environments</div>
+          <div class="pub-meta">Wang, S. et al. &nbsp;·&nbsp; <span class="venue">Frontiers in Psychology</span></div>
         </div>
-        <div class="pub-meta">Wang, S. et al. &nbsp;·&nbsp; <span class="venue">Frontiers in Psychology · 2022–2024</span></div>
+        <span class="badge badge-jour">Journal</span>
       </div>
-
       <div class="pub-item">
-        <div class="pub-item-header">
-          <span class="pub-title-link">Consumer Hesitation and Behavioral Signals: A Psychometric Approach</span>
-          <span class="pub-badge badge-jour">Journal</span>
+        <div>
+          <div class="pub-title">Consumer Hesitation and Behavioral Signals: A Psychometric Approach</div>
+          <div class="pub-meta">Wang, S. et al. &nbsp;·&nbsp; <span class="venue">International Journal of Consumer Studies (IJCS)</span></div>
         </div>
-        <div class="pub-meta">Wang, S. et al. &nbsp;·&nbsp; <span class="venue">International Journal of Consumer Studies (IJCS) · 2022–2024</span></div>
+        <span class="badge badge-jour">Journal</span>
       </div>
-
       <div class="pub-item">
-        <div class="pub-item-header">
-          <span class="pub-title-link">Game-Based Assessment: Estimating Latent Player Ability from Continuous Interaction Telemetry Using IRT Models</span>
-          <span class="pub-badge badge-wip">In Progress</span>
+        <div>
+          <div class="pub-title">Game-Based Assessment: Estimating Latent Player Ability from Continuous Interaction Telemetry Using IRT Models</div>
+          <div class="pub-meta">Wang, S. &nbsp;·&nbsp; <span class="venue">Roblox Research · In preparation</span></div>
         </div>
-        <div class="pub-meta">Wang, S. &nbsp;·&nbsp; <span class="venue">Roblox Research · In preparation</span></div>
+        <span class="badge badge-wip">In Progress</span>
       </div>
-
       <div class="pub-item">
-        <div class="pub-item-header">
-          <span class="pub-title-link">Meeting Quality Score (MQS): A Human-Calibrated Behavioral Index for Collaboration Effectiveness</span>
-          <span class="pub-badge badge-wip">In Progress</span>
+        <div>
+          <div class="pub-title">Meeting Quality Score (MQS): A Human-Calibrated Behavioral Index for Collaboration Effectiveness</div>
+          <div class="pub-meta">Wang, S. &nbsp;·&nbsp; <span class="venue">Roblox Work Intelligence · In preparation</span></div>
         </div>
-        <div class="pub-meta">Wang, S. &nbsp;·&nbsp; <span class="venue">Roblox Work Intelligence · In preparation</span></div>
+        <span class="badge badge-wip">In Progress</span>
       </div>
-
     </div>
 
     <hr class="divider">
 
-    <!-- Teaching -->
-    <div class="section-header" id="teaching">
-      <h2>🎓 Teaching @ USC CMGT</h2>
+    <!-- TEACHING -->
+    <div class="sec-head" id="teaching">
+      <div class="sec-title">Teaching @ USC CMGT</div>
     </div>
     <div class="teaching-grid">
-      <div class="teaching-card">
-        <div class="tc-school">USC Annenberg · CMGT</div>
-        <div class="tc-title">Data Analytics for Communication Professionals</div>
-        <div class="tc-desc">Applied data science for graduate students: exploratory analysis, visualization, predictive modeling, communicating to decision-makers.</div>
-        <div class="tc-tags">
-          <span class="tc-tag">Graduate</span>
-          <span class="tc-tag">Python</span>
-          <span class="tc-tag">Lecturer</span>
-        </div>
+      <div class="teach-card">
+        <div class="teach-school">USC Annenberg · CMGT · Every Fall</div>
+        <div class="teach-title">Data Analytics for Communication Professionals</div>
+        <div class="teach-desc">Applied data science for graduate students — the full workflow from exploratory analysis to communicating findings to decision-makers.</div>
+        <div class="teach-tags"><span class="teach-tag">Graduate</span><span class="teach-tag">Python</span><span class="teach-tag">Lecturer</span></div>
       </div>
-      <div class="teaching-card">
-        <div class="tc-school">USC Annenberg · CMGT</div>
-        <div class="tc-title">Research Methods & Quantitative Analysis</div>
-        <div class="tc-desc">Survey design, regression analysis, hypothesis testing, and experimental methods grounded in real media and organizational contexts.</div>
-        <div class="tc-tags">
-          <span class="tc-tag">Graduate</span>
-          <span class="tc-tag">R & SPSS</span>
-          <span class="tc-tag">Lecturer</span>
-        </div>
+      <div class="teach-card">
+        <div class="teach-school">USC Annenberg · CMGT</div>
+        <div class="teach-title">Research Methods & Quantitative Analysis</div>
+        <div class="teach-desc">Survey design, regression analysis, hypothesis testing grounded in real media and organizational research contexts.</div>
+        <div class="teach-tags"><span class="teach-tag">Graduate</span><span class="teach-tag">R & SPSS</span><span class="teach-tag">Lecturer</span></div>
       </div>
-      <div class="teaching-card">
-        <div class="tc-school">USC Annenberg · Guest Series</div>
-        <div class="tc-title">AI, Data & the Future of Work</div>
-        <div class="tc-desc">GenAI evaluation, causal thinking for product decisions, and making evidence-based decisions in an AI-augmented workplace.</div>
-        <div class="tc-tags">
-          <span class="tc-tag">Seminar</span>
-          <span class="tc-tag">Industry</span>
-          <span class="tc-tag">Guest</span>
-        </div>
+      <div class="teach-card">
+        <div class="teach-school">USC Annenberg · Guest Series</div>
+        <div class="teach-title">AI, Data & the Future of Work</div>
+        <div class="teach-desc">GenAI evaluation, causal thinking for product decisions, and making evidence-based decisions in an AI-augmented workplace.</div>
+        <div class="teach-tags"><span class="teach-tag">Seminar</span><span class="teach-tag">Industry</span><span class="teach-tag">Guest</span></div>
       </div>
     </div>
 
     <hr class="divider">
 
-    <!-- CV section -->
-    <div class="section-header" id="cv-section">
-      <h2>⌗ Experience</h2>
-      <a class="see-all" href="mailto:wang.s.2012@gmail.com">Request CV →</a>
+    <!-- CV / EXPERIENCE -->
+    <div class="sec-head" id="cv">
+      <div class="sec-title">Experience</div>
+      <a class="sec-link" href="mailto:wang.s.2012@gmail.com">Request CV →</a>
     </div>
-
-    <div class="pub-list">
-      <div class="pub-item">
-        <div class="pub-item-header">
-          <span class="pub-title-link">Senior Data Scientist — <span style="color:var(--blue)">Roblox</span></span>
-          <span class="pub-badge" style="background:var(--blue-bg);color:var(--blue);border:1px solid rgba(88,166,255,.3)">2022 – Now</span>
+    <div class="exp-list">
+      <div class="exp-item">
+        <div>
+          <div class="exp-role">Senior Data Scientist — <span style="color:var(--sky)">Roblox</span></div>
+          <div class="exp-co">AI Product Analytics · Meeting Intelligence · GenAI Evaluation · Player Learning</div>
         </div>
-        <div class="pub-meta">AI Product Analytics · Meeting Intelligence · GenAI Evaluation · Player Learning · Survival Models · IRT</div>
+        <span class="exp-date">2022 – Now</span>
       </div>
-      <div class="pub-item">
-        <div class="pub-item-header">
-          <span class="pub-title-link">People Research Scientist — <span style="color:var(--blue)">Meta</span></span>
-          <span class="pub-badge" style="background:var(--purple-bg);color:var(--purple);border:1px solid rgba(188,140,255,.3)">2020 – 2022</span>
+      <div class="exp-item">
+        <div>
+          <div class="exp-role">People Research Scientist — <span style="color:var(--sky)">Meta</span></div>
+          <div class="exp-co">Causal Experiments · Network Metrics · Attrition Modeling · NLP</div>
         </div>
-        <div class="pub-meta">Causal Experiments · Network Metrics · Attrition Modeling · NLP · Behavioral Telemetry</div>
+        <span class="exp-date">2020 – 2022</span>
       </div>
-      <div class="pub-item">
-        <div class="pub-item-header">
-          <span class="pub-title-link">Faculty Lecturer — <span style="color:var(--blue)">USC Annenberg CMGT</span></span>
-          <span class="pub-badge" style="background:var(--green-bg);color:var(--green);border:1px solid rgba(63,185,80,.3)">Ongoing</span>
+      <div class="exp-item">
+        <div>
+          <div class="exp-role">Faculty Lecturer — <span style="color:var(--sky)">USC Annenberg CMGT</span></div>
+          <div class="exp-co">Data Analytics · Research Methods · AI & Future of Work</div>
         </div>
-        <div class="pub-meta">Data Analytics · Research Methods · AI & Future of Work</div>
+        <span class="exp-date">Ongoing</span>
       </div>
-      <div class="pub-item">
-        <div class="pub-item-header">
-          <span class="pub-title-link">Learning Analytics Intern — <span style="color:var(--blue)">Coursera</span></span>
-          <span class="pub-badge" style="background:var(--bg3);color:var(--muted2);border:1px solid var(--border)">Summer 2019</span>
+      <div class="exp-item">
+        <div>
+          <div class="exp-role">Learning Analytics Intern — <span style="color:var(--sky)">Coursera</span></div>
+          <div class="exp-co">Survival Analysis · Learner Drop-off · Psychometric Validation</div>
         </div>
-        <div class="pub-meta">Survival Analysis · Learner Drop-off · Psychometric Instrument Validation</div>
+        <span class="exp-date">Summer 2019</span>
       </div>
     </div>
 
     <hr class="divider">
 
-    <!-- GitHub -->
-    <div class="section-header">
-      <h2>🐙 GitHub</h2>
-      <a class="see-all" href="https://github.com/sukiwang" target="_blank">github.com/sukiwang →</a>
+    <!-- GITHUB -->
+    <div class="sec-head">
+      <div class="sec-title">GitHub</div>
+      <a class="sec-link" href="https://github.com/sukiravenclaw" target="_blank">github.com/sukiravenclaw →</a>
     </div>
-    <div class="teaching-grid" style="margin-bottom:36px;">
-      <div class="teaching-card">
-        <div class="tc-school" style="color:var(--green);">🐙 sukiwang / ona-projection-tests</div>
-        <div class="tc-title">ONA Projection Diagnostic Tests</div>
-        <div class="tc-desc">Companion code for "Concordance Without Contagion" (NetSci 2026). Diagnostic tests for peer effects in projected co-attendance networks.</div>
-        <div class="tc-tags">
-          <span class="tc-tag">Python</span><span class="tc-tag">NetworkX</span><span class="tc-tag">Research</span>
-        </div>
+    <div class="repo-grid">
+      <div class="repo-card">
+        <div class="repo-name">🐙 ona-projection-tests</div>
+        <div class="repo-title">ONA Projection Diagnostic Tests</div>
+        <div class="repo-desc">Companion code for "Concordance Without Contagion" (NetSci 2026). Diagnostic tests for peer effects in projected co-attendance networks.</div>
+        <div class="repo-tags"><span class="repo-tag">Python</span><span class="repo-tag">NetworkX</span><span class="repo-tag">Research</span></div>
       </div>
-      <div class="teaching-card">
-        <div class="tc-school" style="color:var(--purple);">🐙 sukiwang / survival-churn-toolkit</div>
-        <div class="tc-title">Survival Analysis for Churn</div>
-        <div class="tc-desc">Reusable survival modeling pipeline: Kaplan-Meier, Cox PH, competing risks (Fine-Gray), and Monte Carlo trajectory simulation. Works on player or employee data.</div>
-        <div class="tc-tags">
-          <span class="tc-tag">Python</span><span class="tc-tag">lifelines</span><span class="tc-tag">R</span>
-        </div>
+      <div class="repo-card">
+        <div class="repo-name">🐙 survival-churn-toolkit</div>
+        <div class="repo-title">Survival Analysis for Churn</div>
+        <div class="repo-desc">Reusable survival modeling pipeline: Kaplan-Meier, Cox PH, competing risks. Works on player or employee data.</div>
+        <div class="repo-tags"><span class="repo-tag">Python</span><span class="repo-tag">lifelines</span><span class="repo-tag">R</span></div>
       </div>
-      <div class="teaching-card">
-        <div class="tc-school" style="color:var(--orange);">🐙 sukiwang / llm-eval-rubric</div>
-        <div class="tc-title">LLM Evaluation Framework</div>
-        <div class="tc-desc">Human-in-the-loop + automated scoring pipeline for GenAI feature evaluation. Includes rubric templates, inter-rater reliability metrics, and calibration tooling.</div>
-        <div class="tc-tags">
-          <span class="tc-tag">Python</span><span class="tc-tag">LLM</span><span class="tc-tag">Psychometrics</span>
-        </div>
+      <div class="repo-card">
+        <div class="repo-name">🐙 llm-eval-rubric</div>
+        <div class="repo-title">LLM Evaluation Framework</div>
+        <div class="repo-desc">Human-in-the-loop + automated scoring pipeline for GenAI evaluation. Rubric templates, inter-rater reliability, calibration tooling.</div>
+        <div class="repo-tags"><span class="repo-tag">Python</span><span class="repo-tag">LLM</span><span class="repo-tag">Psychometrics</span></div>
       </div>
     </div>
 
   </div><!-- /left-col -->
 
-  <!-- ── RIGHT SIDEBAR ── -->
+  <!-- RIGHT SIDEBAR -->
   <div class="right-col">
-
-    <!-- Profile card -->
     <div class="profile-card">
-      <div class="profile-card-header">
-        <span class="repo-label">suki-wang</span>
+      <div class="profile-header">
+        <div class="profile-header-line"></div>
       </div>
-      <div class="profile-avatar">SW</div>
-      <div class="profile-card-body">
+      <div class="profile-body">
+        <div class="profile-avatar">SW</div>
         <div class="profile-name">Suki Wang, PhD</div>
         <div class="profile-handle">@sukiwang</div>
         <div class="profile-pronouns">she/her</div>
@@ -1153,262 +942,210 @@ code, .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
           Data scientist. Researcher. Former realtor 🏠.<br>
           <span class="quote">"Currently losing at Duolingo Japanese 🇯🇵"</span>
         </div>
-        <div class="profile-stats">
-          <div class="stat-item">
-            <div class="stat-num">3+</div>
-            <div class="stat-label">journals</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-num">1</div>
-            <div class="stat-label">NetSci</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-num">USC</div>
-            <div class="stat-label">lecturer</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-num">NSF</div>
-            <div class="stat-label">fellow</div>
-          </div>
+        <div class="stats-row">
+          <div class="stat"><span class="stat-n">3+</span><span class="stat-l">journals</span></div>
+          <div class="stat"><span class="stat-n">1</span><span class="stat-l">NetSci</span></div>
+          <div class="stat"><span class="stat-n">USC</span><span class="stat-l">lecturer</span></div>
+          <div class="stat"><span class="stat-n">NSF</span><span class="stat-l">fellow</span></div>
         </div>
-        <ul class="profile-info">
-          <li><span class="ico">🏢</span><span>Roblox &nbsp;—&nbsp; San Mateo / LA</span></li>
-          <li><span class="ico">🎓</span><span>PhD · Quantitative Psychology</span></li>
-          <li><span class="ico">🎓</span><span>MS & BS · USC Marshall</span></li>
-          <li><span class="ico">📍</span><span>Los Angeles, CA</span></li>
-          <li><span class="ico">✉️</span><a href="mailto:wang.s.2012@gmail.com">wang.s.2012@gmail.com</a></li>
-          <li><span class="ico">🌐</span><a href="#">suki-wang.com</a></li>
+        <ul class="info-list">
+          <li>🏢 <span>Roblox — San Mateo / LA</span></li>
+          <li>🎓 <span>PhD · Quantitative Psychology</span></li>
+          <li>🎓 <span>MS & BS · USC Marshall</span></li>
+          <li>📍 <span>Los Angeles, CA</span></li>
+          <li>✉️ <a href="mailto:wang.s.2012@gmail.com">wang.s.2012@gmail.com</a></li>
+          <li>🌐 <a href="#">sukiravenclaw.github.io</a></li>
         </ul>
-        <div class="profile-links">
-          <a class="profile-link-btn" href="https://github.com/sukiwang" target="_blank">🐙 GitHub</a>
-          <a class="profile-link-btn" href="https://www.linkedin.com/in/sukiwang/" target="_blank">in LinkedIn</a>
-          <a class="profile-link-btn" href="#">📊 Scholar</a>
-          <a class="profile-link-btn" href="#">🔬 ResearchGate</a>
-        </div>
-        <div class="heatmap-label">writing activity</div>
-        <div id="heatmap-canvas"></div>
-      </div>
-    </div>
-
-    <!-- Skills card -->
-    <div class="skills-card">
-      <div class="skills-card-title">tech stack</div>
-      <div class="skill-row">
-        <div class="skill-row-header"><span class="skill-name">Python / R</span><span class="skill-pct">95%</span></div>
-        <div class="skill-bar"><div class="skill-fill" style="width:95%;background:var(--blue);"></div></div>
-      </div>
-      <div class="skill-row">
-        <div class="skill-row-header"><span class="skill-name">Causal Inference</span><span class="skill-pct">93%</span></div>
-        <div class="skill-bar"><div class="skill-fill" style="width:93%;background:var(--purple);"></div></div>
-      </div>
-      <div class="skill-row">
-        <div class="skill-row-header"><span class="skill-name">Survival Analysis</span><span class="skill-pct">90%</span></div>
-        <div class="skill-bar"><div class="skill-fill" style="width:90%;background:var(--green);"></div></div>
-      </div>
-      <div class="skill-row">
-        <div class="skill-row-header"><span class="skill-name">LLM Evaluation</span><span class="skill-pct">88%</span></div>
-        <div class="skill-bar"><div class="skill-fill" style="width:88%;background:var(--orange);"></div></div>
-      </div>
-      <div class="skill-row">
-        <div class="skill-row-header"><span class="skill-name">Network Analysis</span><span class="skill-pct">85%</span></div>
-        <div class="skill-bar"><div class="skill-fill" style="width:85%;background:var(--pink);"></div></div>
-      </div>
-      <div class="skill-row">
-        <div class="skill-row-header"><span class="skill-name">Psychometrics / IRT</span><span class="skill-pct">92%</span></div>
-        <div class="skill-bar"><div class="skill-fill" style="width:92%;background:var(--teal);"></div></div>
-      </div>
-    </div>
-
-    <!-- Awards card -->
-    <div class="awards-card">
-      <div class="skills-card-title">recognition</div>
-      <div class="award-item">
-        <span class="award-icon">🏆</span>
-        <div class="award-text">
-          <strong>NSF Graduate Research Fellow</strong>
-          National Science Foundation · UC Riverside
-        </div>
-      </div>
-      <div class="award-item">
-        <span class="award-icon">🎖</span>
-        <div class="award-text">
-          <strong>Best Dissertation Award</strong>
-          UC Riverside · Dept. of Psychology
-        </div>
-      </div>
-      <div class="award-item">
-        <span class="award-icon">🌐</span>
-        <div class="award-text">
-          <strong>NetSci 2026 Accepted</strong>
-          "Concordance Without Contagion"
+        <div class="link-pills">
+          <a class="link-pill" href="https://github.com/sukiravenclaw" target="_blank">🐙 GitHub</a>
+          <a class="link-pill" href="https://www.linkedin.com/in/sukiwang/" target="_blank">in LinkedIn</a>
+          <a class="link-pill" href="#">📊 Scholar</a>
+          <a class="link-pill" href="#">🔬 ResearchGate</a>
         </div>
       </div>
     </div>
 
-  </div><!-- /right-col -->
-</div><!-- /main-wrap -->
+    <!-- Skills -->
+    <div class="mini-card">
+      <div class="mini-title">tech stack</div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Python / R</span><span class="skill-pct">95%</span></div><div class="skill-bar"><div class="skill-fill" style="width:95%;background:var(--grad1)"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Causal Inference</span><span class="skill-pct">93%</span></div><div class="skill-bar"><div class="skill-fill" style="width:93%;background:var(--grad2)"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Survival Analysis</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill" style="width:90%;background:var(--grad3)"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">LLM Evaluation</span><span class="skill-pct">88%</span></div><div class="skill-bar"><div class="skill-fill" style="width:88%;background:var(--grad1)"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Psychometrics / IRT</span><span class="skill-pct">92%</span></div><div class="skill-bar"><div class="skill-fill" style="width:92%;background:var(--grad2)"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Network Analysis</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill" style="width:85%;background:var(--grad3)"></div></div></div>
+    </div>
 
-<!-- ═══════ MODALS ═══════ -->
+    <!-- Writing activity -->
+    <div class="mini-card">
+      <div class="mini-title">writing activity</div>
+      <div id="heatmap-canvas"></div>
+    </div>
 
-<div class="modal-overlay" id="m1" onclick="closeBg(event,'m1')">
+    <!-- Awards -->
+    <div class="mini-card">
+      <div class="mini-title">recognition</div>
+      <div class="award-item"><span class="award-ico">🏆</span><div class="award-txt"><strong>NSF Graduate Research Fellow</strong>National Science Foundation · UC Riverside</div></div>
+      <div class="award-item"><span class="award-ico">🎖</span><div class="award-txt"><strong>Best Dissertation Award</strong>UC Riverside · Dept. of Psychology</div></div>
+      <div class="award-item"><span class="award-ico">🌐</span><div class="award-txt"><strong>NetSci 2026 Accepted</strong>"Concordance Without Contagion"</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- STORY OVERLAY -->
+<div class="story-overlay" id="storyOverlay" onclick="handleOverlayClick(event)">
+  <button class="story-arrow story-arrow-left" onclick="event.stopPropagation();prevStory()">‹</button>
+  <div class="story-card" id="storyCard" onclick="event.stopPropagation()">
+    <div class="story-progress-bars" id="storyProgressBars"></div>
+    <div class="story-top-bar">
+      <div class="story-top-avatar">SW</div>
+      <div class="story-top-meta">
+        <div class="story-top-name">suki-wang</div>
+        <div class="story-top-time" id="storyTime"></div>
+      </div>
+      <button class="story-close-btn" onclick="closeStory()">✕</button>
+    </div>
+    <div class="story-visual" id="storyVisual">
+      <div class="story-visual-icon" id="storyIcon"></div>
+      <div class="story-visual-stat" id="storyStatLabel"></div>
+      <div class="story-visual-badge" id="storyBadge">
+        <span class="bnum" id="storyBadgeNum"></span>
+        <span class="blbl" id="storyBadgeLbl"></span>
+      </div>
+    </div>
+    <div class="story-content">
+      <span class="story-content-tag" id="storyTag"></span>
+      <div class="story-content-title" id="storyTitle"></div>
+      <ul class="story-bullets" id="storyBullets"></ul>
+    </div>
+  </div>
+  <button class="story-arrow story-arrow-right" onclick="event.stopPropagation();nextStory()">›</button>
+</div>
+
+<!-- ARTICLE MODALS -->
+<div class="modal-overlay" id="m1" onclick="if(event.target===this)closeModal('m1')">
   <div class="modal-box">
-    <div class="modal-top-bar">
-      <div class="modal-dots">
-        <div class="modal-dot red"></div>
-        <div class="modal-dot yellow"></div>
-        <div class="modal-dot green"></div>
-      </div>
-      <span class="modal-file">causal-inference.md</span>
-      <button class="modal-close" onclick="closeModal('m1')">✕</button>
-    </div>
+    <div class="modal-bar"><div class="modal-dots"><div class="modal-dot r"></div><div class="modal-dot y"></div><div class="modal-dot g"></div></div><span class="modal-filename">causal-inference.md</span><button class="modal-close" onclick="closeModal('m1')">✕</button></div>
     <div class="modal-inner">
-      <div class="modal-tag-row">
-        <span class="tag tag-blue" style="font-size:.62rem;">causal-inference</span>
-        <span style="font-size:.72rem;color:var(--muted2);font-family:'JetBrains Mono',monospace;">· Apr 2026 · 10 min</span>
-      </div>
+      <div class="modal-tag-row"><span class="tag t-sky" style="font-size:.62rem;">causal-inference</span><span style="font-size:.7rem;color:var(--muted2);font-family:'DM Mono',monospace;">· Apr 2026 · 10 min</span></div>
       <div class="modal-title">Beyond Correlation: A Practitioner's Guide to Causal Inference in People Analytics</div>
-      <div class="modal-byline">Suki Wang, PhD &nbsp;·&nbsp; April 2026</div>
+      <div class="modal-byline">Suki Wang, PhD · April 2026</div>
       <div class="modal-content">
-        <p>There's a question I hear constantly in analytics reviews: <em>"Is this significant?"</em> My follow-up is always the same: <em>"Significant in what sense — statistically, or causally?"</em> These are not the same question. Confusing them has led to some of the most expensive decisions I've seen go sideways — in people analytics, in product analytics, wherever data is supposed to inform action.</p>
-        <p>Most teams are producing correlations and calling them insights. Employees who attend more meetings have lower engagement. Players who unlock certain achievements churn less. Teams with longer-tenured managers retain more people. These may all be empirically true. None of them tell you what happens if you <em>act</em> on them.</p>
+        <p>There's a question I hear constantly in analytics reviews: <em>"Is this significant?"</em> My follow-up is always the same: <em>"Significant in what sense — statistically, or causally?"</em> These are not the same question. Confusing them has led to some of the most expensive decisions I've seen go sideways.</p>
+        <p>Most teams are producing correlations and calling them insights. Employees who attend more meetings have lower engagement. Players who unlock certain achievements churn less. These may all be empirically true. None of them tell you what happens if you <em>act</em> on them.</p>
         <h2>The Fundamental Problem</h2>
-        <p>The core challenge is the <strong>fundamental problem of counterfactuals</strong>: we can never observe the same unit in both treatment and control simultaneously. We can't see what would have happened to a player if onboarding had been different, or what attrition would look like if the stock hadn't moved. Randomized experiments solve this — random assignment makes groups comparable on everything except treatment. But we can't always run experiments, so we need identification strategies with explicit, defensible assumptions.</p>
+        <p>The core challenge is the <strong>fundamental problem of counterfactuals</strong>: we can never observe the same unit in both treatment and control simultaneously. Randomized experiments solve this — but we can't always run them. So we need identification strategies with explicit, defensible assumptions.</p>
         <h2>The Toolkit</h2>
-        <p><strong>Instrumental Variables (IV)</strong> find a variable that shifts treatment but has no direct effect on the outcome. Stock market volatility has served as an instrument for wealth-effect-driven attrition — it shifts financial security without directly determining job satisfaction. Hard part: defending the exclusion restriction.</p>
-        <p><strong>Difference-in-Differences (DiD)</strong> compares outcome changes for treated vs. untreated groups before and after treatment. The key assumption is parallel trends. Staggered DiD with Callaway-Sant'Anna estimators handles varying treatment timing — essential for phased rollouts.</p>
-        <p><strong>BSTS</strong> is my go-to for single-unit interventions hitting everyone at once. It constructs a synthetic counterfactual from control time series, quantifying uncertainty honestly.</p>
+        <p><strong>Instrumental Variables (IV)</strong> find a variable that shifts treatment but has no direct effect on the outcome. Stock market volatility has served as an instrument for wealth-effect-driven attrition — it shifts financial security without directly determining job satisfaction.</p>
+        <p><strong>Difference-in-Differences (DiD)</strong> compares outcome changes for treated vs. untreated groups before and after treatment. Staggered DiD with Callaway-Sant'Anna estimators handles varying treatment timing — essential for phased rollouts.</p>
+        <p><strong>BSTS</strong> constructs a synthetic counterfactual from control time series, quantifying uncertainty honestly. My go-to for single-unit interventions hitting everyone at once.</p>
         <blockquote>"Correlation is not causation" is the beginning of the analysis, not the punchline. The hard work is earning the word "because" with an identification strategy you can defend out loud.</blockquote>
-        <h2>In Practice at Roblox</h2>
-        <p>When we shipped AI meeting features, a pre-post comparison wasn't credible — too many confounds changed simultaneously. We ran randomized eligibility rollouts and used BSTS to validate the aggregate signal. The estimate wasn't the largest number we could have reported — it was the one I could actually defend to a skeptical engineering team. That mattered more.</p>
-        <p>Good causal analysis isn't about p &lt; 0.05. It's about being honest about what your assumptions require — and then checking whether they hold.</p>
+        <h2>In Practice</h2>
+        <p>When we shipped AI meeting features at Roblox, a pre-post comparison wasn't credible — too many confounds changed simultaneously. We ran randomized eligibility rollouts and used BSTS to validate the aggregate signal. The estimate we landed on wasn't the largest number we could have reported. But it was the one I could defend — and that mattered more.</p>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal-overlay" id="m2" onclick="closeBg(event,'m2')">
+<div class="modal-overlay" id="m2" onclick="if(event.target===this)closeModal('m2')">
   <div class="modal-box">
-    <div class="modal-top-bar">
-      <div class="modal-dots"><div class="modal-dot red"></div><div class="modal-dot yellow"></div><div class="modal-dot green"></div></div>
-      <span class="modal-file">survival-analysis.md</span>
-      <button class="modal-close" onclick="closeModal('m2')">✕</button>
-    </div>
+    <div class="modal-bar"><div class="modal-dots"><div class="modal-dot r"></div><div class="modal-dot y"></div><div class="modal-dot g"></div></div><span class="modal-filename">survival-analysis.md</span><button class="modal-close" onclick="closeModal('m2')">✕</button></div>
     <div class="modal-inner">
-      <div class="modal-tag-row">
-        <span class="tag tag-purple" style="font-size:.62rem;">survival-analysis</span>
-        <span style="font-size:.72rem;color:var(--muted2);font-family:'JetBrains Mono',monospace;">· Mar 2026 · 9 min</span>
-      </div>
+      <div class="modal-tag-row"><span class="tag t-purple" style="font-size:.62rem;">survival-analysis</span><span style="font-size:.7rem;color:var(--muted2);font-family:'DM Mono',monospace;">· Mar 2026 · 9 min</span></div>
       <div class="modal-title">What Survival Models Tell Us About Churn That Classification Simply Can't</div>
-      <div class="modal-byline">Suki Wang, PhD &nbsp;·&nbsp; March 2026</div>
+      <div class="modal-byline">Suki Wang, PhD · March 2026</div>
       <div class="modal-content">
-        <p>Every analytics team eventually builds a churn model. The default is almost always a binary classifier predicting whether someone leaves within a fixed window. It works. Stakeholders understand it. You can rank users and run a campaign.</p>
+        <p>Every analytics team eventually builds a churn model. The default is almost always a binary classifier predicting whether someone leaves within a fixed window. It works. Stakeholders understand it.</p>
         <p>But it throws away the most important dimension of the problem: <em>time</em>.</p>
         <h2>Why Binary Framing Fails</h2>
-        <p>Two players both flagged high-risk by your classifier. One has two sessions played. The other has 200 hours and has been dark for two weeks. Their risk profiles look completely different — not just in magnitude, but in <em>shape</em>. Treating them identically misallocates your intervention budget. Binary classifiers also can't handle censoring — they silently discard all information from users still active at your window's end. Survival models handle censoring correctly by design.</p>
+        <p>Two players flagged as high-risk. One has two sessions played. The other has 200 hours and has been dark for two weeks. Their risk profiles look completely different — not just in magnitude, but in <em>shape</em>. Binary classifiers also can't handle censoring. Survival models handle it correctly by design.</p>
         <h2>The Core Machinery</h2>
-        <p>The <strong>Kaplan-Meier estimator</strong> gives you the non-parametric survival curve: probability of remaining past each time point. It's the first thing I plot in any new retention analysis, stratified by a key variable. The visual tells me more than a page of logistic coefficients.</p>
-        <p>The <strong>Cox proportional hazards model</strong> extends this to covariates. Each feature shifts the hazard multiplicatively. The proportional hazards assumption is testable with Schoenfeld residuals — and when it fails (which it does in behavioral data), you stratify or use time-varying coefficients.</p>
+        <p>The <strong>Kaplan-Meier estimator</strong> gives you the non-parametric survival curve. It's the first thing I plot in any new retention analysis, stratified by a key variable. The visual tells me more than a page of logistic coefficients.</p>
+        <p>The <strong>Cox proportional hazards model</strong> extends this to covariates — each feature shifts the hazard multiplicatively. When the proportional hazards assumption fails, you stratify or use time-varying coefficients.</p>
         <h2>What I Found at Roblox</h2>
-        <p>Survival models on session-level data revealed that the hazard of drop-off spikes at specific interaction moments — challenge types, loading screens, inventory prompts — and those spikes vary systematically by experience level. A binary outcome metric would never surface this. The survival curve, stratified by experience, made it immediately visible and actionable for Games Engineering.</p>
-        <p>At Coursera, survival curves stratified by motivation profile showed different hazard <em>shapes</em>, not just different completion levels. Low-motivation learners face a sharp spike at week three that high-motivation learners don't. That shape information was what connected psychometric measurement to product design.</p>
-        <blockquote>The most useful thing survival analysis gives you isn't better prediction — it's a more honest picture of when risk is concentrated. That's what makes retention interventions actually work.</blockquote>
-        <p>For competing risks (voluntary vs. involuntary churn), use Fine-Gray subdistribution hazard models. <code>lifelines</code> in Python is excellent. <code>survival</code> in R handles competing risks elegantly. The data engineering — counting process formulation for time-varying covariates — is harder than the modeling, but non-negotiable.</p>
+        <p>Survival models revealed that the hazard of drop-off spikes at specific interaction moments — challenge types, loading events, inventory prompts — and those spikes vary by experience level. A binary outcome would never surface this. At Coursera, survival curves stratified by motivation profile showed different hazard <em>shapes</em>, not just levels — connecting psychometric measurement directly to product design.</p>
+        <blockquote>The most useful thing survival analysis gives you is a more honest picture of when risk is concentrated. That's what makes retention interventions actually work.</blockquote>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal-overlay" id="m3" onclick="closeBg(event,'m3')">
+<div class="modal-overlay" id="m3" onclick="if(event.target===this)closeModal('m3')">
   <div class="modal-box">
-    <div class="modal-top-bar">
-      <div class="modal-dots"><div class="modal-dot red"></div><div class="modal-dot yellow"></div><div class="modal-dot green"></div></div>
-      <span class="modal-file">network-projection.md</span>
-      <button class="modal-close" onclick="closeModal('m3')">✕</button>
-    </div>
+    <div class="modal-bar"><div class="modal-dots"><div class="modal-dot r"></div><div class="modal-dot y"></div><div class="modal-dot g"></div></div><span class="modal-filename">network-projection.md</span><button class="modal-close" onclick="closeModal('m3')">✕</button></div>
     <div class="modal-inner">
-      <div class="modal-tag-row">
-        <span class="tag tag-green" style="font-size:.62rem;">network-science</span>
-        <span style="font-size:.72rem;color:var(--muted2);font-family:'JetBrains Mono',monospace;">· Feb 2026 · 11 min</span>
-      </div>
+      <div class="modal-tag-row"><span class="tag t-mint" style="font-size:.62rem;">network-science</span><span style="font-size:.7rem;color:var(--muted2);font-family:'DM Mono',monospace;">· Feb 2026 · 11 min</span></div>
       <div class="modal-title">The Projection Problem: Why Your Co-Attendance Network Might Be Lying to You</div>
-      <div class="modal-byline">Suki Wang, PhD &nbsp;·&nbsp; February 2026</div>
+      <div class="modal-byline">Suki Wang, PhD · February 2026</div>
       <div class="modal-content">
-        <p>Meeting co-attendance networks have become one of the most popular data sources in ONA. If two people attend the same meetings, they're probably interacting, building shared context, influencing each other. Extract those relationships, build a graph, compute centrality — you have a map of the informal organization.</p>
-        <p>The problem is that this intuition is only partially right. Where it breaks down, it generates <em>systematically misleading</em> findings about peer effects and social contagion. My NetSci 2026 paper is about exactly this.</p>
+        <p>Meeting co-attendance networks are powerful. If two people attend the same meetings, they're probably interacting, building shared context, influencing each other. Build a graph, compute centrality — and you have a map of the informal organization. The problem is that this intuition is only partially right.</p>
         <h2>The Bipartite Projection Problem</h2>
-        <p>Co-attendance data is naturally bipartite: people and meetings, with edges only connecting people to meetings. To get a person-to-person network, you project: two people are connected if they share any meeting. If 500 people attend an all-hands, this creates ~125,000 edges between pairs who may have never spoken. These phantom edges distort every metric you compute.</p>
-        <p>More dangerously: they create false signals of peer effects. If connected employees show similar engagement scores, the naive interpretation is social influence. But if the edge comes from shared all-hands attendance rather than real interaction, the concordance reflects shared exposure — not contagion.</p>
+        <p>Co-attendance data is bipartite: people and meetings, edges only connecting people to meetings. To get a person-to-person network, you project it. If 500 people attend an all-hands, this creates ~125,000 edges between pairs who may have never spoken. These phantom edges distort every metric you compute — and create false signals of peer effects.</p>
         <h2>Concordance Without Contagion</h2>
-        <p>This is the phenomenon I call <strong>concordance without contagion</strong>. Similar outcomes cluster in the projected network not because of influence, but because projection artifacts make structurally distant people appear adjacent.</p>
-        <p>The diagnostic tests I develop test whether observed dyadic concordance exceeds what would be expected under a null model that preserves the bipartite structure but destroys peer influence. If concordance is explained by projection density — meeting size, broadcast vs. working group — rather than tie strength controlling for meeting size, that's evidence of artifact, not social influence.</p>
-        <blockquote>The most common mistake in ONA isn't computing the wrong centrality metric — it's trusting a projection artifact as evidence of social influence. The network looks like a social world, but a broadcast channel can look like a conversation.</blockquote>
-        <h2>What To Do About It</h2>
-        <p>Weight edges by inverse meeting size. A 4-person working group co-attendance carries different information than a 400-person town hall. Classify meeting types and filter large broadcast meetings before building interaction graphs. At Meta, I built network-based inclusion metrics using this filtering logic — separating broadcast from bilateral interaction before making any claim about peer effects or organizational connectivity. Unglamorous, but essential.</p>
+        <p>If connected employees show similar engagement scores, the naive interpretation is social influence. But if the edge comes from shared all-hands attendance, the concordance reflects shared exposure — not contagion. I call this <strong>concordance without contagion</strong>. My NetSci 2026 paper develops diagnostic tests to distinguish the two.</p>
+        <blockquote>The most common mistake in ONA isn't computing the wrong metric — it's trusting a projection artifact as evidence of social influence.</blockquote>
+        <h2>What To Do</h2>
+        <p>Weight edges by inverse meeting size. A 4-person working group co-attendance carries different information than a 400-person town hall. At Meta, I built network-based inclusion metrics using this filtering logic before making any claim about peer effects or organizational connectivity.</p>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal-overlay" id="m4" onclick="closeBg(event,'m4')">
+<div class="modal-overlay" id="m4" onclick="if(event.target===this)closeModal('m4')">
   <div class="modal-box">
-    <div class="modal-top-bar">
-      <div class="modal-dots"><div class="modal-dot red"></div><div class="modal-dot yellow"></div><div class="modal-dot green"></div></div>
-      <span class="modal-file">llm-evaluation.md</span>
-      <button class="modal-close" onclick="closeModal('m4')">✕</button>
-    </div>
+    <div class="modal-bar"><div class="modal-dots"><div class="modal-dot r"></div><div class="modal-dot y"></div><div class="modal-dot g"></div></div><span class="modal-filename">llm-evaluation.md</span><button class="modal-close" onclick="closeModal('m4')">✕</button></div>
     <div class="modal-inner">
-      <div class="modal-tag-row">
-        <span class="tag tag-orange" style="font-size:.62rem;">genai</span>
-        <span style="font-size:.72rem;color:var(--muted2);font-family:'JetBrains Mono',monospace;">· Jan 2026 · 8 min</span>
-      </div>
+      <div class="modal-tag-row"><span class="tag t-coral" style="font-size:.62rem;">genai</span><span style="font-size:.7rem;color:var(--muted2);font-family:'DM Mono',monospace;">· Jan 2026 · 8 min</span></div>
       <div class="modal-title">Evaluating LLMs for Real Products: What "Good" Actually Means at Scale</div>
-      <div class="modal-byline">Suki Wang, PhD &nbsp;·&nbsp; January 2026</div>
+      <div class="modal-byline">Suki Wang, PhD · January 2026</div>
       <div class="modal-content">
-        <p>When we shipped Roblox's AI Meeting Intelligence platform, the hardest problem wasn't the model or the integration. It was: <em>how do we know if this is actually good?</em></p>
-        <p>Benchmark leaderboards don't answer that. They tell you how a model performs on standardized tasks for users who may be nothing like yours. The moment you put an LLM in a real product, you need evaluation infrastructure specific to your context.</p>
+        <p>When we shipped Roblox AI Meeting Intelligence, the hardest problem wasn't the model or the integration. It was: <em>how do we know if this is actually good?</em> Benchmark leaderboards don't answer that.</p>
         <h2>Defining "Good" Precisely</h2>
-        <p>For meeting summaries, we decomposed quality into three distinct dimensions:</p>
-        <ul>
-          <li><strong>Factuality</strong>: Does the summary accurately represent what was said? Hallucinations in meeting summaries contaminate organizational memory.</li>
-          <li><strong>Usefulness</strong>: Does it help the reader act or decide differently? A perfectly accurate summary of a low-stakes meeting may have zero usefulness.</li>
-          <li><strong>Decision impact</strong>: Does acting on the output lead to better outcomes? Hardest to measure, most important.</li>
-        </ul>
-        <p>These don't always correlate. Collapsing them into one score destroys the signal that tells you what to fix.</p>
+        <p>For meeting summaries, we decomposed quality into three dimensions: <strong>Factuality</strong> (does it accurately represent what was said?), <strong>Usefulness</strong> (does it help the reader act differently?), and <strong>Decision impact</strong> (does acting on it produce better outcomes?). These don't always correlate. Collapsing them into one score destroys the signal.</p>
         <h2>Human-in-the-Loop for Real</h2>
-        <p>A two-stage pipeline: automated signals (confidence scores, embedding similarity, known failure modes) filter out ~75% of outputs that clearly pass or clearly fail before human review. Then structured human evaluation with behavioral anchors for each quality dimension, inter-rater reliability checks, and calibration sessions. The rubric matters enormously — vague "rate overall quality" instructions produce noisy labels.</p>
-        <blockquote>The goal of human-in-the-loop evaluation is not to replace automated metrics — it's to calibrate them, and to generate labeled data that improves automated signals over time.</blockquote>
+        <p>A two-stage pipeline: automated signals filter ~75% of outputs before human review. Then structured human evaluation with behavioral anchors for each quality dimension, inter-rater reliability checks, and calibration sessions. The rubric matters enormously — vague instructions produce noisy labels.</p>
+        <blockquote>The goal of human-in-the-loop is not to replace automated metrics — it's to calibrate them, and generate labeled data that improves automated signals over time.</blockquote>
         <h2>The Psychometrics Connection</h2>
-        <p>My PhD background in quantitative psychology turned out to be unexpectedly foundational. Designing a reliable LLM evaluation rubric is exactly the same problem as designing a valid survey instrument: you're measuring a latent construct from noisy, subjective human judgment. The same considerations apply — construct definition, behavioral anchors, rater effects, inter-rater reliability, calibration. My dissertation was about reliable evaluation under noisy human judgment. It was better preparation for LLM eval than anything I could have planned.</p>
-        <p>LLM evaluation as a field is roughly where psychometrics was in 1980. All the tools to do it rigorously already exist — in a different academic silo. The opportunity for people who can bridge these worlds is significant.</p>
+        <p>Designing a reliable LLM evaluation rubric is the same problem as designing a valid survey instrument: measuring a latent construct from noisy, subjective human judgment. My dissertation was about reliable evaluation under noisy human judgment. It was better preparation for LLM eval than anything I could have planned. The LLM evaluation field is about ten years behind where psychometrics was in 1980 — the opportunity for people who can bridge these worlds is significant.</p>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// ── Heatmap generator ──
+// Heatmap
 (function(){
-  const canvas = document.getElementById('heatmap-canvas');
+  const c = document.getElementById('heatmap-canvas');
+  if(!c) return;
   const levels = [0,0,0,0,0,0,1,0,0,0,1,2,0,0,1,0,0,2,1,0,0,0,3,1,2,3,
                   0,0,1,0,0,0,0,2,0,1,0,0,3,2,1,0,2,0,0,4,3,2,1,0,0,0];
   levels.forEach(l => {
-    const cell = document.createElement('div');
-    cell.className = 'hm-cell' + (l>0 ? ' hm-l'+Math.min(l,4) : '');
-    cell.title = l > 0 ? `${l} post${l>1?'s':''}` : 'no posts';
-    canvas.appendChild(cell);
+    const d = document.createElement('div');
+    d.className = 'hm-cell' + (l>0?' hm-l'+Math.min(l,4):'');
+    c.appendChild(d);
   });
 })();
 
-// ── Modals ──
+// Article modals
 function openModal(id){ document.getElementById(id).classList.add('active'); document.body.style.overflow='hidden'; }
 function closeModal(id){ document.getElementById(id).classList.remove('active'); document.body.style.overflow=''; }
-function closeBg(e,id){ if(e.target===document.getElementById(id)) closeModal(id); }
+
+// Nav active
+document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',function(){ document.querySelectorAll('.nav-links a').forEach(x=>x.classList.remove('active')); this.classList.add('active'); }));
+
+// Escape key
 document.addEventListener('keydown', e=>{
-  if(e.key==='Escape') document.querySelectorAll('.modal-overlay.active').forEach(m=>{ m.classList.remove('active'); document.body.style.overflow=''; });
+  if(e.key==='Escape'){
+    document.querySelectorAll('.modal-overlay.active,.story-overlay.active').forEach(m=>{ m.classList.remove('active'); document.body.style.overflow=''; });
+  }
+  const so = document.getElementById('storyOverlay');
+  if(so && so.classList.contains('active')){
+    if(e.key==='ArrowRight') nextStory();
+    if(e.key==='ArrowLeft')  prevStory();
+  }
 });
 
-
-// ── Story viewer ──
+// STORIES
 const STORIES = [
   {
     icon: "🔗",
@@ -1424,7 +1161,9 @@ const STORIES = [
       "Built network-based inclusion & interaction metrics at Meta using communication graph data",
       "Developed ONA pipelines at Roblox mapping informal organizational structure at scale",
       "Identified the bipartite projection artifact — a flaw affecting most industry ONA work"
-    ]
+    ],
+    confLink: "https://www.netsci2026.com/",
+    confPreview: true
   },
   {
     icon: "⚗️",
@@ -1524,111 +1263,120 @@ const STORIES = [
   }
 ];
 
+
+
 let currentStory = 0;
 let storyTimer = null;
 
-function renderStory(idx) {
+
+const STORY_VISUALS = [
+  null,
+'<div class="sv-overlay">\n<div class="sv-header">\n  <div class="sv-title">BSTS Causal Estimate: Macroeconomic Shock → Attrition</div>\n  <div class="sv-subtitle">Voluntary attrition rate (%) · Pseudo-data for illustration</div>\n</div>\n<div class="sv-chart">\n<svg width="100%" height="100%" viewBox="0 0 370 290" preserveAspectRatio="xMidYMid meet">\n  <!-- grid -->\n  <line x1="55" y1="30" x2="55" y2="230" stroke="rgba(255,255,255,.08)" stroke-width="1"/>\n  <line x1="55" y1="230" x2="350" y2="230" stroke="rgba(255,255,255,.08)" stroke-width="1"/>\n  <line x1="55" y1="180" x2="350" y2="180" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <line x1="55" y1="130" x2="350" y2="130" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <line x1="55" y1="80" x2="350" y2="80" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <line x1="55" y1="30" x2="350" y2="30" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <!-- Y axis labels -->\n  <text x="48" y="233" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">0%</text>\n  <text x="48" y="183" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">1%</text>\n  <text x="48" y="133" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">2%</text>\n  <text x="48" y="83" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">3%</text>\n  <text x="48" y="33" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">4%</text>\n  <!-- X axis labels -->\n  <text x="55" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">Q1</text>\n  <text x="97" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">Q2</text>\n  <text x="139" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">Q3</text>\n  <text x="181" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">Q4</text>\n  <text x="223" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">Q1</text>\n  <text x="265" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">Q2</text>\n  <text x="307" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">Q3</text>\n  <text x="349" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">Q4</text>\n  <!-- Year labels -->\n  <text x="118" y="258" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="middle" font-family="DM Mono,monospace">2022</text>\n  <text x="286" y="258" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="middle" font-family="DM Mono,monospace">2023</text>\n  <!-- Treatment shaded region -->\n  <rect x="160" y="30" width="40" height="200" fill="rgba(255,107,157,.06)"/>\n  <!-- Treatment vertical line -->\n  <line x1="181" y1="30" x2="181" y2="230" stroke="rgba(255,107,157,.5)" stroke-width="1.5" stroke-dasharray="4,3"/>\n  <text x="183" y="44" font-size="8" fill="rgba(255,107,157,.8)" font-family="DM Mono,monospace">Stock Drop</text>\n  <!-- CI band for observed (coral, semi-transparent) -->\n  <polygon points="181,121 223,90 265,61 307,69 349,77 349,92 307,84 265,77 223,108 181,136" fill="rgba(255,107,157,.15)"/>\n  <!-- Synthetic control line (dashed gray) -->\n  <polyline points="55,131 97,128 139,131 181,128 223,131 265,128 307,131 349,128" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.8" stroke-dasharray="5,3"/>\n  <!-- Observed line (coral) -->\n  <polyline points="55,131 97,128 139,131 181,128 223,99 265,69 307,77 349,85" fill="none" stroke="#ff6b9d" stroke-width="2.5"/>\n  <!-- Data points -->\n  <circle cx="55" cy="131" r="3" fill="#ff6b9d"/>\n  <circle cx="97" cy="128" r="3" fill="#ff6b9d"/>\n  <circle cx="139" cy="131" r="3" fill="#ff6b9d"/>\n  <circle cx="181" cy="128" r="3" fill="#ff6b9d"/>\n  <circle cx="223" cy="99" r="3" fill="#ff6b9d"/>\n  <circle cx="265" cy="69" r="3" fill="#ff6b9d"/>\n  <circle cx="307" cy="77" r="3" fill="#ff6b9d"/>\n  <circle cx="349" cy="85" r="3" fill="#ff6b9d"/>\n  <!-- ATT annotation -->\n  <rect x="194" y="56" width="110" height="28" rx="4" fill="rgba(196,77,255,.18)" stroke="rgba(196,77,255,.4)" stroke-width="1"/>\n  <text x="249" y="68" font-size="8.5" fill="#c44dff" text-anchor="middle" font-family="DM Mono,monospace" font-weight="600">ATT = +1.8pp***</text>\n  <text x="249" y="80" font-size="7.5" fill="rgba(196,77,255,.7)" text-anchor="middle" font-family="DM Mono,monospace">95% CI [+1.1, +2.5]</text>\n  <!-- Legend -->\n  <line x1="60" y1="272" x2="78" y2="272" stroke="#ff6b9d" stroke-width="2.5"/>\n  <circle cx="69" cy="272" r="2.5" fill="#ff6b9d"/>\n  <text x="82" y="276" font-size="8.5" fill="rgba(255,255,255,.6)" font-family="DM Sans,sans-serif">Observed</text>\n  <line x1="140" y1="272" x2="158" y2="272" stroke="rgba(255,255,255,.4)" stroke-width="1.8" stroke-dasharray="4,2"/>\n  <text x="162" y="276" font-size="8.5" fill="rgba(255,255,255,.6)" font-family="DM Sans,sans-serif">Synthetic Control</text>\n</svg>\n</div>\n<div class="sv-footer">Pseudo-data · BSTS model · Internal Analysis</div>\n</div>',
+'<div class="sv-overlay">\n<div class="sv-header">\n  <div class="sv-title">Player Retention: Kaplan-Meier by Experience Cohort</div>\n  <div class="sv-subtitle">Survival probability · Session-level · Pseudo-data</div>\n</div>\n<div class="sv-chart">\n<svg width="100%" height="100%" viewBox="0 0 370 290" preserveAspectRatio="xMidYMid meet">\n  <!-- grid -->\n  <line x1="55" y1="30" x2="55" y2="230" stroke="rgba(255,255,255,.08)" stroke-width="1"/>\n  <line x1="55" y1="230" x2="350" y2="230" stroke="rgba(255,255,255,.08)" stroke-width="1"/>\n  <line x1="55" y1="182" x2="350" y2="182" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <line x1="55" y1="134" x2="350" y2="134" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <line x1="55" y1="87" x2="350" y2="87" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <line x1="55" y1="39" x2="350" y2="39" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <!-- Y labels -->\n  <text x="48" y="233" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">0.0</text>\n  <text x="48" y="185" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">0.25</text>\n  <text x="48" y="137" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">0.50</text>\n  <text x="48" y="90" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">0.75</text>\n  <text x="48" y="42" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">1.00</text>\n  <!-- X labels weeks -->\n  <text x="55" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">0</text>\n  <text x="108" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">4</text>\n  <text x="160" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">8</text>\n  <text x="213" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">12</text>\n  <text x="265" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">16</text>\n  <text x="350" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">24w</text>\n  <!-- CI bands -->\n  <polygon points="55,39 108,83 160,102 213,130 265,149 350,157 350,167 265,161 213,143 160,116 108,97 55,52" fill="rgba(196,77,255,.1)"/>\n  <polygon points="55,39 108,58 160,73 213,82 265,87 350,91 350,100 265,97 213,91 160,82 108,67 55,48" fill="rgba(77,255,195,.1)"/>\n  <!-- New Players (coral) – fast decay step function -->\n  <path d="M55,39 H71 V84 H97 V105 H122 V130 H148 V155 H174 V168 H200 V178 H226 V185 H251 V191 H303 V196 H350 V198" fill="none" stroke="#ff6b9d" stroke-width="2.2"/>\n  <!-- Mid-Tier (purple) -->\n  <path d="M55,39 H71 V62 H97 V79 H122 V95 H148 V106 H174 V117 H200 V125 H251 V140 H303 V151 H350 V159" fill="none" stroke="#c44dff" stroke-width="2.2"/>\n  <!-- Veterans (mint) – slow decay -->\n  <path d="M55,39 H97 V54 H148 V68 H200 V79 H251 V88 H303 V95 H350 V98" fill="none" stroke="#4dffc3" stroke-width="2.2"/>\n  <!-- Censor marks (small tick) -->\n  <line x1="185" y1="174" x2="185" y2="182" stroke="#ff6b9d" stroke-width="1.5"/>\n  <line x1="237" y1="142" x2="237" y2="150" stroke="#c44dff" stroke-width="1.5"/>\n  <line x1="320" y1="94" x2="320" y2="102" stroke="#4dffc3" stroke-width="1.5"/>\n  <!-- Legend -->\n  <line x1="58" y1="270" x2="72" y2="270" stroke="#ff6b9d" stroke-width="2.2"/>\n  <text x="76" y="274" font-size="8.5" fill="rgba(255,255,255,.6)" font-family="DM Sans,sans-serif">New Players</text>\n  <line x1="140" y1="270" x2="154" y2="270" stroke="#c44dff" stroke-width="2.2"/>\n  <text x="158" y="274" font-size="8.5" fill="rgba(255,255,255,.6)" font-family="DM Sans,sans-serif">Mid-Tier</text>\n  <line x1="210" y1="270" x2="224" y2="270" stroke="#4dffc3" stroke-width="2.2"/>\n  <text x="228" y="274" font-size="8.5" fill="rgba(255,255,255,.6)" font-family="DM Sans,sans-serif">Veterans</text>\n  <!-- Y axis label -->\n  <text x="14" y="140" font-size="8.5" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace" transform="rotate(-90,14,140)">Survival P(T&gt;t)</text>\n</svg>\n</div>\n<div class="sv-footer">Pseudo-data · lifelines 0.29 · Cox PH log-rank p &lt; 0.001</div>\n</div>',
+'<div class="sv-overlay">\n<div class="sv-header">\n  <div class="sv-title">Meeting Intelligence Eval: v1 vs v2 Model</div>\n  <div class="sv-subtitle">Human-in-the-loop + automated scoring · N = 1,240 meetings</div>\n</div>\n<div class="sv-chart">\n<svg width="100%" height="100%" viewBox="0 0 370 290" preserveAspectRatio="xMidYMid meet">\n  <!-- background grid -->\n  <line x1="155" y1="20" x2="155" y2="240" stroke="rgba(255,255,255,.05)" stroke-width="1"/>\n  <line x1="200" y1="20" x2="200" y2="240" stroke="rgba(255,255,255,.05)" stroke-width="1"/>\n  <line x1="245" y1="20" x2="245" y2="240" stroke="rgba(255,255,255,.05)" stroke-width="1"/>\n  <line x1="290" y1="20" x2="290" y2="240" stroke="rgba(255,255,255,.05)" stroke-width="1"/>\n  <line x1="335" y1="20" x2="335" y2="240" stroke="rgba(255,255,255,.05)" stroke-width="1"/>\n  <!-- X axis -->\n  <line x1="110" y1="240" x2="350" y2="240" stroke="rgba(255,255,255,.08)" stroke-width="1"/>\n  <!-- X labels -->\n  <text x="110" y="254" font-size="8.5" fill="rgba(255,255,255,.25)" text-anchor="middle" font-family="DM Mono,monospace">0</text>\n  <text x="155" y="254" font-size="8.5" fill="rgba(255,255,255,.25)" text-anchor="middle" font-family="DM Mono,monospace">25</text>\n  <text x="200" y="254" font-size="8.5" fill="rgba(255,255,255,.25)" text-anchor="middle" font-family="DM Mono,monospace">50</text>\n  <text x="245" y="254" font-size="8.5" fill="rgba(255,255,255,.25)" text-anchor="middle" font-family="DM Mono,monospace">75</text>\n  <text x="335" y="254" font-size="8.5" fill="rgba(255,255,255,.25)" text-anchor="middle" font-family="DM Mono,monospace">100</text>\n  <!-- Dim 1: Factuality (v1=72, v2=91) -->\n  <text x="105" y="55" font-size="9.5" fill="rgba(255,255,255,.7)" text-anchor="end" font-family="DM Sans,sans-serif">Factuality</text>\n  <rect x="110" y="38" width="216" height="10" rx="5" fill="rgba(196,77,255,.15)"/>\n  <rect x="110" y="38" width="172" height="10" rx="5" fill="#c44dff" opacity=".85"/>\n  <rect x="110" y="52" width="172" height="10" rx="5" fill="rgba(255,255,255,.0)"/>\n  <rect x="110" y="52" width="129" height="10" rx="5" fill="rgba(255,255,255,.2)"/>\n  <text x="286" y="48" font-size="9" fill="#c44dff" font-family="DM Mono,monospace" font-weight="600">91</text>\n  <text x="244" y="62" font-size="9" fill="rgba(255,255,255,.35)" font-family="DM Mono,monospace">72</text>\n  <!-- Dim 2: Usefulness (v1=65, v2=83) -->\n  <text x="105" y="100" font-size="9.5" fill="rgba(255,255,255,.7)" text-anchor="end" font-family="DM Sans,sans-serif">Usefulness</text>\n  <rect x="110" y="83" width="197" height="10" rx="5" fill="rgba(255,107,157,.15)"/>\n  <rect x="110" y="83" width="197" height="10" rx="5" fill="#ff6b9d" opacity=".85"/>\n  <rect x="110" y="97" width="197" height="10" rx="5" fill="rgba(255,255,255,.0)"/>\n  <rect x="110" y="97" width="154" height="10" rx="5" fill="rgba(255,255,255,.2)"/>\n  <text x="311" y="93" font-size="9" fill="#ff6b9d" font-family="DM Mono,monospace" font-weight="600">83</text>\n  <text x="269" y="107" font-size="9" fill="rgba(255,255,255,.35)" font-family="DM Mono,monospace">65</text>\n  <!-- Dim 3: Coherence (v1=78, v2=92) -->\n  <text x="105" y="145" font-size="9.5" fill="rgba(255,255,255,.7)" text-anchor="end" font-family="DM Sans,sans-serif">Coherence</text>\n  <rect x="110" y="128" width="218" height="10" rx="5" fill="rgba(77,255,195,.15)"/>\n  <rect x="110" y="128" width="218" height="10" rx="5" fill="#4dffc3" opacity=".85"/>\n  <rect x="110" y="142" width="218" height="10" rx="5" fill="rgba(255,255,255,.0)"/>\n  <rect x="110" y="142" width="185" height="10" rx="5" fill="rgba(255,255,255,.2)"/>\n  <text x="332" y="138" font-size="9" fill="#4dffc3" font-family="DM Mono,monospace" font-weight="600">92</text>\n  <text x="299" y="152" font-size="9" fill="rgba(255,255,255,.35)" font-family="DM Mono,monospace">78</text>\n  <!-- Dim 4: Decision Impact (v1=58, v2=76) -->\n  <text x="105" y="190" font-size="9.5" fill="rgba(255,255,255,.7)" text-anchor="end" font-family="DM Sans,sans-serif">Decision Impact</text>\n  <rect x="110" y="173" width="180" height="10" rx="5" fill="rgba(255,179,71,.15)"/>\n  <rect x="110" y="173" width="180" height="10" rx="5" fill="#ffb347" opacity=".85"/>\n  <rect x="110" y="187" width="180" height="10" rx="5" fill="rgba(255,255,255,.0)"/>\n  <rect x="110" y="187" width="137" height="10" rx="5" fill="rgba(255,255,255,.2)"/>\n  <text x="294" y="183" font-size="9" fill="#ffb347" font-family="DM Mono,monospace" font-weight="600">76</text>\n  <text x="251" y="197" font-size="9" fill="rgba(255,255,255,.35)" font-family="DM Mono,monospace">58</text>\n  <!-- Legend -->\n  <rect x="118" y="220" width="12" height="8" rx="2" fill="rgba(255,255,255,.55)"/>\n  <text x="134" y="228" font-size="8.5" fill="rgba(255,255,255,.5)" font-family="DM Sans,sans-serif">v1 (baseline)</text>\n  <rect x="210" y="220" width="12" height="8" rx="2" fill="url(#lgLegend)"/>\n  <defs><linearGradient id="lgLegend" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c44dff"/><stop offset="100%" stop-color="#ff6b9d"/></linearGradient></defs>\n  <rect x="210" y="220" width="12" height="8" rx="2" fill="#c44dff" opacity=".85"/>\n  <text x="226" y="228" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="DM Sans,sans-serif" font-weight="600">v2 (current)</text>\n</svg>\n</div>\n<div class="sv-footer">Pseudo-data · Human eval N=412 · Inter-rater κ = 0.81</div>\n</div>',
+'<div class="sv-overlay">\n<div class="sv-header">\n  <div class="sv-title">Item Characteristic Curves — Task Difficulty (IRT 2PL)</div>\n  <div class="sv-subtitle">P(correct | ability &#952;) · Game content telemetry · Pseudo-data</div>\n</div>\n<div class="sv-chart">\n<svg width="100%" height="100%" viewBox="0 0 370 290" preserveAspectRatio="xMidYMid meet">\n  <!-- Plot area -->\n  <rect x="55" y="28" width="295" height="202" fill="rgba(255,255,255,.01)" rx="2"/>\n  <!-- grid -->\n  <line x1="55" y1="28" x2="55" y2="230" stroke="rgba(255,255,255,.08)" stroke-width="1"/>\n  <line x1="55" y1="230" x2="350" y2="230" stroke="rgba(255,255,255,.08)" stroke-width="1"/>\n  <line x1="55" y1="179" x2="350" y2="179" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <line x1="55" y1="129" x2="350" y2="129" stroke="rgba(255,255,255,.07)" stroke-width="1.2" stroke-dasharray="3,4"/>\n  <line x1="55" y1="78" x2="350" y2="78" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <line x1="55" y1="28" x2="350" y2="28" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <!-- P=0.5 reference line (bolder) -->\n  <line x1="55" y1="129" x2="350" y2="129" stroke="rgba(255,255,255,.15)" stroke-width="1" stroke-dasharray="5,4"/>\n  <!-- Y labels -->\n  <text x="48" y="233" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">0.0</text>\n  <text x="48" y="182" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">0.25</text>\n  <text x="48" y="132" font-size="9" fill="rgba(255,255,255,.4)" text-anchor="end" font-family="DM Mono,monospace">0.50</text>\n  <text x="48" y="81" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">0.75</text>\n  <text x="48" y="31" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">1.00</text>\n  <!-- X labels -->\n  <text x="55" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">-3</text>\n  <text x="103" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">-2</text>\n  <text x="153" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">-1</text>\n  <text x="202" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">0</text>\n  <text x="251" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">+1</text>\n  <text x="302" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">+2</text>\n  <text x="350" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">+3</text>\n  <!-- theta axis label -->\n  <text x="202" y="260" font-size="9" fill="rgba(255,255,255,.25)" text-anchor="middle" font-family="DM Mono,monospace">Latent Ability &#952;</text>\n  <!-- Item 1: Easy (b=-1, a=1.5) - coral -->\n  <path d="M55,221 L71,217 L87,211 L103,200 L119,182 L135,161 L153,140 L168,119 L184,100 L200,83 L218,70 L234,61 L251,55 L268,51 L284,48 L302,46 L318,45 L334,44 L350,44" fill="none" stroke="#ff6b9d" stroke-width="2.2"/>\n  <!-- Item 2: Medium (b=0, a=2.5) - purple -->\n  <path d="M55,229 L71,229 L87,228 L103,226 L119,220 L135,207 L153,185 L168,160 L184,135 L200,110 L218,89 L234,73 L251,63 L268,57 L284,53 L302,51 L318,50 L334,50 L350,50" fill="none" stroke="#c44dff" stroke-width="2.2"/>\n  <!-- Item 3: Hard (b=1.2, a=1.8) - mint -->\n  <path d="M55,230 L71,230 L87,229 L103,228 L119,225 L135,217 L153,203 L168,184 L184,160 L200,130 L218,103 L234,82 L251,67 L268,58 L284,53 L302,50 L318,48 L334,47 L350,47" fill="none" stroke="#4dffc3" stroke-width="2.2"/>\n  <!-- b-parameter drop lines at P=0.5 -->\n  <line x1="153" y1="129" x2="153" y2="230" stroke="rgba(255,107,157,.3)" stroke-width="1" stroke-dasharray="2,3"/>\n  <text x="150" y="243" font-size="8" fill="rgba(255,107,157,.6)" text-anchor="middle" font-family="DM Mono,monospace">b=-1</text>\n  <line x1="202" y1="129" x2="202" y2="230" stroke="rgba(196,77,255,.3)" stroke-width="1" stroke-dasharray="2,3"/>\n  <text x="202" y="243" font-size="8" fill="rgba(196,77,255,.6)" text-anchor="middle" font-family="DM Mono,monospace">b=0</text>\n  <line x1="230" y1="129" x2="230" y2="230" stroke="rgba(77,255,195,.3)" stroke-width="1" stroke-dasharray="2,3"/>\n  <text x="241" y="243" font-size="8" fill="rgba(77,255,195,.6)" text-anchor="middle" font-family="DM Mono,monospace">b=1.2</text>\n  <!-- Legend -->\n  <line x1="60" y1="270" x2="74" y2="270" stroke="#ff6b9d" stroke-width="2.2"/>\n  <text x="78" y="274" font-size="8.5" fill="rgba(255,255,255,.6)" font-family="DM Sans,sans-serif">Easy (a=1.5)</text>\n  <line x1="148" y1="270" x2="162" y2="270" stroke="#c44dff" stroke-width="2.2"/>\n  <text x="166" y="274" font-size="8.5" fill="rgba(255,255,255,.6)" font-family="DM Sans,sans-serif">Medium (a=2.5)</text>\n  <line x1="258" y1="270" x2="272" y2="270" stroke="#4dffc3" stroke-width="2.2"/>\n  <text x="276" y="274" font-size="8.5" fill="rgba(255,255,255,.6)" font-family="DM Sans,sans-serif">Hard (a=1.8)</text>\n</svg>\n</div>\n<div class="sv-footer">Pseudo-data · IRT 2PL · mirt 1.42 (R)</div>\n</div>',
+'<div class="sv-overlay" style="justify-content:center;align-items:center;padding:16px;">\n<div style="width:100%;height:100%;display:flex;flex-direction:column;gap:0;padding:8px 12px;">\n  <div style="font-size:.72rem;font-weight:600;color:rgba(255,255,255,.7);font-family:\'DM Sans\'<div class="sv-overlay" style="justify-content:center;align-items:center;">\n<div style="width:100%;height:100%;display:flex;flex-direction:column;padding:14px 16px;">\n\n  <div style="font-size:.72rem;font-weight:600;color:rgba(255,255,255,.7);font-family:\'DM Sans\',sans-serif;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;">\n    Player Monetization Research\n    <span style="font-family:\'DM Mono\',monospace;font-size:.58rem;color:rgba(255,255,255,.2);font-weight:400;">Roblox · Internal</span>\n  </div>\n\n  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;">\n    <div style="background:rgba(77,184,255,.1);border:1px solid rgba(77,184,255,.25);border-radius:8px;padding:7px 14px;font-family:\'DM Mono\',monospace;font-size:.72rem;color:#4db8ff;">DAU</div>\n    <div style="background:rgba(196,77,255,.1);border:1px solid rgba(196,77,255,.25);border-radius:8px;padding:7px 14px;font-family:\'DM Mono\',monospace;font-size:.72rem;color:#c44dff;">Retention</div>\n    <div style="background:rgba(255,179,71,.1);border:1px solid rgba(255,179,71,.25);border-radius:8px;padding:7px 14px;font-family:\'DM Mono\',monospace;font-size:.72rem;color:#ffb347;">Session Length</div>\n    <div style="background:rgba(77,255,195,.1);border:1px solid rgba(77,255,195,.25);border-radius:8px;padding:7px 14px;font-family:\'DM Mono\',monospace;font-size:.72rem;color:#4dffc3;">Engagement</div>\n    <div style="background:rgba(255,107,157,.1);border:1px solid rgba(255,107,157,.25);border-radius:8px;padding:7px 14px;font-family:\'DM Mono\',monospace;font-size:.72rem;color:#ff6b9d;">Monetization</div>\n    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:7px 14px;font-family:\'DM Mono\',monospace;font-size:.72rem;color:rgba(255,255,255,.3);">+ more...</div>\n  </div>\n\n  <div style="flex:1;background:rgba(255,107,157,.06);border:1px solid rgba(255,107,157,.2);border-radius:14px;padding:20px 18px;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;overflow:hidden;">\n    <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,107,157,.03) 0px,rgba(255,107,157,.03) 2px,transparent 2px,transparent 14px);border-radius:14px;"></div>\n    <div style="position:relative;text-align:center;">\n      <div style="font-family:\'DM Mono\',monospace;font-size:.62rem;color:rgba(255,107,157,.55);text-transform:uppercase;letter-spacing:.18em;margin-bottom:14px;">The Question We\'re Solving</div>\n      <div style="font-family:\'DM Mono\',monospace;font-size:1.28rem;font-weight:700;color:#fff;letter-spacing:.03em;line-height:1.7;">\n        <span style="color:#ff6b9d;">LTV</span>\n        <span style="color:rgba(255,255,255,.35);margin:0 8px;">=</span>\n        <span style="color:#4db8ff;">DAU</span>\n        <span style="color:rgba(255,255,255,.25);margin:0 5px;">&#215;</span>\n        <span style="color:#ffb347;">f(retention)</span>\n      </div>\n      <div style="font-family:\'DM Mono\',monospace;font-size:1.28rem;font-weight:700;color:#fff;letter-spacing:.03em;line-height:1.7;">\n        <span style="color:rgba(255,255,255,.18);margin-right:8px;">+</span>\n        <span style="color:#c44dff;">g(engagement)</span>\n        <span style="color:rgba(255,255,255,.18);margin:0 8px;">+</span>\n        <span style="color:rgba(255,255,255,.4);font-size:1.5rem;">?</span>\n      </div>\n      <div style="margin-top:16px;display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,.35);border:1px solid rgba(255,107,157,.18);border-radius:99px;padding:5px 14px;">\n        <span style="font-size:.8rem;">&#128274;</span>\n        <span style="font-family:\'DM Mono\',monospace;font-size:.6rem;color:rgba(255,107,157,.55);">proprietary model &middot; confidential</span>\n      </div>\n    </div>\n  </div>\n\n  <div style="margin-top:9px;font-size:.57rem;color:rgba(255,255,255,.14);font-family:\'DM Mono\',monospace;text-align:center;">\n    Roblox Games Analytics &middot; Research ongoing\n  </div>\n</div>\n</div>',
+'<div class="sv-overlay">\n<div class="sv-header">\n  <div class="sv-title">Player Skill Progression — IRT &#952;&#770; Over Sessions</div>\n  <div class="sv-subtitle">Estimated latent ability · Individual trajectories + cohort mean · Pseudo-data</div>\n</div>\n<div class="sv-chart">\n<svg width="100%" height="100%" viewBox="0 0 370 290" preserveAspectRatio="xMidYMid meet">\n  <!-- grid -->\n  <line x1="55" y1="20" x2="55" y2="230" stroke="rgba(255,255,255,.08)" stroke-width="1"/>\n  <line x1="55" y1="230" x2="350" y2="230" stroke="rgba(255,255,255,.08)" stroke-width="1"/>\n  <line x1="55" y1="183" x2="350" y2="183" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <line x1="55" y1="136" x2="350" y2="136" stroke="rgba(255,255,255,.07)" stroke-width="1.2" stroke-dasharray="3,4"/>\n  <line x1="55" y1="89" x2="350" y2="89" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <line x1="55" y1="42" x2="350" y2="42" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="3,4"/>\n  <!-- theta=0 reference -->\n  <line x1="55" y1="136" x2="350" y2="136" stroke="rgba(255,255,255,.18)" stroke-width="1" stroke-dasharray="5,4"/>\n  <!-- Y labels -->\n  <text x="48" y="233" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">-1</text>\n  <text x="48" y="186" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">-0.5</text>\n  <text x="48" y="139" font-size="9" fill="rgba(255,255,255,.4)" text-anchor="end" font-family="DM Mono,monospace">0</text>\n  <text x="48" y="92" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">+1</text>\n  <text x="48" y="45" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="end" font-family="DM Mono,monospace">+2</text>\n  <!-- X labels -->\n  <text x="55" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">1</text>\n  <text x="90" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">3</text>\n  <text x="125" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">5</text>\n  <text x="160" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">7</text>\n  <text x="195" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">9</text>\n  <text x="232" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">11</text>\n  <text x="267" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">13</text>\n  <text x="302" y="244" font-size="9" fill="rgba(255,255,255,.3)" text-anchor="middle" font-family="DM Mono,monospace">15</text>\n  <text x="202" y="260" font-size="9" fill="rgba(255,255,255,.2)" text-anchor="middle" font-family="DM Mono,monospace">Session Number</text>\n  <!-- Y axis label -->\n  <text x="14" y="130" font-size="8.5" fill="rgba(255,255,255,.25)" text-anchor="middle" font-family="DM Mono,monospace" transform="rotate(-90,14,130)">Ability &#952;&#770;</text>\n  <!-- Individual player traces (faint) -->\n  <polyline points="55,195 72,180 90,167 107,148 125,132 142,118 160,110 177,104 195,97 212,90 232,87 249,83 267,80 284,78 302,75" fill="none" stroke="rgba(196,77,255,.25)" stroke-width="1.2"/>\n  <polyline points="55,210 72,198 90,182 107,165 125,152 142,142 160,133 177,125 195,119 212,113 232,109 249,106 267,103 284,101 302,98" fill="none" stroke="rgba(255,107,157,.25)" stroke-width="1.2"/>\n  <polyline points="55,185 72,172 90,158 107,141 125,126 142,114 160,105 177,98 195,92 212,87 232,84 249,80 267,77 284,75 302,72" fill="none" stroke="rgba(77,255,195,.22)" stroke-width="1.2"/>\n  <polyline points="55,220 72,205 90,188 107,172 125,158 142,148 160,139 177,132 195,124 212,118 232,114 249,110 267,106 284,104 302,100" fill="none" stroke="rgba(255,179,71,.2)" stroke-width="1.2"/>\n  <polyline points="55,200 72,186 90,170 107,151 125,136 142,124 160,115 177,108 195,101 212,95 232,91 249,88 267,85 284,82 302,79" fill="none" stroke="rgba(77,184,255,.22)" stroke-width="1.2"/>\n  <polyline points="55,215 72,200 90,183 107,164 125,148 142,137 160,127 177,119 195,112 212,106 232,102 249,98 267,94 284,92 302,88" fill="none" stroke="rgba(196,77,255,.2)" stroke-width="1.2"/>\n  <!-- Cohort mean trend (bold coral) -->\n  <polyline points="55,202 72,189 90,174 107,156 125,141 142,129 160,120 177,113 195,107 212,101 232,97 249,93 267,90 284,87 302,85" fill="none" stroke="#ff6b9d" stroke-width="2.8"/>\n  <!-- CI band for mean -->\n  <polygon points="55,210 72,197 90,181 107,163 125,148 142,136 160,127 177,120 195,114 212,108 232,104 249,100 267,97 284,94 302,92 302,78 284,80 267,83 249,86 232,90 212,94 195,100 177,106 160,113 142,122 125,134 107,149 90,167 72,181 55,194" fill="rgba(255,107,157,.1)"/>\n  <!-- Data points on mean -->\n  <circle cx="55" cy="202" r="3" fill="#ff6b9d"/>\n  <circle cx="90" cy="174" r="3" fill="#ff6b9d"/>\n  <circle cx="125" cy="141" r="3" fill="#ff6b9d"/>\n  <circle cx="160" cy="120" r="3" fill="#ff6b9d"/>\n  <circle cx="195" cy="107" r="3" fill="#ff6b9d"/>\n  <circle cx="232" cy="97" r="3" fill="#ff6b9d"/>\n  <circle cx="267" cy="90" r="3" fill="#ff6b9d"/>\n  <circle cx="302" cy="85" r="3" fill="#ff6b9d"/>\n  <!-- Annotation box -->\n  <rect x="200" y="54" width="140" height="26" rx="4" fill="rgba(255,107,157,.12)" stroke="rgba(255,107,157,.3)" stroke-width="1"/>\n  <text x="270" y="65" font-size="8.5" fill="#ff6b9d" text-anchor="middle" font-family="DM Mono,monospace" font-weight="600">&#916;&#952;&#770; = +1.17 (15 sessions)</text>\n  <text x="270" y="76" font-size="7.5" fill="rgba(255,107,157,.6)" text-anchor="middle" font-family="DM Mono,monospace">p &lt; 0.001 · Cohen d = 0.82</text>\n  <!-- Legend -->\n  <line x1="60" y1="271" x2="74" y2="271" stroke="#ff6b9d" stroke-width="2.8"/>\n  <text x="78" y="275" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="DM Sans,sans-serif">Cohort Mean</text>\n  <line x1="158" y1="271" x2="172" y2="271" stroke="rgba(196,77,255,.45)" stroke-width="1.2"/>\n  <text x="176" y="275" font-size="8.5" fill="rgba(255,255,255,.4)" font-family="DM Sans,sans-serif">Individual Players</text>\n</svg>\n</div>\n<div class="sv-footer">Pseudo-data · IRT 2PL · N=847 players · Internal Roblox Analysis</div>\n</div>'
+];
+
+function renderStory(idx){
   const s = STORIES[idx];
-  const card = document.getElementById('storyCard');
+  const visual = document.getElementById('storyVisual');
+  visual.style.background = s.gradient;
 
-  // gradient background on visual
-  document.getElementById('storyVisual').style.background = s.gradient;
-
-  // progress bars
   const bars = document.getElementById('storyProgressBars');
-  bars.innerHTML = STORIES.map((_, i) => {
-    let cls = i < idx ? 'done' : i === idx ? 'active' : '';
-    return `<div class="story-prog-seg ${cls}"><div class="story-prog-fill"></div></div>`;
+  bars.innerHTML = STORIES.map((_,i)=>{
+    let cls = i<idx?'done':i===idx?'active':'';
+    return '<div class="story-prog-seg '+cls+'"><div class="story-prog-fill"></div></div>';
   }).join('');
+
+  // Remove any previous custom visual
+  const existingPreview = visual.querySelector('.conf-preview-card, .sv-overlay');
+  if(existingPreview) existingPreview.remove();
+  document.getElementById('storyIcon').style.display = '';
+  document.getElementById('storyStatLabel').style.display = '';
+  document.getElementById('storyBadge').style.display = '';
+
+  // Story Viz overlays (non-conf stories)
+  if(!s.confPreview && STORY_VISUALS[idx]){
+    document.getElementById('storyIcon').style.display = 'none';
+    document.getElementById('storyStatLabel').style.display = 'none';
+    document.getElementById('storyBadge').style.display = 'none';
+    const sv = document.createElement('div');
+    sv.className = 'sv-overlay';
+    sv.innerHTML = STORY_VISUALS[idx];
+    visual.appendChild(sv);
+  }
+
+  if(s.confPreview){
+    document.getElementById('storyIcon').style.display = 'none';
+    document.getElementById('storyStatLabel').style.display = 'none';
+    document.getElementById('storyBadge').style.display = 'none';
+    const card = document.createElement('div');
+    card.className = 'conf-preview-card';
+    card.innerHTML = `
+      <div class="conf-browser-bar">
+        <div class="conf-browser-dots"><span></span><span></span><span></span></div>
+        <div class="conf-browser-url">netsci2026.com</div>
+      </div>
+      <div class="conf-body">
+        <div class="conf-net-bg">
+          <svg width="100%" height="100%" viewBox="0 0 340 160" preserveAspectRatio="xMidYMid slice">
+            <line x1="60" y1="40" x2="160" y2="80" stroke="rgba(196,77,255,.4)" stroke-width="1"/>
+            <line x1="160" y1="80" x2="280" y2="50" stroke="rgba(255,107,157,.4)" stroke-width="1"/>
+            <line x1="160" y1="80" x2="200" y2="140" stroke="rgba(77,255,195,.3)" stroke-width="1"/>
+            <line x1="60" y1="40" x2="110" y2="120" stroke="rgba(196,77,255,.25)" stroke-width="1"/>
+            <line x1="280" y1="50" x2="200" y2="140" stroke="rgba(255,107,157,.25)" stroke-width="1"/>
+            <line x1="110" y1="120" x2="200" y2="140" stroke="rgba(77,255,195,.2)" stroke-width="1"/>
+            <line x1="60" y1="40" x2="280" y2="50" stroke="rgba(77,184,255,.15)" stroke-width="1"/>
+            <line x1="20" y1="100" x2="60" y2="40" stroke="rgba(255,179,71,.2)" stroke-width="1"/>
+            <line x1="20" y1="100" x2="110" y2="120" stroke="rgba(255,179,71,.2)" stroke-width="1"/>
+            <line x1="310" y1="130" x2="280" y2="50" stroke="rgba(196,77,255,.2)" stroke-width="1"/>
+            <line x1="310" y1="130" x2="200" y2="140" stroke="rgba(196,77,255,.2)" stroke-width="1"/>
+            <circle cx="60" cy="40" r="7" fill="#c44dff" opacity=".9"/>
+            <circle cx="160" cy="80" r="11" fill="#ff6b9d" opacity=".95"/>
+            <circle cx="280" cy="50" r="7" fill="#4dffc3" opacity=".8"/>
+            <circle cx="200" cy="140" r="7" fill="#4db8ff" opacity=".8"/>
+            <circle cx="110" cy="120" r="5" fill="#ffb347" opacity=".7"/>
+            <circle cx="20" cy="100" r="5" fill="#c44dff" opacity=".6"/>
+            <circle cx="310" cy="130" r="5" fill="#ff6b9d" opacity=".6"/>
+          </svg>
+        </div>
+        <div class="conf-content">
+          <div class="conf-eyebrow">20th Anniversary</div>
+          <div class="conf-name">NetSci 2026</div>
+          <div class="conf-sub">International School and Conference on Network Science</div>
+          <div class="conf-details">
+            <span class="conf-pill">📅 June 1–5, 2026</span>
+            <span class="conf-pill">📍 Boston, MA</span>
+          </div>
+          <div class="conf-org">Hosted by Northeastern University · Network Science Institute</div>
+        </div>
+      </div>
+      <a class="conf-cta" href="${s.confLink}" target="_blank" onclick="event.stopPropagation()">
+        Visit netsci2026.com ↗
+      </a>
+    `;
+    visual.appendChild(card);
+  }
 
   document.getElementById('storyIcon').textContent = s.icon;
   document.getElementById('storyStatLabel').textContent = s.statLabel;
   document.getElementById('storyBadgeNum').textContent = s.badgeNum;
   document.getElementById('storyBadgeLbl').textContent = s.badgeLbl;
-
   const tag = document.getElementById('storyTag');
-  tag.textContent = s.tag;
-  tag.style.color = s.tagColor;
-
+  tag.textContent = s.tag; tag.style.color = s.tagColor;
   document.getElementById('storyTitle').textContent = s.title;
-  document.getElementById('storyTime').textContent = (idx + 1) + ' / ' + STORIES.length;
-
-  const bullets = document.getElementById('storyBullets');
-  bullets.innerHTML = s.bullets.map(b => `<li>${b}</li>`).join('');
-
-  // reset auto-advance timer
+  document.getElementById('storyTime').textContent = (idx+1)+' / '+STORIES.length;
+  document.getElementById('storyBullets').innerHTML = s.bullets.map(b=>'<li>'+b+'</li>').join('');
   clearTimeout(storyTimer);
-  storyTimer = setTimeout(() => {
-    if (currentStory < STORIES.length - 1) nextStory();
-    else closeStory();
-  }, 8000);
+  storyTimer = setTimeout(()=>{ currentStory<STORIES.length-1?nextStory():closeStory(); }, 8000);
 }
-
-function openStory(idx) {
-  currentStory = idx;
-  document.getElementById('storyOverlay').classList.add('active');
-  document.body.style.overflow = 'hidden';
-  renderStory(idx);
-}
-function closeStory() {
-  clearTimeout(storyTimer);
-  document.getElementById('storyOverlay').classList.remove('active');
-  document.body.style.overflow = '';
-}
-function nextStory() {
-  if (currentStory < STORIES.length - 1) { currentStory++; renderStory(currentStory); }
-  else closeStory();
-}
-function prevStory() {
-  if (currentStory > 0) { currentStory--; renderStory(currentStory); }
-}
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('storyOverlay')) closeStory();
-}
-
-// keyboard nav for stories
-document.addEventListener('keydown', e => {
-  const overlay = document.getElementById('storyOverlay');
-  if (!overlay.classList.contains('active')) return;
-  if (e.key === 'ArrowRight') nextStory();
-  if (e.key === 'ArrowLeft')  prevStory();
-  if (e.key === 'Escape')     closeStory();
-});
-
-// ── Nav active state ──
-const tabs = document.querySelectorAll('.nav-tabs a');
-tabs.forEach(t => t.addEventListener('click', ()=>{ tabs.forEach(x=>x.classList.remove('active')); t.classList.add('active'); }));
+function openStory(idx){ currentStory=idx; document.getElementById('storyOverlay').classList.add('active'); document.body.style.overflow='hidden'; renderStory(idx); }
+function closeStory(){ clearTimeout(storyTimer); document.getElementById('storyOverlay').classList.remove('active'); document.body.style.overflow=''; }
+function nextStory(){ currentStory<STORIES.length-1?renderStory(++currentStory):closeStory(); }
+function prevStory(){ currentStory>0&&renderStory(--currentStory); }
+function handleOverlayClick(e){ if(e.target===document.getElementById('storyOverlay'))closeStory(); }
 </script>
-
-<!-- ══ STORY OVERLAY ══ -->
-<div class="story-overlay" id="storyOverlay" onclick="handleOverlayClick(event)">
-  <button class="story-arrow story-arrow-left" onclick="event.stopPropagation();prevStory()">‹</button>
-  <div class="story-card" id="storyCard" onclick="event.stopPropagation()">
-    <div class="story-progress-bars" id="storyProgressBars"></div>
-    <div class="story-top-bar">
-      <div class="story-top-avatar">SW</div>
-      <div class="story-top-meta">
-        <div class="story-top-name">suki-wang</div>
-        <div class="story-top-time" id="storyTime"></div>
-      </div>
-      <button class="story-close-btn" onclick="closeStory()">✕</button>
-    </div>
-    <div class="story-visual" id="storyVisual">
-      <div class="story-visual-icon" id="storyIcon"></div>
-      <div class="story-visual-stat" id="storyStatLabel"></div>
-      <div class="story-visual-badge" id="storyBadge">
-        <span class="bnum" id="storyBadgeNum"></span>
-        <span class="blbl" id="storyBadgeLbl"></span>
-      </div>
-    </div>
-    <div class="story-content">
-      <span class="story-content-tag" id="storyTag"></span>
-      <div class="story-content-title" id="storyTitle"></div>
-      <ul class="story-bullets" id="storyBullets"></ul>
-    </div>
-  </div>
-  <button class="story-arrow story-arrow-right" onclick="event.stopPropagation();nextStory()">›</button>
-</div>
-
 </body>
 </html>
