@@ -545,7 +545,9 @@ nav {
   display:flex; flex-direction:column;
   box-shadow:0 40px 100px rgba(0,0,0,.9);
   animation:sPop .3s cubic-bezier(.34,1.56,.64,1) both;
+  touch-action:pan-y; cursor:grab; user-select:none; position:relative;
 }
+.story-card:active { cursor:grabbing; }
 @keyframes sPop { from{opacity:0;transform:scale(.9)} to{opacity:1;transform:scale(1)} }
 .story-progress-bars {
   position:absolute; top:12px; left:12px; right:12px;
@@ -574,15 +576,19 @@ nav {
 .story-bullets { list-style:none; display:flex; flex-direction:column; gap:6px; }
 .story-bullets li { font-size:.8rem; color:var(--muted); line-height:1.5; display:flex; gap:7px; align-items:flex-start; }
 .story-bullets li::before { content:"▸"; color:var(--coral); flex-shrink:0; }
-.story-arrow { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.15); backdrop-filter:blur(4px); color:#fff; cursor:pointer; width:38px; height:38px; border-radius:50%; font-size:.95rem; display:flex; align-items:center; justify-content:center; transition:background .15s; z-index:20; }
-.story-arrow:hover { background:rgba(255,255,255,.22); }
-.story-arrow-left { left:-52px; }
-.story-arrow-right { right:-52px; }
+.story-arrow { position:absolute; top:45%; transform:translateY(-50%); background:rgba(10,5,20,.65); border:1px solid rgba(255,255,255,.35); backdrop-filter:blur(8px); color:#fff; cursor:pointer; width:42px; height:42px; border-radius:50%; font-size:1.25rem; display:flex; align-items:center; justify-content:center; transition:background .15s, opacity .15s, transform .15s; z-index:30; box-shadow:0 5px 20px rgba(0,0,0,.35); }
+.story-arrow:hover { background:rgba(196,77,255,.75); transform:translateY(-50%) scale(1.05); }
+.story-arrow:disabled { opacity:.25; cursor:default; }
+.story-arrow:disabled:hover { background:rgba(10,5,20,.65); transform:translateY(-50%); }
+.story-arrow-left { left:12px; }
+.story-arrow-right { right:12px; }
+.story-nav-hint { margin-top:12px; padding-top:10px; border-top:1px solid var(--border2); text-align:center; color:var(--muted2); font-family:"DM Mono",monospace; font-size:.62rem; letter-spacing:.04em; }
 
 /* ── MODAL (articles) ── */
 .modal-overlay { display:none; position:fixed; inset:0; z-index:200; background:rgba(10,5,20,.9); backdrop-filter:blur(10px); overflow-y:auto; padding:50px 20px; }
 .modal-overlay.active { display:block; }
 .modal-box { max-width:720px; margin:0 auto; background:var(--bg2); border:1px solid var(--border); border-radius:20px; overflow:hidden; }
+.modal-box-wide { max-width:840px; }
 .modal-bar { background:var(--bg3); border-bottom:1px solid var(--border); padding:12px 18px; display:flex; align-items:center; justify-content:space-between; }
 .modal-dots { display:flex; gap:6px; }
 .modal-dot { width:12px; height:12px; border-radius:50%; }
@@ -604,6 +610,17 @@ nav {
 .modal-content ul { margin:.7rem 0 1.1rem 1.5rem; }
 .modal-content ul li { margin-bottom:.4rem; }
 .modal-content ul li::marker { color:var(--coral); }
+.modal-figure { margin:22px 0; background:#f8f7f4; border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+.modal-figure img { display:block; width:100%; height:auto; }
+.modal-figure figcaption { padding:10px 14px; background:var(--bg3); color:var(--muted2); font-family:"DM Mono",monospace; font-size:.66rem; line-height:1.5; }
+.finding-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:18px 0 22px; }
+.finding-card { background:var(--bg3); border:1px solid var(--border); border-radius:12px; padding:14px; }
+.finding-number { display:block; font-family:"DM Mono",monospace; font-size:1.2rem; font-weight:700; color:var(--coral); margin-bottom:3px; }
+.finding-label { display:block; color:var(--text); font-size:.78rem; font-weight:600; line-height:1.4; }
+.finding-note { display:block; color:var(--muted2); font-size:.7rem; line-height:1.45; margin-top:4px; }
+.paper-links { display:flex; flex-wrap:wrap; gap:8px; margin:22px 0 4px; }
+.paper-link { display:inline-flex; align-items:center; gap:5px; padding:7px 13px; border-radius:99px; background:var(--bg3); border:1px solid var(--border); color:var(--sky); font-family:"DM Mono",monospace; font-size:.68rem; transition:border-color .15s,color .15s; }
+.paper-link:hover { border-color:var(--sky); color:var(--text); }
 
 /* ── ANIMS ── */
 @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
@@ -621,8 +638,8 @@ nav {
 }
 @media(max-width:560px) {
   .story-card { width:95vw; }
-  .story-arrow { display:none; }
   .modal-inner { padding:20px 16px; }
+  .finding-grid { grid-template-columns:1fr; }
   nav { padding:0 16px; }
   .nav-links li:nth-child(n+4) { display:none; }
 }
@@ -670,7 +687,7 @@ nav {
       <p class="hero-bio">
         I'm a <a href="https://www.linkedin.com/in/sukiwang/" target="_blank"><span class="hl hl-coral">Senior Data Scientist at Roblox</span></a>, working on AI product analytics, meeting intelligence, and GenAI evaluation systems. PhD in Quantitative Psychology, NSF Fellow, former <span class="hl hl-purple">People Research Scientist at Meta</span>. My research lives at the intersection of causal inference, network science, psychometrics, and survival analysis — which is a long way of saying I care deeply about measuring things correctly.<br><br>
         Every fall, you'll also find me in a classroom at <span class="hl hl-gold">USC Annenberg's CMGT program</span>, teaching graduate students how to think with data — not just compute with it. It's the part of my week I protect most fiercely.<br><br>
-        Non-professionally: I hold a <span class="hl hl-mint">real estate agent license</span> (expired — turns out I preferred regression models to open houses). Currently on a <span class="hl hl-gold">Duolingo streak learning Japanese</span> 🇯🇵, which is humbling in ways that no p-value ever has been.
+        In my spare time, I'm keeping up a <span class="hl hl-gold">Duolingo streak learning Japanese</span> 🇯🇵, which is humbling in ways that no p-value ever has been.
       </p>
 
       <div class="btn-row">
@@ -733,6 +750,17 @@ nav {
       <a class="sec-link" href="#">All posts →</a>
     </div>
     <div class="post-list">
+      <div class="post-card" onclick="openModal('m5')">
+        <div class="post-icon" style="background:rgba(255,179,71,.12);">🧭</div>
+        <div class="post-body">
+          <div class="post-title">DELPHI: What Psychometrics Reveals About 3D Model Evaluation</div>
+          <div class="post-excerpt">A benchmark can look precise while mostly measuring its own scoring scales. Here is what happened when I combined structured LLM judging with IRT and Many-Facet Rasch modeling.</div>
+          <div class="post-foot">
+            <span class="post-tag t-gold" style="font-size:.67rem;padding:2px 9px;border-radius:99px;">ai-measurement</span>
+            <span class="post-date">Jun 2026</span>
+          </div>
+        </div>
+      </div>
       <div class="post-card" onclick="openModal('m1')">
         <div class="post-icon" style="background:rgba(77,184,255,.12);">⚗️</div>
         <div class="post-body">
@@ -786,6 +814,13 @@ nav {
       <div class="sec-title">Publications</div>
     </div>
     <div class="pub-list">
+      <div class="pub-item">
+        <div>
+          <div class="pub-title">Delphi-Psychometric Evaluation of 3D Generative Models: Combining Structured LLM Elicitation with Item Response Theory</div>
+          <div class="pub-meta">Wang, S. et al. &nbsp;·&nbsp; <span class="venue">Stanford AIMS Workshop on AI Measurement Science @ COLM · 2026</span></div>
+        </div>
+        <span class="badge badge-conf">COLM 2026</span>
+      </div>
       <div class="pub-item">
         <div>
           <div class="pub-title">Concordance Without Contagion: Diagnostic Tests for Peer Effects in Projected Co-Attendance Networks</div>
@@ -939,12 +974,12 @@ nav {
         <div class="profile-bio">
           PhD · Quantitative Psychology.<br>
           Educator @ USC CMGT every fall.<br>
-          Data scientist. Researcher. Former realtor 🏠.<br>
+          Data scientist. Researcher.<br>
           <span class="quote">"Currently losing at Duolingo Japanese 🇯🇵"</span>
         </div>
         <div class="stats-row">
           <div class="stat"><span class="stat-n">3+</span><span class="stat-l">journals</span></div>
-          <div class="stat"><span class="stat-n">1</span><span class="stat-l">NetSci</span></div>
+          <div class="stat"><span class="stat-n">2</span><span class="stat-l">2026 confs</span></div>
           <div class="stat"><span class="stat-n">USC</span><span class="stat-l">lecturer</span></div>
           <div class="stat"><span class="stat-n">NSF</span><span class="stat-l">fellow</span></div>
         </div>
@@ -994,16 +1029,17 @@ nav {
 
 <!-- STORY OVERLAY -->
 <div class="story-overlay" id="storyOverlay" onclick="handleOverlayClick(event)">
-  <button class="story-arrow story-arrow-left" onclick="event.stopPropagation();prevStory()">‹</button>
   <div class="story-card" id="storyCard" onclick="event.stopPropagation()">
     <div class="story-progress-bars" id="storyProgressBars"></div>
+    <button class="story-arrow story-arrow-left" id="storyPrev" aria-label="Previous story" onclick="event.stopPropagation();prevStory()">‹</button>
+    <button class="story-arrow story-arrow-right" id="storyNext" aria-label="Next story" onclick="event.stopPropagation();nextStory()">›</button>
     <div class="story-top-bar">
       <div class="story-top-avatar">SW</div>
       <div class="story-top-meta">
         <div class="story-top-name">suki-wang</div>
         <div class="story-top-time" id="storyTime"></div>
       </div>
-      <button class="story-close-btn" onclick="closeStory()">✕</button>
+      <button class="story-close-btn" aria-label="Close stories" onclick="closeStory()">✕</button>
     </div>
     <div class="story-visual" id="storyVisual">
       <div class="story-visual-icon" id="storyIcon"></div>
@@ -1017,9 +1053,9 @@ nav {
       <span class="story-content-tag" id="storyTag"></span>
       <div class="story-content-title" id="storyTitle"></div>
       <ul class="story-bullets" id="storyBullets"></ul>
+      <div class="story-nav-hint">← swipe or use arrows →</div>
     </div>
   </div>
-  <button class="story-arrow story-arrow-right" onclick="event.stopPropagation();nextStory()">›</button>
 </div>
 
 <!-- ARTICLE MODALS -->
@@ -1107,6 +1143,84 @@ nav {
         <blockquote>The goal of human-in-the-loop is not to replace automated metrics — it's to calibrate them, and generate labeled data that improves automated signals over time.</blockquote>
         <h2>The Psychometrics Connection</h2>
         <p>Designing a reliable LLM evaluation rubric is the same problem as designing a valid survey instrument: measuring a latent construct from noisy, subjective human judgment. My dissertation was about reliable evaluation under noisy human judgment. It was better preparation for LLM eval than anything I could have planned. The LLM evaluation field is about ten years behind where psychometrics was in 1980 — the opportunity for people who can bridge these worlds is significant.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m5" onclick="if(event.target===this)closeModal('m5')">
+  <div class="modal-box modal-box-wide">
+    <div class="modal-bar"><div class="modal-dots"><div class="modal-dot r"></div><div class="modal-dot y"></div><div class="modal-dot g"></div></div><span class="modal-filename">delphi-3d-evaluation.md</span><button class="modal-close" aria-label="Close article" onclick="closeModal('m5')">✕</button></div>
+    <div class="modal-inner">
+      <div class="modal-tag-row"><span class="tag t-gold" style="font-size:.62rem;">ai-measurement</span><span style="font-size:.7rem;color:var(--muted2);font-family:'DM Mono',monospace;">· Jun 2026 · 9 min</span></div>
+      <div class="modal-title">DELPHI: What Psychometrics Reveals About 3D Model Evaluation</div>
+      <div class="modal-byline">Suki Wang, PhD · Stanford AIMS Workshop on AI Measurement Science @ COLM 2026</div>
+      <div class="modal-content">
+        <p>3D generation benchmarks give us tidy leaderboards, often down to several decimal places. That precision can be reassuring. But it can also hide a more basic question: <em>what, exactly, is the benchmark measuring?</em></p>
+        <p>Most current evaluations score hundreds of generated objects on several automated metrics, average those scores, and rank the models. That workflow assumes the criteria belong on the same scale, measure one coherent construct, and contribute useful information equally. Those are measurement assumptions, not mathematical facts.</p>
+        <p>In our COLM 2026 workshop paper, I combine three tools that rarely meet in the same evaluation pipeline: the Delphi method for structured expert elicitation, vision-capable LLM judges for scale, and psychometric models - Item Response Theory and Many-Facet Rasch modeling - for reliability, difficulty, and variance analysis. We apply the framework to Hi3DBench: six image-to-3D models, 510 prompts, 3,060 model-prompt pairs, and five object-quality criteria.</p>
+
+        <div class="finding-grid">
+          <div class="finding-card"><span class="finding-number">76%</span><span class="finding-label">of automated-score variance came from criterion</span><span class="finding-note">A metric-scale artifact, not a model-quality signal.</span></div>
+          <div class="finding-card"><span class="finding-number">&gt;8 logits</span><span class="finding-label">separated the easiest and hardest models to satisfy</span><span class="finding-note">A calibrated latent difficulty scale from flipped 2PL IRT.</span></div>
+          <div class="finding-card"><span class="finding-number">68%</span><span class="finding-label">reduction in disagreement across Delphi rounds</span><span class="finding-note">Inter-judge SD fell from 1.663 to 0.535.</span></div>
+          <div class="finding-card"><span class="finding-number">94%</span><span class="finding-label">lower evaluation cost with tinyEval3D</span><span class="finding-note">Thirty prompts preserved near-exact model rankings.</span></div>
+        </div>
+
+        <h2>Why Delphi instead of one-shot LLM judging?</h2>
+        <p>A single LLM rating is cheap, but it gives us no structured way to understand disagreement. Our protocol starts with three independent vision-language judges, each with a distinct evaluative persona. They inspect multi-view renders, the original prompt, criterion definitions, and text-alignment questions, then score five dimensions on the same 0-9 scale.</p>
+        <p>Only after that independent first round do judges see the group median, interquartile range, and an anonymized dissent summary. They must either defend or revise their scores. Identity stays hidden so a judge cannot simply defer to the model it assumes is most authoritative. A third round runs only when the panel has not met a predefined convergence rule.</p>
+
+        <figure class="modal-figure">
+          <img src="assets/delphi-protocol.png" alt="Flowchart of the multi-round Delphi judging protocol, from initialization through independent ratings, anonymized dissent, convergence checking, and the final consensus matrix">
+          <figcaption>Three independent judges rate first; structured, anonymized disagreement enters only in later rounds. Converged scores feed the psychometric analysis.</figcaption>
+        </figure>
+
+        <h2>Finding 1: aggregation is valid only at the right level</h2>
+        <p>The five object-level criteria - geometric consistency, structural consistency, semantic consistency, aesthetics, and text-3D alignment - are approximately unidimensional. A one-factor confirmatory model reaches CFI=0.953, which makes an object-level aggregate a defensible approximation. There is still a useful two-factor substructure separating structural coherence from content accuracy, so criterion profiles remain diagnostically valuable.</p>
+        <p>The conclusion changes when we add four material-level criteria. A single factor across all nine criteria fits badly (CFI=0.641), while a two-factor model separating object and material quality improves fit dramatically (∆BIC=-1,763). The practical implication is simple: <strong>do not collapse object quality and material quality into one grand score.</strong> They are related, but psychometrically distinct.</p>
+
+        <h2>Finding 2: the benchmark was mostly measuring its own scales</h2>
+        <p>The most surprising result came from the variance decomposition. In the automated scores, evaluation criterion accounts for 76.1% of total variance. Model identity accounts for only 1.4%, prompt for 1.0%, and model-by-prompt interaction for 1.1%.</p>
+        <p>That does not mean criterion matters 54 times more than model quality. Each automated metric has its own scoring function, mean, and range. When those raw scores are placed side by side, scale differences dominate the calculation. The benchmark looks like it is separating models, but much of its variance is produced by the rulers it chose.</p>
+        <p>The Delphi stream gives us a clean cross-check because every criterion uses the same 0-9 scale. There, model quality becomes the largest named source of variance at 37%, while criterion falls to 6.6%. That reversal is the evidence that the original 76% was a scale artifact. Before aggregating heterogeneous metrics, evaluators should normalize them per criterion or move them onto a common calibrated scale.</p>
+
+        <h2>Finding 3: models occupy very different positions on a common difficulty scale</h2>
+        <p>Standard IRT would treat six models as the people being tested, which is far too small for stable estimation. We flip the orientation: 470 eligible prompts become the “persons,” and the six models become the “items.” A model's difficulty parameter then becomes its <em>stringency</em> - how hard it is for prompts to produce a passing result from that model.</p>
+
+        <figure class="modal-figure">
+          <img src="assets/model-stringency-scale.png" alt="Calibrated model stringency scale showing HunyuanDiT-3D as easiest to satisfy and CRM as hardest across six 3D generation models">
+          <figcaption>The six models span more than eight logits. HunyuanDiT-3D passes 87.5% of eligible prompts; CRM passes 11.0%. TRELLIS and SPARD sit near the middle and provide the strongest discrimination.</figcaption>
+        </figure>
+
+        <p>The spread is enormous: HunyuanDiT-3D sits at b=-5.29, while CRM sits at b=+2.83. TRELLIS and SPARD are closer to the midpoint, and their discrimination parameters make them especially informative for separating easier from harder prompts. The calibrated prompt scores also identify 75 near-ceiling prompts - useful evidence that the benchmark contains an easy tail rather than a uniformly difficult prompt pool.</p>
+
+        <h2>Finding 4: sensitivity is real, but the causal story is not identified</h2>
+        <p>Forty-four percent of prompts show an absolute pass-rate gap of at least 0.40 between TripoSR and the five Objaverse-trained models. It would be tempting to label that “training-data bias.” We do not. TripoSR is the only model in the non-Objaverse group, so training exposure is perfectly confounded with everything else unique to TripoSR - architecture, corpus, and fine-tuning choices.</p>
+        <p>The honest conclusion is narrower: TripoSR behaves differently on many items. Separating a dataset effect from a model-specific effect requires several additional non-Objaverse models. This is a good example of psychometrics doing something valuable beyond producing a score: it tells us when the design does not support the claim we want to make.</p>
+
+        <h2>Finding 5: 30 prompts can do almost the work of 510</h2>
+        <p>Once every prompt has an estimated generatability score, we can select a small set that spans the full difficulty range. The 30-item IRT-stratified tinyEval3D subset reproduces the full six-model ranking exactly (Spearman ρ=1.0). Under leave-one-model-out validation, it retains ρ=0.954. That is a 94% reduction in item-level evaluation cost.</p>
+        <p>Random subsets also perform surprisingly well because there are only six models, but difficulty-stratified selection offers a principled guarantee that the subset covers the prompt spectrum. When IRT estimates are unavailable, classical difficulty stratification is a strong practical fallback.</p>
+
+        <h2>What I would change in 3D benchmark design</h2>
+        <ul>
+          <li>Normalize criterion-specific metrics before computing an aggregate score.</li>
+          <li>Keep object-level and material-level quality as separate constructs.</li>
+          <li>Report criterion profiles alongside leaderboards so failure modes remain visible.</li>
+          <li>Select evaluation prompts across the full difficulty range instead of treating every item as equally useful.</li>
+          <li>Use structured, multi-round judging when human labels are scarce, and report reliability rather than assuming it.</li>
+          <li>Expand the model cohort before making training-data fairness claims.</li>
+        </ul>
+
+        <blockquote>A benchmark is not merely a scoreboard. It is a measurement instrument - and its reliability, dimensionality, and item information deserve the same scrutiny as the models it evaluates.</blockquote>
+
+        <p>The broader lesson extends beyond 3D generation. Whenever evaluation mixes heterogeneous metrics, subjective judges, and hundreds of unevenly informative examples, psychometrics gives us a language for asking whether the final number is trustworthy. Delphi adds a scalable way to make disagreement explicit. Together, they turn evaluation from an averaging exercise into a measurement system.</p>
+
+        <div class="paper-links">
+          <a class="paper-link" href="assets/delphi-psychometric-colm-2026.pdf" target="_blank">📄 Read the paper</a>
+          <a class="paper-link" href="assets/delphi-psychometric-colm-2026-supplement.pdf" target="_blank">📎 Supplementary material</a>
+        </div>
       </div>
     </div>
   </div>
@@ -1369,6 +1483,7 @@ function renderStory(idx){
   document.getElementById('storyTitle').textContent = s.title;
   document.getElementById('storyTime').textContent = (idx+1)+' / '+STORIES.length;
   document.getElementById('storyBullets').innerHTML = s.bullets.map(b=>'<li>'+b+'</li>').join('');
+  document.getElementById('storyPrev').disabled = idx === 0;
   clearTimeout(storyTimer);
   storyTimer = setTimeout(()=>{ currentStory<STORIES.length-1?nextStory():closeStory(); }, 8000);
 }
@@ -1377,6 +1492,38 @@ function closeStory(){ clearTimeout(storyTimer); document.getElementById('storyO
 function nextStory(){ currentStory<STORIES.length-1?renderStory(++currentStory):closeStory(); }
 function prevStory(){ currentStory>0&&renderStory(--currentStory); }
 function handleOverlayClick(e){ if(e.target===document.getElementById('storyOverlay'))closeStory(); }
+
+// Swipe or drag horizontally across the story card to move between stories.
+const storyCardEl = document.getElementById('storyCard');
+let storySwipeStartX = null;
+let storySwipeStartY = null;
+let storySwipePointerId = null;
+
+function resetStorySwipe(){
+  storySwipeStartX = null;
+  storySwipeStartY = null;
+  storySwipePointerId = null;
+}
+
+storyCardEl.addEventListener('pointerdown', e=>{
+  if(e.pointerType === 'mouse' && e.button !== 0) return;
+  if(e.target.closest('a, button')) return;
+  storySwipeStartX = e.clientX;
+  storySwipeStartY = e.clientY;
+  storySwipePointerId = e.pointerId;
+  if(storyCardEl.setPointerCapture) storyCardEl.setPointerCapture(e.pointerId);
+});
+
+storyCardEl.addEventListener('pointerup', e=>{
+  if(e.pointerId !== storySwipePointerId || storySwipeStartX === null) return;
+  const dx = e.clientX - storySwipeStartX;
+  const dy = e.clientY - storySwipeStartY;
+  resetStorySwipe();
+  if(Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy) * 1.2) return;
+  dx < 0 ? nextStory() : prevStory();
+});
+
+storyCardEl.addEventListener('pointercancel', resetStorySwipe);
 </script>
 </body>
 </html>
